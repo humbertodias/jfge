@@ -7,21 +7,12 @@ JAVA_FORMAT_VERSION = 1.17.0
 JAVA_FORMAT_JAR = google-java-format-$(JAVA_FORMAT_VERSION)-all-deps.jar
 JAVA_FORMAT_URL = https://github.com/google/google-java-format/releases/download/v$(JAVA_FORMAT_VERSION)/$(JAVA_FORMAT_JAR)
 
-ifeq ($(OS),Windows_NT)
-	DEL = del
-	MKDIR = mkdir
-	RMDIR = rmdir /S /Q
-	CURL = curl -s -L -o
-	UNZIP = powershell -Command "Expand-Archive -Force"
-	NULLDEV = NUL
-else
-	DEL = rm -f
-	MKDIR = mkdir -p
-	RMDIR = rm -rf
-	CURL = curl -s -L -o
-	UNZIP = unzip -q
-	NULLDEV = /dev/null
-endif
+DEL = rm -f
+MKDIR = mkdir -p
+RMDIR = rm -rf
+CURL = curl -s -L -o
+UNZIP = unzip -q
+NULLDEV = /dev/null
 
 assets/get:
 	@for game in $(GAMES); do \
