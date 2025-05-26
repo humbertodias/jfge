@@ -39,13 +39,7 @@ sdk use maven 3.6.3
 The engine uses external sprites and animation assets, which need to be downloaded before running the games:
 
 ```bash
-make assets/get
-```
-
-To clean the downloaded assets:
-
-```bash
-make assets/clean
+./assets.sh
 ```
 
 ### ⚙️ Building the Project
