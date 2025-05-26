@@ -11,7 +11,7 @@ assets/get:
 		curl -s -o $$zip_file $$url; \
 		mkdir -p $$dir; \
 		unzip -q $$zip_file -d $$dir; \
-		rm $$zip_file; \
+		rm -f $$zip_file; \
 	done
 
 assets/clean:
