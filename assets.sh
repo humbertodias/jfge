@@ -9,17 +9,14 @@ for cmd in curl unzip mkdir; do
 done
 
 # Define the games and base URL
-GAMES="sf2 mk2 sfvsmk2"
-BASE_URL="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/java-fighting-game-engine"
+curl -ks -o sf2.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/java-fighting-game-engine/sf2_images_0.1.zip
+unzip -oq sf2.zip -d "org.jfge.games.sf2/assets"
+rm -f sf2.zip
 
-# Download and extract each game's assets
-for game in $GAMES; do
-  zip_file="$game.zip"
-  url="$BASE_URL/${game}_images_0.1.zip"
-  dir="org.jfge.games.$game/assets"
-  echo "Downloading $url..."
-  curl -s -o "$zip_file" "$url"
-  mkdir -p "$dir"
-  unzip -oq "$zip_file" -d "$dir"
-  rm -f "$zip_file"
-done
+curl -ks -o mk2.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/java-fighting-game-engine/mk2_images_0.1.zip
+unzip -oq mk2.zip -d "org.jfge.games.mk2/assets"
+rm -f mk2.zip
+
+curl -ks -o sfvsmk2.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/java-fighting-game-engine/sfvsmk2_images_0.1.zip
+unzip -oq sfvsmk2.zip -d "org.jfge.games.sfvsmk2/assets"
+rm -f sfvsmk2.zip
