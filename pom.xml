@@ -13,10 +13,11 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <jfge.version>0.0.1-SNAPSHOT</jfge.version>
         <guice.version>2.0</guice.version>
+        <jinput.version>2.0.10</jinput.version>
     </properties>
 
     <modules>
-        <module>org.jfge</module>
+        <module>org.jfge.core</module>
         <module>org.jfge.android</module>
         <module>org.jfge.ext</module>
         <module>org.jfge.games.mk2</module>
@@ -32,7 +33,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.14.0</version>
                     <configuration>
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>

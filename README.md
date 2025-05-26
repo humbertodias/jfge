@@ -20,6 +20,9 @@ Originally developed as an open-source project, JFGE aims to simplify the creati
 
 ### 📦 Requirements
 
+- Java 8+
+- Maven 3.6+
+
 You can manage SDKs using [SDKMAN!](https://sdkman.io):
 
 Install
@@ -70,11 +73,10 @@ Windows
 .\run.ps1
 ```
 
-
 ### 📂 Project Structure
 ```
 .
-├── common/                   # Engine core and reusable modules
+├── org.jfge.core/            # Engine core and reusable modules
 ├── org.jfge.games.sf2/       # Street Fighter II demo
 ├── org.jfge.games.mk2/       # Mortal Kombat II demo
 ├── org.jfge.games.sfvsmk2/   # Crossover game demo
