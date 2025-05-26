@@ -22,8 +22,8 @@ case "$choice" in
     ;;
 esac
 
-# Get major Java version as integer
-JAVA_VERSION=$(java -version 2>&1 | head -n 1 | grep -oP '(?<=version ")[0-9]+' || echo "0")
+# Get major Java version as integer, compatible with macOS
+JAVA_VERSION=$(java -version 2>&1 | head -n 1 | sed -E 's/.*version "([0-9]+).*/\1/')
 
 EXTRA_OPTS=""
 
