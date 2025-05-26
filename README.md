@@ -40,11 +40,11 @@ The engine uses external sprites and animation assets, which need to be download
 
 Linux/OSX
 ```bash
-./scripts/assets.sh
+./assets.sh
 ```
 Windows
 ```bash
-.\scripts\assets.ps1
+.\assets.ps1
 ```
 
 ### ⚙️ Building the Project
@@ -63,11 +63,11 @@ To launch a game module, use:
 
 Linux/OSX
 ```bash
-./scripts/run.sh
+./run.sh
 ```
 Windows
 ```bash
-.\scripts\run.ps1
+.\run.ps1
 ```
 
 
