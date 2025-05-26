@@ -38,8 +38,13 @@ sdk use maven 3.6.3
 
 The engine uses external sprites and animation assets, which need to be downloaded before running the games:
 
+Linux/OSX
 ```bash
 ./assets.sh
+```
+Windows
+```bash
+.\assets.ps1
 ```
 
 ### ⚙️ Building the Project
@@ -56,9 +61,15 @@ This compiles the modules and produces runnable `.jar` files for each demo game.
 
 To launch a game module, use:
 
+Linux/OSX
 ```bash
 ./run.sh
 ```
+Windows
+```bash
+.\run.ps1
+```
+
 
 ### 📂 Project Structure
 ```
