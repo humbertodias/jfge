@@ -24,6 +24,7 @@ esac
 
 # Get major Java version as integer, compatible with macOS
 JAVA_VERSION=$(java -version 2>&1 | head -n 1 | sed -E 's/.*version "([0-9]+).*/\1/')
+echo "Detected Java version: $JAVA_VERSION"
 
 EXTRA_OPTS=""
 
