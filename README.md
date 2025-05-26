@@ -1,3 +1,5 @@
+![GitHub all releases](https://img.shields.io/github/downloads/humbertodias/jfge/total)
+
 ## 🕹️ Java Fighting Game Engine (JFGE)
 
 The **Java Fighting Game Engine** ([JFGE](https://code.google.com/archive/p/java-fighting-game-engine/downloads)) is a **modular, cross-platform framework** for building classic **2D sprite-based fighting games** using Java.
