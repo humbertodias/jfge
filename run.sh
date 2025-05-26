@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo "Choose a game to run:"
+echo "1) Street Fighter 2 (sf2)"
+echo "2) Mortal Kombat 2 (mk2)"
+echo "3) SF vs MK 2 (sfvsmk2)"
+read -p "Enter your choice [1-3]: " choice
+
+case "$choice" in
+  1)
+    JAR="org.jfge.games.sf2/target/sf2-0.0.1-SNAPSHOT.jar"
+    ;;
+  2)
+    JAR="org.jfge.games.mk2/target/mk2-0.0.1-SNAPSHOT.jar"
+    ;;
+  3)
+    JAR="org.jfge.games.sfvsmk2/target/sfvsmk2-0.0.1-SNAPSHOT.jar"
+    ;;
+  *)
+    echo "Invalid choice. Exiting."
+    exit 1
+    ;;
+esac
+
+echo "Running: java -jar $JAR"
+java -jar "$JAR"

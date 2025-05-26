@@ -57,19 +57,7 @@ This compiles the modules and produces runnable `.jar` files for each demo game.
 To launch a game module, use:
 
 ```bash
-# Choose the game to run by setting the JAR path:
-
-# Street Fighter II demo
-# JAR=org.jfge.games.sf2/target/sf2-0.0.1-SNAPSHOT.jar
-
-# Mortal Kombat II demo
-# JAR=org.jfge.games.mk2/target/mk2-0.0.1-SNAPSHOT.jar
-
-# Street Fighter vs Mortal Kombat crossover demo
-JAR=org.jfge.games.sfvsmk2/target/sfvsmk2-0.0.1-SNAPSHOT.jar
-
-# Run the selected game
-java -jar $JAR
+./run.sh
 ```
 
 ### 📂 Project Structure
