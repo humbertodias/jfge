@@ -14,31 +14,21 @@ switch ($choice) {
     }
 }
 
-# Get Java version output (redirect both stdout and stderr)
-$javaVersionOutput = & java -version 2>&1
-
-# Look for first match of version "X" or X.0.0 in all lines
-$versionLine = $javaVersionOutput | Where-Object { $_ -match '\d+\.\d+(\.\d+)?' } | Select-Object -First 1
-
-if ($versionLine -match '(\d+)\.(\d+)') {
-    # Java 9+ reports as "9.0" or "11.0", etc
-    $JAVA_VERSION = [int]$matches[1]
-    Write-Host "Detected Java version: $JAVA_VERSION"
+# Detect Java major version
+$javaVersion = (& java -version 2>&1)[0]
+if ($javaVersion -match '(\d+)(\.\d+)?') {
+    $major = [int]$matches[1]
 } else {
-    Write-Host "Could not determine Java version. Assuming version <= 9."
-    $JAVA_VERSION = 9
+    $major = 8  # fallback
 }
+Write-Host "Detected Java version: $major"
 
-$EXTRA_OPTS = ""
-if ($JAVA_VERSION -gt 9) {
-    $EXTRA_OPTS = "--add-opens java.base/java.lang=ALL-UNNAMED"
-}
-
-Write-Host "Running: java $EXTRA_OPTS -jar $JAR"
-
-# Run with or without extra options
-if ($EXTRA_OPTS) {
-    & java $EXTRA_OPTS -jar $JAR
+# Prepare command
+if ($major -gt 9) {
+    $cmd = "java --add-opens java.base/java.lang=ALL-UNNAMED -jar `"$JAR`""
 } else {
-    & java -jar $JAR
+    $cmd = "java -jar `"$JAR`""
 }
+
+Write-Host "Running: $cmd"
+Invoke-Expression $cmd
