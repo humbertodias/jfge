@@ -22,5 +22,14 @@ case "$choice" in
     ;;
 esac
 
-echo "Running: java -jar $JAR"
-java -jar "$JAR"
+# Get major Java version as integer
+JAVA_VERSION=$(java -version 2>&1 | head -n 1 | grep -oP '(?<=version ")[0-9]+' || echo "0")
+
+EXTRA_OPTS=""
+
+if [ "$JAVA_VERSION" -gt 9 ]; then
+  EXTRA_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
+fi
+
+echo "Running: java $EXTRA_OPTS -jar $JAR"
+java $EXTRA_OPTS -jar "$JAR"
