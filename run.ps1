@@ -1,6 +1,9 @@
 # Enable error stopping
 $ErrorActionPreference = 'Stop'
 
+# Move to the directory where the script is located
+Set-Location -Path $PSScriptRoot
+
 # Base URL for game assets
 $ASSETS_URL = "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/java-fighting-game-engine"
 

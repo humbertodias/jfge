@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e  # Exit immediately if any command fails
 
+# Move to the directory where the script is located
+cd "$(dirname "$(realpath "$0")")"
+
 # Base URL for game assets
 ASSETS_URL="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/java-fighting-game-engine"
 
