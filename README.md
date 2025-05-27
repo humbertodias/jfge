@@ -39,29 +39,6 @@ sdk use java 8.0.442-amzn
 sdk use maven 3.6.3
 ```
 
-### 📁 Asset Management
-
-The engine uses external sprites and animation assets, which need to be downloaded before running the games:
-
-Linux/OSX
-```bash
-./assets.sh
-```
-Windows
-```bash
-.\assets.ps1
-```
-
-### ⚙️ Building the Project
-
-Run the following from the root of the repository:
-
-```bash
-mvn clean package
-```
-
-This compiles the modules and produces runnable `.jar` files for each demo game.
-
 ### ▶️ Running a Game
 
 To launch a game module, use:

@@ -14,7 +14,7 @@
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <jfge.version>0.0.1-SNAPSHOT</jfge.version>
         <guice.version>2.0</guice.version>
-        <jinput.version>2.0.10</jinput.version>
+        <jinput.version>2.0.9</jinput.version><!-- 2.0.10 compiled with java 17 -->
     </properties>
 
     <modules>
