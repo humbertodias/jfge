@@ -20,6 +20,8 @@ Originally developed as an open-source project, JFGE aims to simplify the creati
 * 🎨 **Graphics Abstraction**: Unified API for rendering and input across platforms
 * 🔌 **Extensibility**: Add new fighters, moves, or mechanics via pluggable modules
 
+---
+
 ### 📦 Requirements
 
 - Java 8+
@@ -49,8 +51,6 @@ mvn package
 This compiles the modules and produces runnable `.jar` files for each demo game.
 
 ### ▶️ Running a Game
-
-To launch a game module, use:
 
 Linux/OSX
 ```bash
