@@ -6,11 +6,12 @@ import com.google.inject.name.Named;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import org.jfge.spi.controller.Controller;
 
 /** The Class GraphicsProviderImpl. */
@@ -78,13 +79,16 @@ public final class J2SeGraphicsProvider implements org.jfge.spi.graphics.Graphic
     jFrame = new JFrame();
     jFrame.setIgnoreRepaint(true);
     jFrame.setResizable(this.dbEnabled);
-    jFrame.setTitle("Java Fighting Game Engine - JavaSE 6");
+    jFrame.setTitle("Java Fighting Game Engine");
     jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     jFrame.add(jPanel);
     jFrame.pack();
 
     // show frame
     jFrame.setVisible(true);
+    // center
+    jFrame.setLocationRelativeTo(null);
+    // listeners
     jFrame.addKeyListener((KeyListener) controller1);
     jFrame.addKeyListener((KeyListener) controller2);
 
