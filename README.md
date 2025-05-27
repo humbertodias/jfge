@@ -12,13 +12,13 @@ Originally developed as an open-source project, JFGE aims to simplify the creati
 
 ### Key Features
 
-* ✅ **Fighter Engine**: Built-in support for characters, projectiles, and visual effects
-* 🌍 **Multiple Arenas**: Swap between arenas and customize visuals
-* 🧠 **Lightweight Scripting Language**: Describe collision detection and AI behavior in a simple DSL
-* 🧩 **Modular Architecture**: Clean separation of game components for reusability and testing
-* 📱 **Cross-Platform Support**: Compatible with both Java SE and Android
-* 🎨 **Graphics Abstraction**: Unified API for rendering and input across platforms
-* 🔌 **Extensibility**: Add new fighters, moves, or mechanics via pluggable modules
+* **Fighter Engine**: Built-in support for characters, projectiles, and visual effects
+* **Multiple Arenas**: Swap between arenas and customize visuals
+* **Lightweight Scripting Language**: Describe collision detection and AI behavior in a simple DSL
+* **Modular Architecture**: Clean separation of game components for reusability and testing
+* **Cross-Platform Support**: Compatible with both Java SE and Android
+* **Graphics Abstraction**: Unified API for rendering and input across platforms
+* **Extensibility**: Add new fighters, moves, or mechanics via pluggable modules
 
 ---
 
