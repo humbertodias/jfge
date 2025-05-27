@@ -1,3 +1,4 @@
+[![CI](https://github.com/humbertodias/jfge/actions/workflows/ci.yml/badge.svg)](https://github.com/humbertodias/jfge/actions/workflows/ci.yml)
 ![GitHub all releases](https://img.shields.io/github/downloads/humbertodias/jfge/total)
 
 ## 🕹️ Java Fighting Game Engine (JFGE)
