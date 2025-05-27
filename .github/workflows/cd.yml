@@ -40,17 +40,17 @@ jobs:
       - name: Package jar
         run: mvn package
 
-      - name: Prepare jar
+      - name: Prepare zip
         run: |
           mv ./org.jfge.games.sf2/target/sf2-*.jar sf2.jar
           mv ./org.jfge.games.mk2/target/mk2-*.jar mk2.jar
-          mv ./org.jfge.games.sfvsmk2/target/sfvsmk2-*.jar sfvsmk2.jar        
+          mv ./org.jfge.games.sfvsmk2/target/sfvsmk2-*.jar sfvsmk2.jar    
+          
+          zip -9 jfge-${GITHUB_REF_NAME}.zip *.jar run.*
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: |
-            ./*.jar
-            ./run.*
+          files: jfge-${GITHUB_REF_NAME}.zip
