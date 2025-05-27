@@ -25,10 +25,6 @@ Download-IfMissing -ZipFile "sf2.zip" -RemoteFile "sf2_images_0.1.zip"
 Download-IfMissing -ZipFile "mk2.zip" -RemoteFile "mk2_images_0.1.zip"
 Download-IfMissing -ZipFile "sfvsmk2.zip" -RemoteFile "sfvsmk2_images_0.1.zip"
 
-# Package the project using Maven
-Write-Host "🛠️ Packaging project with Maven..."
-& mvn package
-
 # Prompt user to select a game
 Write-Host "`n🎮 Choose a game to run:"
 Write-Host "1) Street Fighter 2 (sf2)"
@@ -52,12 +48,6 @@ switch ($choice) {
     }
 }
 
-$JAR = "$GAME.jar"
-$SRC_JAR = "org.jfge.games.$GAME/target/$GAME-0.0.1-SNAPSHOT.jar"
-
-Write-Host "📦 Copying $SRC_JAR to $JAR..."
-Copy-Item -Path $SRC_JAR -Destination $JAR -Force
-
 # Detect major Java version
 $javaVersionOutput = & java -version 2>&1 | Select-Object -First 1
 if ($javaVersionOutput -match 'version "(\d+)') {
@@ -75,6 +65,7 @@ if ($JAVA_VERSION -gt 9) {
     $EXTRA_OPTS = "--add-opens java.base/java.lang=ALL-UNNAMED"
 }
 
+$JAR = "$GAME.jar"
 Write-Host "`n🚀 Launching game with command:"
 Write-Host "java $EXTRA_OPTS -jar $JAR"
 

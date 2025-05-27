@@ -13,7 +13,7 @@ Originally developed as an open-source project, JFGE aims to simplify the creati
 ### ✨ Key Features
 
 * ✅ **Fighter Engine**: Built-in support for characters, projectiles, and visual effects
-* 🌍 **Multiple Arenas**: Easily swap between arenas and customize visuals
+* 🌍 **Multiple Arenas**: Swap between arenas and customize visuals
 * 🧠 **Lightweight Scripting Language**: Describe collision detection and AI behavior in a simple DSL
 * 🧩 **Modular Architecture**: Clean separation of game components for reusability and testing
 * 📱 **Cross-Platform Support**: Compatible with both Java SE and Android
@@ -38,6 +38,15 @@ Use (if already installed)
 sdk use java 8.0.442-amzn
 sdk use maven 3.6.3
 ```
+### ⚙️ Building the Project
+
+Run the following from the root of the repository:
+
+```bash
+mvn package
+```
+
+This compiles the modules and produces runnable `.jar` files for each demo game.
 
 ### ▶️ Running a Game
 
