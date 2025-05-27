@@ -2,15 +2,15 @@
 [![CI](https://github.com/humbertodias/jfge/actions/workflows/ci.yml/badge.svg)](https://github.com/humbertodias/jfge/actions/workflows/ci.yml)
 ![GitHub all releases](https://img.shields.io/github/downloads/humbertodias/jfge/total)
 
-## 🕹️ Java Fighting Game Engine (JFGE)
+## 🕹️ Java Fighting Game Engine
 
 The **Java Fighting Game Engine** ([JFGE](https://code.google.com/archive/p/java-fighting-game-engine/downloads)) is a **modular, cross-platform framework** for building classic **2D sprite-based fighting games** using Java.
 
 Originally developed as an open-source project, JFGE aims to simplify the creation of arcade-style fighting games by abstracting away low-level concerns and offering a **clean, extensible architecture** powered by **Google Guice** and the **Inversion of Control (IoC)** principle.
 
-> 🎮 Whether you're building a Street Fighter-style game or prototyping a new fighting mechanic, JFGE provides the tools to get started quickly.
+> Whether you're building a Street Fighter-style game or prototyping a new fighting mechanic, JFGE provides the tools to get started quickly.
 
-### ✨ Key Features
+### Key Features
 
 * ✅ **Fighter Engine**: Built-in support for characters, projectiles, and visual effects
 * 🌍 **Multiple Arenas**: Swap between arenas and customize visuals
@@ -77,11 +77,11 @@ Contributions or forks are welcome to revive or modernize the engine.
 
 If you're interested in:
 
-* Adding sound support
-* Adding controller/gamepad support
-* Adding networking support
-* Porting to newer Java versions
-* Improving the scripting DSL
+* [ ] Adding sound support
+* [ ] Adding controller/gamepad support
+* [ ] Adding networking support
+* [ ] Porting to newer Java versions
+* [ ] Improving the scripting DSL
 
 Feel free to open an issue or fork the project!
 
