@@ -5,46 +5,39 @@ Write-Host "3) SF vs MK 2 (sfvsmk2)"
 $choice = Read-Host "Enter your choice [1-3]"
 
 switch ($choice) {
-    '1' {
-        $JAR = "org.jfge.games.sf2/target/sf2-0.0.1-SNAPSHOT.jar"
-        $MAIN_CLASS = "org.jfge.games.sf2.game.StreetFighter2"
+    "1" {
+        $JAR = "sf2.jar"
+        Copy-Item "org.jfge.games.sf2\target\sf2-0.0.1-SNAPSHOT.jar" $JAR
     }
-    '2' {
-        $JAR = "org.jfge.games.mk2/target/mk2-0.0.1-SNAPSHOT.jar"
-        $MAIN_CLASS = "org.jfge.games.mk2.game.MortalKombat2"
+    "2" {
+        $JAR = "mk2.jar"
+        Copy-Item "org.jfge.games.mk2\target\mk2-0.0.1-SNAPSHOT.jar" $JAR
     }
-    '3' {
-        $JAR = "org.jfge.games.sfvsmk2/target/sfvsmk2-0.0.1-SNAPSHOT.jar"
-        $MAIN_CLASS = "org.jfge.games.sfvsmk2.game.SFVSMK2"
+    "3" {
+        $JAR = "sfvsmk2.jar"
+        Copy-Item "org.jfge.games.sfvsmk2\target\sfvsmk2-0.0.1-SNAPSHOT.jar" $JAR
     }
-    default {
+    Default {
         Write-Host "Invalid choice. Exiting."
         exit 1
     }
 }
 
-# Detect Java major version
-$javaVersion = (& java -version 2>&1)[0]
-if ($javaVersion -match '(\d+)(\.\d+)?') {
-    $major = [int]$matches[1]
+# Get Java version
+$javaVersionOutput = & java -version 2>&1 | Select-Object -First 1
+if ($javaVersionOutput -match '\"(\d+).*\"') {
+    $JAVA_VERSION = [int]$matches[1]
+    Write-Host "Detected Java version: $JAVA_VERSION"
 } else {
-    $major = 8  # fallback
+    Write-Host "Unable to detect Java version."
+    exit 1
 }
-Write-Host "Detected Java version: $major"
 
-# Build classpath (use ; for Windows)
-$CLASSPATH = ".;sf2.zip;mk2.zip;sfvsmk2.zip;$JAR"
+$EXTRA_OPTS = ""
 
-# Create argument array
-$javaArgs = @()
-$javaArgs += "-cp"
-$javaArgs += "$CLASSPATH"
-if ($major -gt 9) {
-    $javaArgs += "--add-opens"
-    $javaArgs += "java.base/java.lang=ALL-UNNAMED"
+if ($JAVA_VERSION -gt 9) {
+    $EXTRA_OPTS = "--add-opens java.base/java.lang=ALL-UNNAMED"
 }
-$javaArgs += "$MAIN_CLASS"
 
-# Show and run command
-Write-Host "Running: java $($javaArgs -join ' ')"
-& java @javaArgs
+Write-Host "Running: java $EXTRA_OPTS -jar $JAR"
+& java $EXTRA_OPTS -jar $JAR
