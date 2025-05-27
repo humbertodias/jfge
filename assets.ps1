@@ -10,25 +10,28 @@ if (-not (Get-Command Expand-Archive -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-# Define function to download and extract zip
+# Define function to download and optionally extract zip
 function Download-And-Extract {
     param (
         [string]$url,
         [string]$destDir,
-        [string]$zipFile
+        [string]$zipFile,
+        [bool]$uncompress
     )
 
     Write-Host "Downloading $url ..."
     curl -k -o $zipFile $url
 
-    if (-Not (Test-Path $destDir)) {
-        New-Item -ItemType Directory -Path $destDir | Out-Null
+    if ($uncompress) {
+        if (-Not (Test-Path $destDir)) {
+            New-Item -ItemType Directory -Path $destDir | Out-Null
+        }
+
+        Write-Host "Extracting $zipFile to $destDir ..."
+        Expand-Archive -Path $zipFile -DestinationPath $destDir -Force
+    } else {
+        Write-Host "Skipping extraction of $zipFile"
     }
-
-    Write-Host "Extracting $zipFile to $destDir ..."
-    Expand-Archive -Path $zipFile -DestinationPath $destDir -Force
-
-    Remove-Item $zipFile -Force
 }
 
 # URLs and paths
@@ -44,5 +47,5 @@ foreach ($game in $games.Keys) {
     $destDir = $games[$game]
     $zipFile = "$game.zip"
 
-    Download-And-Extract -url $url -destDir $destDir -zipFile $zipFile
+    Download-And-Extract -url $url -destDir $destDir -zipFile $zipFile -uncompress:$false
 }

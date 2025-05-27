@@ -5,9 +5,18 @@ Write-Host "3) SF vs MK 2 (sfvsmk2)"
 $choice = Read-Host "Enter your choice [1-3]"
 
 switch ($choice) {
-    '1' { $JAR = "org.jfge.games.sf2/target/sf2-0.0.1-SNAPSHOT.jar" }
-    '2' { $JAR = "org.jfge.games.mk2/target/mk2-0.0.1-SNAPSHOT.jar" }
-    '3' { $JAR = "org.jfge.games.sfvsmk2/target/sfvsmk2-0.0.1-SNAPSHOT.jar" }
+    '1' {
+        $JAR = "org.jfge.games.sf2/target/sf2-0.0.1-SNAPSHOT.jar"
+        $MAIN_CLASS = "org.jfge.games.sf2.game.StreetFighter2"
+    }
+    '2' {
+        $JAR = "org.jfge.games.mk2/target/mk2-0.0.1-SNAPSHOT.jar"
+        $MAIN_CLASS = "org.jfge.games.mk2.game.MortalKombat2"
+    }
+    '3' {
+        $JAR = "org.jfge.games.sfvsmk2/target/sfvsmk2-0.0.1-SNAPSHOT.jar"
+        $MAIN_CLASS = "org.jfge.games.sfvsmk2.game.SFVSMK2"
+    }
     default {
         Write-Host "Invalid choice. Exiting."
         exit 1
@@ -23,12 +32,19 @@ if ($javaVersion -match '(\d+)(\.\d+)?') {
 }
 Write-Host "Detected Java version: $major"
 
-# Prepare command
-if ($major -gt 9) {
-    $cmd = "java --add-opens java.base/java.lang=ALL-UNNAMED -jar `"$JAR`""
-} else {
-    $cmd = "java -jar `"$JAR`""
-}
+# Build classpath (use ; for Windows)
+$CLASSPATH = ".;sf2.zip;mk2.zip;sfvsmk2.zip;$JAR"
 
-Write-Host "Running: $cmd"
-Invoke-Expression $cmd
+# Create argument array
+$javaArgs = @()
+$javaArgs += "-cp"
+$javaArgs += "$CLASSPATH"
+if ($major -gt 9) {
+    $javaArgs += "--add-opens"
+    $javaArgs += "java.base/java.lang=ALL-UNNAMED"
+}
+$javaArgs += "$MAIN_CLASS"
+
+# Show and run command
+Write-Host "Running: java $($javaArgs -join ' ')"
+& java @javaArgs
