@@ -42,8 +42,6 @@ sdk use maven 3.6.3
 ```
 ### ⚙️ Building the Project
 
-Run the following from the root of the repository:
-
 ```bash
 mvn package
 ```
