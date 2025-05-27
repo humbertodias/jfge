@@ -71,6 +71,9 @@
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <mainClass>org.jfge.games.sfvsmk2.game.SfVsMk2</mainClass>
+                            <manifestEntries>
+                                <Class-Path>sf2.zip mk2.zip sfvsmk2.zip</Class-Path>
+                            </manifestEntries>
                         </transformer>
                     </transformers>
                 </configuration>
@@ -87,6 +90,5 @@
         </plugins>
 
     </build>
-
 
 </project>
