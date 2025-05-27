@@ -21,10 +21,10 @@
         <module>org.jfge.core</module>
         <module>org.jfge.android</module>
         <module>org.jfge.ext</module>
+        <module>org.jfge.j2se</module>
         <module>org.jfge.games.mk2</module>
         <module>org.jfge.games.sf2</module>
         <module>org.jfge.games.sfvsmk2</module>
-        <module>org.jfge.j2se</module>
     </modules>
 
     <build>
