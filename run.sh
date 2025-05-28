@@ -1,4 +1,5 @@
 #!/bin/bash
+trap 'echo -e "\n❌ Error on line $LINENO. Pausing..."; read -p "Press Enter to exit." dummy' ERR
 set -e  # Exit immediately if any command fails
 
 # Move to the directory where the script is located
