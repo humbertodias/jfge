@@ -66,7 +66,7 @@ Windows
 ├── org.jfge.games.sf2/       # Street Fighter II demo
 ├── org.jfge.games.mk2/       # Mortal Kombat II demo
 ├── org.jfge.games.sfvsmk2/   # Crossover game demo
-└── assets/                   # External sprite/image assets
+└── sf2.zip|mk2.zip|etc       # External sprite/image assets
 ```
 
 ### 🤝 Contributing
@@ -82,7 +82,3 @@ If you're interested in:
 * [ ] Improving the scripting DSL
 
 Feel free to open an issue or fork the project!
-
-### 📜 License
-
-This project was originally distributed under the [Apache 2.0 License](LICENSE), and may be reused or modified accordingly.
