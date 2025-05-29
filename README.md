@@ -59,7 +59,7 @@ or
 ```
 or
 ```bash
-./run-osx.command
+./run-macos.command
 ```
 
 ### 📂 Project Structure
