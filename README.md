@@ -24,19 +24,19 @@ Originally developed as an open-source project, JFGE aims to simplify the creati
 
 ### 📦 Requirements
 
-- Java 8+
+- Java 17+
 
 You can manage SDKs using [SDKMAN!](https://sdkman.io):
 
 Install
 ```bash
-sdk install java 11.0.27-amzn
+sdk install java 17.0.15-amzn
 sdk install gradle 8.14.1
 ```
 
 Use (if already installed)
 ```bash
-sdk use java 11.0.27-amzn
+sdk use java 17.0.15-amzn
 sdk use gradle 8.14.1
 ```
 ### ⚙️ Building the Project
