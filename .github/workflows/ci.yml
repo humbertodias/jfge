@@ -28,4 +28,6 @@ jobs:
           java-version: '11'
 
       - name: Build with Gradle
-        run: ./gradlew build --configure-on-demand --no-daemon --parallel
+        run: |
+          gradle :wrapper --configure-on-demand
+          ./gradlew build --configure-on-demand --no-daemon --parallel
