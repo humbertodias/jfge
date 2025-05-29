@@ -86,3 +86,7 @@ If you're interested in:
 * [ ] Improving the scripting DSL
 
 Feel free to open an issue or fork the project!
+
+### Documentation
+
+- [CreatePersonalizedSprites](./doc/CreatePersonalizedSprites.md)
