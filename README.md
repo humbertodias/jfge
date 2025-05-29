@@ -50,17 +50,16 @@ This compiles the modules and produces runnable `.jar` files for each demo game.
 
 ### ▶️ Running a Game
 
-Linux
 ```bash
-./run.sh
+./run-linux.sh
 ```
-Windows
+or
 ```bash
-.\run.ps1
+.\run-windows.ps1
 ```
-OSX
+or
 ```bash
-./run.command
+./run-osx.command
 ```
 
 ### 📂 Project Structure
