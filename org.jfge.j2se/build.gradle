@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.jfge'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':core')
+    implementation "net.java.jinput:jinput:${findProperty('jinput.version') ?: '2.0.9'}"
+}

@@ -1,0 +1,20 @@
+GAMES = sf2 mk2 sfvsmk2
+BASE_URL = https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/java-fighting-game-engine
+
+.PHONY: all clean
+
+all: $(GAMES:%=download_%)
+
+download_%:
+	@echo "Downloading $(BASE_URL)/$*_images_0.1.zip"
+	curl -s -o $*.zip $(BASE_URL)/$*_images_0.1.zip
+
+unzip_%:
+	mkdir -p org.jfge.games.$*/assets
+	unzip -q $*.zip -d org.jfge.games.$*/assets
+
+clean:
+	find org.jfge.games.* -type f ! -name '.gitkeep' -path '*/assets/*' -delete
+	find org.jfge.games.* -type d -empty -path '*/assets/*' -delete
+	rm -f $(GAMES:%=%.zip)
+

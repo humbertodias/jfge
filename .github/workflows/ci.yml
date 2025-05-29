@@ -2,9 +2,6 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   package:
@@ -12,19 +9,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Maven cache
+      - name: Cache Gradle
         uses: actions/cache@v4
         with:
-          path: ~/.m2/repository
-          key: maven-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/pom.xml') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.gradle/native
+            ~/.gradle/build-cache
+          key: gradle-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            maven-${{ runner.os }}-${{ runner.arch }}-
+            gradle-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
-          java-version: '8'
+          java-version: '17'
 
-      - name: Package jar
-        run: mvn package
+      - name: Build with Gradle
+        run: |
+          gradle :wrapper --configure-on-demand
+          ./gradlew build --configure-on-demand --no-daemon --parallel
