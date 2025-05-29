@@ -48,3 +48,5 @@ build/
 .gradle
 
 local.properties
+target/
+.idea
