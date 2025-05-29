@@ -46,3 +46,5 @@ build/
 *.zip
 *.bin
 .gradle
+
+local.properties
