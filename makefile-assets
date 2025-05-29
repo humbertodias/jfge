@@ -6,11 +6,12 @@ BASE_URL = https://storage.googleapis.com/google-code-archive-downloads/v2/code.
 all: $(GAMES:%=download_%)
 
 download_%:
-	@echo "Downloading $(BASE_URL)/$*_images_0.1.zip..."
+	@echo "Downloading $(BASE_URL)/$*_images_0.1.zip"
 	curl -s -o $*.zip $(BASE_URL)/$*_images_0.1.zip
+
+unzip_%:
 	mkdir -p org.jfge.games.$*/assets
 	unzip -q $*.zip -d org.jfge.games.$*/assets
-	rm -f $*.zip
 
 clean:
 	find org.jfge.games.* -type f ! -name '.gitkeep' -path '*/assets/*' -delete
