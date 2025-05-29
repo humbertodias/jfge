@@ -5,11 +5,27 @@ ext {
     javaVersion = JavaVersion.VERSION_1_8
 }
 
+def javaVersion = JavaVersion.current()
+
+if (javaVersion.isJava9Compatible()) {
+    allprojects {
+        tasks.withType(JavaExec).configureEach {
+            jvmArgs += ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
+        }
+
+        tasks.withType(Test).configureEach {
+            jvmArgs += ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
+        }
+    }
+}
+
 allprojects {
     group = 'org.jfge'
     version = jfgeVersion
 
-    apply plugin: 'java'
+    if (!project.name.equals("android")) {
+        apply plugin: 'java'
+    }
 
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
@@ -17,5 +33,15 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+}
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.10.1'
     }
 }

@@ -23,10 +23,10 @@ android {
 
     sourceSets {
         main {
-            java.srcDirs = ['src']
+            java.srcDirs = ['src/main/java']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
-            resources.srcDirs = ['config'] // opcional
+            resources.srcDirs = ['config']
         }
     }
 }
@@ -45,5 +45,5 @@ dependencies {
     implementation project(':sfvsmk2')
 
     // APIs Android básicas (recomenda-se usar androidx ou Jetpack se possível)
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+//    implementation 'androidx.appcompat:appcompat:1.6.1'
 }
