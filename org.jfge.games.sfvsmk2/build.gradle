@@ -1,0 +1,69 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.jfge.games'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':ext')
+    implementation project(':j2se')
+    implementation project(':mk2')
+    implementation project(':sf2')
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'config'
+            srcDir 'assets'
+            exclude '**/*.java'
+        }
+    }
+}
+
+application {
+    mainClass = 'org.jfge.games.sfvsmk2.game.SfVsMk2'
+}
+
+tasks.register('fatJar', Jar) {
+    archiveClassifier.set('all')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass
+        )
+    }
+    from(sourceSets.main.output)
+
+    dependsOn configurations.runtimeClasspath
+    from({
+        configurations.runtimeClasspath.filter { it.name.endsWith('jar') }.collect { zipTree(it) }
+    })
+}
+tasks.register('copyJar') {
+    group = 'build'
+    description = 'Copies the fatJar to root as mk2.jar'
+    dependsOn 'fatJar'
+
+    doLast {
+        def jarTask = tasks.named('fatJar').get()
+        def jarFile = jarTask.archiveFile.get().asFile
+        copy {
+            from jarFile
+            into project.rootDir
+            rename { 'sfvsmk2.jar' }
+        }
+        println "Copied ${jarFile.name} to ${project.rootDir}/sfvsmk2.jar"
+    }
+}
+
+tasks.build {
+    dependsOn 'copyJar'
+}

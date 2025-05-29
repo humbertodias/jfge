@@ -25,25 +25,24 @@ Originally developed as an open-source project, JFGE aims to simplify the creati
 ### 📦 Requirements
 
 - Java 8+
-- Maven 3.6+
 
 You can manage SDKs using [SDKMAN!](https://sdkman.io):
 
 Install
 ```bash
 sdk install java 8.0.442-amzn
-sdk install maven 3.6.3
+sdk install gradle 8.14.1
 ```
 
 Use (if already installed)
 ```bash
 sdk use java 8.0.442-amzn
-sdk use maven 3.6.3
+sdk use gradle 8.14.1
 ```
 ### ⚙️ Building the Project
 
 ```bash
-mvn package
+gradle build
 ```
 
 This compiles the modules and produces runnable `.jar` files for each demo game.
@@ -88,4 +87,5 @@ Feel free to open an issue or fork the project!
 
 ### Documentation
 
-- [CreatePersonalizedSprites](./doc/CreatePersonalizedSprites.md)
+- [Create Personalized Sprites](./doc/CreatePersonalizedSprites.md)
+- [Development](./doc/dev.md)

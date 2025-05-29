@@ -1,0 +1,18 @@
+rootProject.name = 'jfge'
+
+include 'core'
+include 'ext'
+include 'j2se'
+include 'mk2'
+include 'sf2'
+include 'sfvsmk2'
+//include 'android'
+
+// remap physical directories
+project(':core').projectDir = file('org.jfge.core')
+project(':ext').projectDir = file('org.jfge.ext')
+project(':j2se').projectDir = file('org.jfge.j2se')
+project(':mk2').projectDir = file('org.jfge.games.mk2')
+project(':sf2').projectDir = file('org.jfge.games.sf2')
+project(':sfvsmk2').projectDir = file('org.jfge.games.sfvsmk2')
+//project(':android').projectDir = file('org.jfge.android')

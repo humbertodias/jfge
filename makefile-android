@@ -1,0 +1,28 @@
+ANDROID_SDK_ROOT := $(HOME)/android-sdk
+CMDLINE_TOOLS_ZIP := commandlinetools-linux-11076708_latest.zip
+CMDLINE_TOOLS_URL := https://dl.google.com/android/repository/$(CMDLINE_TOOLS_ZIP)
+SDK_MANAGER := $(ANDROID_SDK_ROOT)/cmdline-tools/latest/bin/sdkmanager
+
+.PHONY: all sdk clean
+
+all: sdk
+
+sdk:
+	@echo ">> Creating Android SDK directory at $(ANDROID_SDK_ROOT)"
+	mkdir -p $(ANDROID_SDK_ROOT)/cmdline-tools
+	@echo ">> Downloading command line tools..."
+	curl -sSL -o /tmp/$(CMDLINE_TOOLS_ZIP) $(CMDLINE_TOOLS_URL)
+	@echo ">> Extracting command line tools..."
+	unzip -q /tmp/$(CMDLINE_TOOLS_ZIP) -d $(ANDROID_SDK_ROOT)/cmdline-tools
+	mv $(ANDROID_SDK_ROOT)/cmdline-tools/cmdline-tools $(ANDROID_SDK_ROOT)/cmdline-tools/latest
+	@echo ">> Accepting licenses and installing SDK components..."
+	yes | $(SDK_MANAGER) --sdk_root=$(ANDROID_SDK_ROOT) "platform-tools" "platforms;android-30" "build-tools;30.0.3"
+
+	@echo ">> SDK installed at: $(ANDROID_SDK_ROOT)"
+	@echo ">> Add the following to your ~/.bashrc or ~/.zshrc:"
+	@echo "    export ANDROID_HOME=$(ANDROID_SDK_ROOT)"
+	@echo "    export PATH=\$$PATH:$(ANDROID_SDK_ROOT)/platform-tools:$(ANDROID_SDK_ROOT)/cmdline-tools/latest/bin"
+
+clean:
+	rm -rf $(ANDROID_SDK_ROOT)
+	rm -f /tmp/$(CMDLINE_TOOLS_ZIP)

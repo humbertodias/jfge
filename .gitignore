@@ -1,28 +1,48 @@
-# Compiled class file
-*.class
+# Gradle build directory
+build/
+/.gradle/
+/out/
 
-# Log file
+# Gradle wrapper files
+/gradle/wrapper/gradle-wrapper.jar
+/gradle/wrapper/gradle-wrapper.properties
+
+# IntelliJ IDEA files
+/.idea/
+/*.iml
+/out/
+
+# Eclipse files
+/.classpath
+/.project
+/.settings/
+
+# VS Code files
+.vscode/
+
+# Mac OS files
+.DS_Store
+
+# Logs
 *.log
 
-# BlueJ files
-*.ctxt
+# Temporary files
+*.tmp
+*.temp
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Java class files
+*.class
 
-# Package Files #
+# Generated jar files
 *.jar
-*.war
-*.nar
-*.ear
+
+# Maven specific (if mixing with Maven)
+/target/
+
+# Others
+*.swp
+
+
 *.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
-
-.idea
-*.iml
-target
+*.bin
+.gradle

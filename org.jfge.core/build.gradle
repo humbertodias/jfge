@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api "com.google.inject:guice:${rootProject.ext.guiceVersion}"
+    api "com.google.inject.extensions:guice-assisted-inject:${rootProject.ext.guiceVersion}"
+    api "com.google.inject.extensions:guice-multibindings:${rootProject.ext.guiceVersion}"
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'config'
+            exclude '**/*.java'
+        }
+    }
+}

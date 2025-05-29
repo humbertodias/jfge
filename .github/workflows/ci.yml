@@ -12,13 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Maven cache
+      - name: Gradle cache
         uses: actions/cache@v4
         with:
-          path: ~/.m2/repository
-          key: maven-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/pom.xml') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            maven-${{ runner.os }}-${{ runner.arch }}-
+            gradle-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -27,4 +29,6 @@ jobs:
           java-version: '8'
 
       - name: Package jar
-        run: mvn package
+        run: |
+          gradle :wrapper --configure-on-demand
+          ./gradlew build

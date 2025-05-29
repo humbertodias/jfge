@@ -1,0 +1,21 @@
+ext {
+    jfgeVersion = '0.0.1-SNAPSHOT'
+    guiceVersion = '2.0'
+    jinputVersion = '2.0.9'
+    javaVersion = JavaVersion.VERSION_1_8
+}
+
+allprojects {
+    group = 'org.jfge'
+    version = jfgeVersion
+
+    apply plugin: 'java'
+
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
