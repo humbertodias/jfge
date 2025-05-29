@@ -45,7 +45,7 @@ jobs:
           ./gradlew build
 
       - name: Prepare zip
-        run: zip -9 jfge-${GITHUB_REF_NAME}.zip *.jar run.*
+        run: zip -9 jfge-${GITHUB_REF_NAME}.zip *.jar run-*.*
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
