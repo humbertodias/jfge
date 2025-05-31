@@ -1,7 +1,7 @@
 package org.jfge.android.graphics;
 
 import android.graphics.BitmapFactory;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import java.io.IOException;
 import org.jfge.spi.graphics.Color;
 import org.jfge.spi.graphics.Font;

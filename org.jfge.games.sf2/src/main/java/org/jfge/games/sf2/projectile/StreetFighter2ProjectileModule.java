@@ -1,16 +1,34 @@
 package org.jfge.games.sf2.projectile;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
+import java.io.IOException; // For Hadouken constructor
+import javax.inject.Singleton; // Hadouken provider is a Singleton
+import javax.xml.parsers.ParserConfigurationException; // For Hadouken constructor
 import org.jfge.api.projectile.Projectile;
+import org.jfge.api.projectile.ProjectileParser; // For Hadouken constructor
+import org.xml.sax.SAXException; // For Hadouken constructor
 
-public class StreetFighter2ProjectileModule extends AbstractModule {
+@Module
+public class StreetFighter2ProjectileModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Projectile> projectileBinder =
-        MapBinder.newMapBinder(binder(), String.class, Projectile.class);
+  // Hadouken is a Provider<Projectile> and is annotated with @Singleton.
+  // Dagger will manage its single instance.
+  @Provides
+  @Singleton // Ensure the Hadouken provider instance is a singleton
+  Hadouken provideHadoukenProvider(ProjectileParser projectileParser)
+      throws ParserConfigurationException, SAXException, IOException {
+    return new Hadouken(projectileParser);
+  }
 
-    projectileBinder.addBinding("hadouken").toProvider(Hadouken.class);
+  @Provides
+  @IntoMap
+  @StringKey("hadouken")
+  Projectile provideHadouken(Hadouken hadoukenProvider) {
+    // The Projectile instance from hadoukenProvider.get() is a new instance
+    // each time due to projectile.create() in Hadouken.get().
+    return hadoukenProvider.get();
   }
 }

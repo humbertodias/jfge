@@ -1,17 +1,19 @@
 package org.jfge.api.projectile;
 
+import dagger.Binds;
+import dagger.Module;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+@Module
+public abstract class ProjectileModule {
 
-public final class ProjectileModule extends AbstractModule {
+  @Binds
+  abstract ProjectileParser bindProjectileParser(ProjectileParserImpl impl);
 
-  @Override
-  protected void configure() {
-    bind(ProjectileParser.class).to(ProjectileParserImpl.class);
-    bind(ProjectileFactory.class).to(ProjectileFactoryImpl.class);
+  @Binds
+  abstract ProjectileFactory bindProjectileFactory(ProjectileFactoryImpl impl);
 
-    MapBinder<String, Projectile> projectileBinder =
-        MapBinder.newMapBinder(binder(), String.class, Projectile.class);
-  }
+  // MapBinder<String, Projectile> projectileBinder is not needed in Dagger.
+  // If this map is injected, other modules should provide entries using @IntoMap.
+  // If this module needs to provide an empty map, it can do so with:
+  // @Multibinds abstract Map<String, Projectile> projectileMap();
 }

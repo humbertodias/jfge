@@ -1,11 +1,11 @@
 package org.jfge.api.arena;
 
-import com.google.inject.AbstractModule;
+import dagger.Binds;
+import dagger.Module;
 
-public final class ArenaModule extends AbstractModule {
+@Module
+public abstract class ArenaModule {
 
-  @Override
-  protected void configure() {
-    bind(ArenaFactory.class).to(ArenaFactoryImpl.class);
-  }
+  @Binds
+  abstract ArenaFactory bindArenaFactory(ArenaFactoryImpl impl);
 }

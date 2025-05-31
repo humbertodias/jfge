@@ -1,9 +1,9 @@
 package org.jfge.api.fighter;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
+import javax.inject.Named;
 import java.util.List;
 import java.util.Map;
 import org.jfge.api.effect.CollisionEffect;

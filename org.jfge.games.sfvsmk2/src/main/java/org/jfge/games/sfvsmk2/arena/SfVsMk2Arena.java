@@ -1,6 +1,6 @@
 package org.jfge.games.sfvsmk2.arena;
 
-import com.google.inject.Inject;
+import javax.inject.Inject; // Replaced
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;

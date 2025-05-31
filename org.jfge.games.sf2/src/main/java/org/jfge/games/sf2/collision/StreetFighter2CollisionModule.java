@@ -1,20 +1,31 @@
 package org.jfge.games.sf2.collision;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
+import javax.inject.Singleton;
 import org.jfge.api.collision.CollisionHandler;
 
-public class StreetFighter2CollisionModule extends AbstractModule {
+@Module
+public class StreetFighter2CollisionModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, CollisionHandler> collisionHandlerBinder =
-        MapBinder.newMapBinder(binder(), String.class, CollisionHandler.class);
-    collisionHandlerBinder
-        .addBinding("streetFighter2FighterCollisions")
-        .toProvider(Sf2FighterCollisions.class);
-    collisionHandlerBinder
-        .addBinding("streetFighter2ProjectileCollisions")
-        .toProvider(Sf2ProjectileCollisions.class);
+  // Sf2FighterCollisions and Sf2ProjectileCollisions are Providers<CollisionHandler>
+  // and are already annotated with @Singleton. Dagger will manage their single instance.
+
+  @Provides
+  @Singleton // Ensures the CollisionHandler instance from the provider is a singleton
+  @IntoMap
+  @StringKey("streetFighter2FighterCollisions")
+  CollisionHandler provideSf2FighterCollisions(Sf2FighterCollisions provider) {
+    return provider.get();
+  }
+
+  @Provides
+  @Singleton // Ensures the CollisionHandler instance from the provider is a singleton
+  @IntoMap
+  @StringKey("streetFighter2ProjectileCollisions")
+  CollisionHandler provideSf2ProjectileCollisions(Sf2ProjectileCollisions provider) {
+    return provider.get();
   }
 }

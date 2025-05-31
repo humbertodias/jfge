@@ -1,7 +1,7 @@
 package org.jfge.ext.physics;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.jfge.api.projectile.Projectile;
 import org.jfge.api.sprite.Sprite;
 import org.jfge.spi.physics.SpritePhysics;

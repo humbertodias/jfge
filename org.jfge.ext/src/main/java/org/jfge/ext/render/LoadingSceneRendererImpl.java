@@ -1,8 +1,8 @@
 package org.jfge.ext.render;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.inject.Named;
 import java.util.logging.Logger;
 import org.jfge.api.render.SpriteRenderer;
 import org.jfge.spi.graphics.Graphics;

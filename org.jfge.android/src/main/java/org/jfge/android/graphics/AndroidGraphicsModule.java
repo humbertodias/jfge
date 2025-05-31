@@ -1,40 +1,53 @@
 package org.jfge.android.graphics;
 
 import android.app.Activity;
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.Multibinder;
-import com.google.inject.name.Names;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoSet;
+import javax.inject.Named;
+import javax.inject.Singleton; // For AndroidKeyboardController if it's a singleton
 import org.jfge.android.controller.AndroidKeyboardController;
 import org.jfge.spi.controller.Controller;
 import org.jfge.spi.graphics.GraphicsFactory;
 import org.jfge.spi.graphics.GraphicsProvider;
 
-public class AndroidGraphicsModule extends AbstractModule {
+@Module
+public class AndroidGraphicsModule {
 
-  private Activity activity;
+  private final Activity activity;
 
   public AndroidGraphicsModule(Activity activity) {
     this.activity = activity;
   }
 
-  @Override
-  protected void configure() {
-    bind(Activity.class).toInstance(activity);
-    /*
-     * binding graphics, image and collision implementations
-     */
-    bind(GraphicsFactory.class).to(AndroidGraphicsFactory.class);
-    bind(GraphicsProvider.class).to(AndroidGraphicsProvider.class);
+  @Provides
+  Activity provideActivity() {
+    return this.activity;
+  }
 
-    /*
-     * making keyboard controller available via multibind
-     */
-    bind(Controller.class)
-        .annotatedWith(Names.named("keyboard.android"))
-        .to(AndroidKeyboardController.class);
-    bind(Controller.class).to(AndroidKeyboardController.class);
+  @Binds
+  abstract GraphicsFactory bindGraphicsFactory(AndroidGraphicsFactory impl);
 
-    Multibinder<Controller> controllerBinder = Multibinder.newSetBinder(binder(), Controller.class);
-    controllerBinder.addBinding().to(AndroidKeyboardController.class);
+  @Binds
+  abstract GraphicsProvider bindGraphicsProvider(AndroidGraphicsProvider impl);
+
+  // Bind AndroidKeyboardController as Controller for general use
+  // AndroidKeyboardController is already @Singleton
+  @Binds
+  abstract Controller bindAndroidKeyboardControllerAsController(AndroidKeyboardController impl);
+
+  @Provides
+  @Named("keyboard.android")
+  Controller provideNamedAndroidController(AndroidKeyboardController controller) {
+    // AndroidKeyboardController is @Singleton, Dagger provides the same instance.
+    return controller;
+  }
+
+  @Provides
+  @IntoSet
+  Controller provideControllerToSet(AndroidKeyboardController controller) {
+    // AndroidKeyboardController is @Singleton, Dagger provides the same instance.
+    return controller;
   }
 }

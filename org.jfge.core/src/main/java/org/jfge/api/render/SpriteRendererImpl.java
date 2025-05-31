@@ -1,6 +1,6 @@
 package org.jfge.api.render;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import org.jfge.api.sprite.Sprite;
 import org.jfge.spi.graphics.Graphics;
 import org.jfge.spi.graphics.Image;

@@ -1,39 +1,55 @@
 package org.jfge.api.engine;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.name.Names;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Provides;
+import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** The Class EngineModule. */
-public final class EngineModule extends AbstractModule {
+@Module
+public abstract class EngineModule {
 
-  /* (non-Javadoc)
-   * @see com.google.inject.AbstractModule#configure()
-   */
-  @Override
-  public void configure() {
-    loadProperties(this.binder());
-    bind(Engine.class).to(EngineImpl.class);
-    bind(Timer.class).to(TimerImpl.class);
+  @Binds
+  abstract Engine bindEngine(EngineImpl impl);
+
+  @Binds
+  abstract Timer bindTimer(TimerImpl impl);
+
+  // TODO: Figure out how to best load properties in Dagger.
+  // For now, providing default values.
+  // Consider using a dedicated configuration object or reading properties at startup.
+
+  @Provides
+  @Named("engine.fps")
+  static int provideEngineFps() {
+    // Default value, ideally from properties file
+    return 60;
   }
 
-  /**
-   * Load properties.
-   *
-   * @param binder the binder
-   */
-  private void loadProperties(Binder binder) {
-    InputStream stream =
-        EngineModule.class.getResourceAsStream("/org/jfge/config/engine/engine.properties");
-    Properties engineProperties = new Properties();
-    try {
-      engineProperties.load(stream);
-      Names.bindProperties(binder, engineProperties);
-    } catch (IOException e) {
-      binder.addError(e);
-    }
+  @Provides
+  @Named("engine.nodelays")
+  static int provideEngineNoDelays() {
+    // Default value, ideally from properties file
+    return 16;
+  }
+
+  @Provides
+  @Named("engine.frameskip")
+  static int provideEngineFrameSkip() {
+    // Default value, ideally from properties file
+    return 5;
+  }
+
+  @Provides
+  @Named("engine.width")
+  static int provideEngineWidth() {
+    // Default value, ideally from properties file
+    // This was used in CollisionDetectorImpl, ensure it's a sensible default or configured.
+    return 800;
   }
 }

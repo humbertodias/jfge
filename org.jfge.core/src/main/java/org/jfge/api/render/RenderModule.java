@@ -1,11 +1,11 @@
 package org.jfge.api.render;
 
-import com.google.inject.AbstractModule;
+import dagger.Binds;
+import dagger.Module;
 
-public class RenderModule extends AbstractModule {
+@Module
+public abstract class RenderModule {
 
-  @Override
-  protected void configure() {
-    bind(SpriteRenderer.class).to(SpriteRendererImpl.class);
-  }
+  @Binds
+  abstract SpriteRenderer bindSpriteRenderer(SpriteRendererImpl impl);
 }

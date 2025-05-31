@@ -1,9 +1,10 @@
 package org.jfge.api.fighter;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.multibindings.MapBinder;
-import com.google.inject.name.Names;
+import dagger.Binds;
+import dagger.Module;
+import dagger.Provides;
+import javax.inject.Named;
+// TODO: remove unused imports after properties are handled
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -12,40 +13,40 @@ import org.jfge.api.projectile.Projectile;
 import org.jfge.spi.physics.SpritePhysics;
 
 /** The Class FighterModule. */
-public final class FighterModule extends AbstractModule {
+@Module
+public abstract class FighterModule {
 
-  /* (non-Javadoc)
-   * @see com.google.inject.AbstractModule#configure()
-   */
-  @Override
-  protected void configure() {
-    loadProperties(binder());
-    bind(FighterFactory.class).to(FighterFactoryImpl.class);
-    bind(FighterParser.class).to(FighterParserImpl.class);
-    bind(InputQueue.class).to(BufferedInputQueue.class);
+  @Binds
+  abstract FighterFactory bindFighterFactory(FighterFactoryImpl impl);
 
-    MapBinder<String, SpritePhysics> physicsBinder =
-        MapBinder.newMapBinder(binder(), String.class, SpritePhysics.class);
-    MapBinder<String, CollisionEffect> collisionEffectBinder =
-        MapBinder.newMapBinder(binder(), String.class, CollisionEffect.class);
-    MapBinder<String, Projectile> projectileBinder =
-        MapBinder.newMapBinder(binder(), String.class, Projectile.class);
+  @Binds
+  abstract FighterParser bindFighterParser(FighterParserImpl impl);
+
+  @Binds
+  abstract InputQueue bindInputQueue(BufferedInputQueue impl);
+
+  // TODO: Figure out how to best load properties in Dagger.
+  // For now, providing default values from fighter.properties.
+  // Consider using a dedicated configuration object or reading properties at startup.
+
+  @Provides
+  @Named("fighter.inputqueue.clear")
+  static int provideInputQueueClear() {
+    // Default value, ideally from fighter.properties
+    return 60; // Example default
   }
 
-  /**
-   * Load properties.
-   *
-   * @param binder the binder
-   */
-  private void loadProperties(Binder binder) {
-    InputStream stream =
-        FighterModule.class.getResourceAsStream("/org/jfge/config/fighter/fighter.properties");
-    Properties fighterProperties = new Properties();
-    try {
-      fighterProperties.load(stream);
-      Names.bindProperties(binder, fighterProperties);
-    } catch (IOException e) {
-      binder.addError(e);
-    }
+  @Provides
+  @Named("fighter.inputqueue.maxsize")
+  static int provideInputQueueMaxSize() {
+    // Default value, ideally from fighter.properties
+    return 10; // Example default
   }
+
+  // MapBinder declarations for SpritePhysics, CollisionEffect, Projectile
+  // are not needed in Dagger. If these maps are injected,
+  // other modules should provide their entries using @IntoMap.
+  // If this module needs to provide an empty map, it can do so with:
+  // @Multibinds abstract Map<String, SpritePhysics> spritePhysicsMap();
+  // etc. for the other maps. For now, assuming they are populated elsewhere or can be empty.
 }

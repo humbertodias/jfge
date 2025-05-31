@@ -1,7 +1,7 @@
 package org.jfge.j2se.controller;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton; // Keep other Guice imports for now, if any were missed by grep
 import java.util.logging.Logger;
 import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Event;

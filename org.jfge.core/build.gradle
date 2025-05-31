@@ -3,9 +3,8 @@ plugins {
 }
 
 dependencies {
-    api "com.google.inject:guice:${rootProject.ext.guiceVersion}"
-    api "com.google.inject.extensions:guice-assisted-inject:${rootProject.ext.guiceVersion}"
-    api "com.google.inject.extensions:guice-multibindings:${rootProject.ext.guiceVersion}"
+    implementation "com.google.dagger:dagger:2.56.2"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.56.2"
 }
 
 sourceSets {

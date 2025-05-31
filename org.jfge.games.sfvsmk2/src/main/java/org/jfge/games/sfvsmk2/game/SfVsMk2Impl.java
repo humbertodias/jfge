@@ -1,8 +1,8 @@
 package org.jfge.games.sfvsmk2.game;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Provider; // Now this is javax.inject.Provider
+import javax.inject.Singleton;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;

@@ -1,11 +1,11 @@
 package org.jfge.api.game;
 
-import com.google.inject.AbstractModule;
+import dagger.Binds;
+import dagger.Module;
 
-public class GameModule extends AbstractModule {
+@Module
+public abstract class GameModule {
 
-  @Override
-  protected void configure() {
-    bind(GameFactory.class).to(GameFactoryImpl.class);
-  }
+  @Binds
+  abstract GameFactory bindGameFactory(GameFactoryImpl impl);
 }

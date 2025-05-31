@@ -1,8 +1,8 @@
 package org.jfge.api.collision;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

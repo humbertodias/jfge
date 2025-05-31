@@ -1,9 +1,11 @@
 package org.jfge.api.collision;
 
+import dagger.assisted.AssistedFactory;
 import java.util.List;
 import java.util.Map;
 
 /** A factory for creating CollisionHandler objects. */
+@AssistedFactory
 public interface CollisionHandlerFactory {
 
   /**
@@ -12,5 +14,5 @@ public interface CollisionHandlerFactory {
    * @param collisionMap the collision map
    * @return the collision handler
    */
-  public CollisionHandler createCollisionHandler(Map<List<String>, String> collisionMap);
+  CollisionHandler createCollisionHandler(Map<List<String>, String> collisionMap);
 }

@@ -1,22 +1,15 @@
 package org.jfge.api.effect;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryProvider;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
 
-public final class EffectModule extends AbstractModule {
+@Module
+public abstract class EffectModule {
+  // CollisionEffectFactory is now an @AssistedFactory, Dagger provides it.
+  // ArenaEffectFactory is now an @AssistedFactory, Dagger provides it.
 
-  @Override
-  protected void configure() {
-    bind(CollisionEffectFactory.class)
-        .toProvider(
-            FactoryProvider.newFactory(CollisionEffectFactory.class, CollisionEffectImpl.class));
-    bind(ArenaEffectFactory.class)
-        .toProvider(FactoryProvider.newFactory(ArenaEffectFactory.class, ArenaEffectImpl.class));
-
-    MapBinder<String, CollisionEffect> collisionEffectBinder =
-        MapBinder.newMapBinder(binder(), String.class, CollisionEffect.class);
-    MapBinder<String, ArenaEffect> arenaEffectBinder =
-        MapBinder.newMapBinder(binder(), String.class, ArenaEffect.class);
-  }
+  // Map<String, CollisionEffect> and Map<String, ArenaEffect> will be provided
+  // if other modules contribute to them using @IntoMap, or they will be empty
+  // if appropriately configured (e.g. @Multibinds abstract Map<K,V> provider()).
+  // No explicit MapBinder declarations are needed in Dagger for the module itself
+  // unless it's providing entries.
 }

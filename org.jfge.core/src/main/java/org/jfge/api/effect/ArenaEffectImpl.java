@@ -1,7 +1,7 @@
 package org.jfge.api.effect;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 import java.util.List;
 import org.jfge.api.arena.Arena;
 import org.jfge.api.render.SpriteRenderer;
@@ -19,7 +19,7 @@ public class ArenaEffectImpl extends AbstractSprite implements ArenaEffect {
 
   private int index = 0;
 
-  @Inject
+  @AssistedInject
   public ArenaEffectImpl(
       SpriteRenderer spriteRenderer,
       @Assisted List<Image> images,

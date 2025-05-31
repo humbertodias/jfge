@@ -1,8 +1,8 @@
 package org.jfge.games.sf2.fighter;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.fighter.Fighter;

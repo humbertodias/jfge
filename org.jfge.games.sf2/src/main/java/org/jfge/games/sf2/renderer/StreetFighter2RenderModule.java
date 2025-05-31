@@ -1,18 +1,17 @@
 package org.jfge.games.sf2.renderer;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
+import dagger.Module;
+import dagger.Provides;
+import javax.inject.Named;
 import org.jfge.spi.render.ArenaRenderer;
 
-public class StreetFighter2RenderModule extends AbstractModule {
+@Module
+public class StreetFighter2RenderModule {
 
-  @Override
-  protected void configure() {
-    /*
-     * binding render implementations
-     */
-    bind(ArenaRenderer.class)
-        .annotatedWith(Names.named("arenaRenderer.streetFighter2"))
-        .to(StreetFighter2ArenaRenderer.class);
+  @Provides
+  @Named("arenaRenderer.streetFighter2")
+  ArenaRenderer provideStreetFighter2ArenaRenderer(
+      StreetFighter2ArenaRenderer impl) { // StreetFighter2ArenaRenderer has @Inject constructor
+    return impl;
   }
 }

@@ -1,6 +1,6 @@
 package org.jfge.games.sf2.renderer;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import java.io.IOException;
 import org.jfge.spi.graphics.Graphics;
 import org.jfge.spi.graphics.GraphicsFactory;

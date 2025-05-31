@@ -1,7 +1,7 @@
 package org.jfge.games.sfvsmk2.game;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import com.google.inject.Provider; // Keep other Guice imports for now
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;

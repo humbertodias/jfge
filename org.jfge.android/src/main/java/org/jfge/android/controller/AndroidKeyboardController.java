@@ -1,8 +1,8 @@
 package org.jfge.android.controller;
 
 import android.view.KeyEvent;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.logging.Logger;
 import org.jfge.api.fsm.StateMachine;

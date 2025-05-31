@@ -1,15 +1,36 @@
 package org.jfge.games.sf2.game;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
+import javax.inject.Singleton; // StreetFighter2Game provider is a Singleton
 import org.jfge.api.game.Game;
+import org.jfge.api.game.GameFactory;
+import org.jfge.api.fighter.Fighter;
+import org.jfge.api.arena.Arena;
+import java.util.Map;
+import javax.inject.Provider; // For map values
 
-public class StreetFighter2GameModule extends AbstractModule {
+@Module
+public class StreetFighter2GameModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Game> gameBinder = MapBinder.newMapBinder(binder(), String.class, Game.class);
+  // StreetFighter2Game is a Provider<Game> and is annotated with @Singleton.
+  // Dagger will manage its single instance.
+  @Provides
+  @Singleton // Ensure the StreetFighter2Game provider instance is a singleton
+  StreetFighter2Game provideStreetFighter2Game(
+      GameFactory gameFactory,
+      Map<String, Provider<Fighter>> fighterProviders,
+      Map<String, Provider<Arena>> arenaProviders) {
+    return new StreetFighter2Game(gameFactory, fighterProviders, arenaProviders);
+  }
 
-    gameBinder.addBinding("streetFighter2").toProvider(StreetFighter2Game.class);
+  @Provides
+  @IntoMap
+  @StringKey("streetFighter2")
+  Game provideGame(StreetFighter2Game gameProvider) {
+    // The Game instance from gameProvider.get() will be cached within StreetFighter2Game
+    return gameProvider.get();
   }
 }
