@@ -1,6 +1,6 @@
 make -f makefile-android
 
-```apk
+```shell
 mvn -pl org.jfge.android \
 -am com.simpligility.maven.plugins:android-maven-plugin:apk
 ```

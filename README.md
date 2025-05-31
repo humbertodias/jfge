@@ -80,12 +80,12 @@ If you're interested in:
 * [ ] Adding sound support
 * [ ] Adding controller/gamepad support
 * [ ] Adding networking support
-* [ ] Porting to newer Java versions
+* [x] Porting to newer Java versions
 * [ ] Improving the scripting DSL
 
 Feel free to open an issue or fork the project!
 
 ### Documentation
 
-- [Create Personalized Sprites](./doc/CreatePersonalizedSprites.md)
+- [Create Personalized Sprites](doc/create-personalized-sprites.md)
 - [Development](./doc/dev.md)
