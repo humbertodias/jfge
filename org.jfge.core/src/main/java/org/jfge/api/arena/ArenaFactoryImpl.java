@@ -18,7 +18,7 @@ public final class ArenaFactoryImpl implements ArenaFactory {
   private Map<String, Provider<ArenaEffect>> arenaEffectMap;
 
   @Inject
-  private ArenaFactoryImpl(
+  public ArenaFactoryImpl(
       GraphicsFactory graphicsFactory, Map<String, Provider<ArenaEffect>> arenaEffectMap) {
     this.graphicsFactory = graphicsFactory;
     this.arenaEffectMap = arenaEffectMap;

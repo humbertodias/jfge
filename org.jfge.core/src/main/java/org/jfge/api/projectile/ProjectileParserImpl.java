@@ -31,7 +31,7 @@ final class ProjectileParserImpl implements ProjectileParser {
   private final Logger logger;
 
   @Inject
-  private ProjectileParserImpl(
+  public ProjectileParserImpl(
       Logger logger,
       ProjectileFactory particleFactory,
       GraphicsFactory imageFactory,

@@ -25,7 +25,7 @@ public final class CollisionDetectorImpl implements CollisionDetector {
   /** The width. */
   @Inject
   @Named("engine.width")
-  private int width;
+  public int width;
 
   /** The collision handlers. */
   private Set<CollisionHandler> collisionHandlers;

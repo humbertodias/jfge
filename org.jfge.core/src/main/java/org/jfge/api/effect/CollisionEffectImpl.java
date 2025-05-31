@@ -30,8 +30,7 @@ public final class CollisionEffectImpl extends AbstractSprite implements Collisi
       SpriteRenderer spriteRenderer,
       @Assisted List<Image> images,
       @Assisted("relX") double relX,
-      @Assisted("relY") double relY)
-      throws IOException {
+      @Assisted("relY") double relY) {
     this.spriteRenderer = spriteRenderer;
     this.images = images;
     this.relX = relX;
