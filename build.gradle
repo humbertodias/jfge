@@ -1,6 +1,7 @@
 ext {
     jfgeVersion = '0.0.1-SNAPSHOT'
-    guiceVersion = '2.0'
+    guiceVersion = '7.0.0'
+    guiceAssistedinjectVersion = '7.0.0'
     jinputVersion = '2.0.9'
     javaVersion = JavaVersion.VERSION_1_8
 }
