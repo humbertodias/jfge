@@ -3,9 +3,10 @@ plugins {
 }
 
 dependencies {
-    api "com.google.inject:guice:${rootProject.ext.guiceVersion}"
-    api "com.google.inject.extensions:guice-assisted-inject:${rootProject.ext.guiceVersion}"
-    api "com.google.inject.extensions:guice-multibindings:${rootProject.ext.guiceVersion}"
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    api("com.google.inject:guice:${rootProject.ext.guiceVersion}")
+    // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
+    api("com.google.inject.extensions:guice-assistedinject:${rootProject.ext.guiceAssistedinjectVersion}")
 }
 
 sourceSets {
