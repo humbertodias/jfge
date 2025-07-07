@@ -79,6 +79,7 @@ If you're interested in:
 
 * [ ] Adding sound support
 * [ ] Adding controller/gamepad support
+* [ ] Migrate from [Guice](https://github.com/google/guice) to [Dagger](https://github.com/google/dagger) for Android support
 * [ ] Adding networking support
 * [x] Porting to newer Java versions
 * [ ] Improving the scripting DSL
