@@ -84,7 +84,7 @@ If you're interested in:
 * [x] Porting to newer Java versions
 * [ ] Improving the scripting DSL
 
-Feel free to open an issue or fork the project!
+Feel free to open an [issue](https://github.com/humbertodias/jfge/issues) or fork the project!
 
 ### Documentation
 
