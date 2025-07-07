@@ -77,11 +77,11 @@ Contributions or forks are welcome to revive or modernize the engine.
 
 If you're interested in:
 
-* [ ] Adding sound support
-* [ ] Adding controller/gamepad support
-* [ ] Migrate from [Guice](https://github.com/google/guice) to [Dagger](https://github.com/google/dagger) for Android support
+* [x] Porting to newer Java versions - https://github.com/humbertodias/jfge/pull/1
+* [ ] Adding sound support - https://github.com/humbertodias/jfge/issues/4
+* [ ] Adding controller/gamepad support - https://github.com/humbertodias/jfge/issues/5
+* [ ] Android support - https://github.com/humbertodias/jfge/issues/2
 * [ ] Adding networking support
-* [x] Porting to newer Java versions
 * [ ] Improving the scripting DSL
 
 Feel free to open an [issue](https://github.com/humbertodias/jfge/issues) or fork the project!
