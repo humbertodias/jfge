@@ -27,23 +27,21 @@ task copyJinputNatives(type: Copy) {
 
     doLast {
         def osName = System.getProperty("os.name").toLowerCase()
-        def arch = System.getProperty("os.arch").toLowerCase()
+        def isMac = osName.contains("mac")
 
-        def isMacArm64 = osName.contains("mac") && (arch == "aarch64" || arch == "arm64")
-
-        if (isMacArm64) {
+        if (isMac) {
             def nativesDir = file("${rootProject.buildDir}/natives")
             def jnilib = new File(nativesDir, "libjinput-osx.jnilib")
             def dylib = new File(nativesDir, "libjinput-osx.dylib")
 
             if (jnilib.exists() && !dylib.exists()) {
-                println "macOS ARM64 detected — duplicating libjinput-osx.jnilib as libjinput-osx.dylib"
+                println "macOS detected — duplicating libjinput-osx.jnilib as libjinput-osx.dylib"
                 dylib.bytes = jnilib.bytes
             } else {
                 println "libjinput-osx.jnilib not found or libjinput-osx.dylib already exists"
             }
         } else {
-            println "Not macOS ARM64 — skipping jnilib → dylib copy"
+            println "Not macOS — skipping jnilib → dylib copy"
         }
     }
 }
