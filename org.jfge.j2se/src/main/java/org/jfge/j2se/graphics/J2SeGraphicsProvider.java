@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 import javax.swing.*;
 
+import org.jfge.j2se.controller.J2SeKeyboardController1;
+import org.jfge.j2se.controller.J2SeKeyboardController2;
 import org.jfge.spi.controller.Controller;
 
 /** The Class GraphicsProviderImpl. */
@@ -88,8 +90,12 @@ public final class J2SeGraphicsProvider implements org.jfge.spi.graphics.Graphic
     // center
     jFrame.setLocationRelativeTo(null);
     // listeners
-    jFrame.addKeyListener((KeyListener) controller1);
-    jFrame.addKeyListener((KeyListener) controller2);
+    if (controller1 instanceof J2SeKeyboardController1) {
+      jFrame.addKeyListener((KeyListener) controller1);
+    }
+    if (controller2 instanceof J2SeKeyboardController2) {
+      jFrame.addKeyListener((KeyListener) controller2);
+    }
 
     logger.info("graphics provider resolution:" + width + " x " + height);
     logger.info("double buffering " + (dbEnabled ? "enabled" : "disabled"));

@@ -48,9 +48,9 @@ public final class J2SeGamePadController implements Controller, Runnable {
       return;
     }
 
+    // && controller.getName().contains("X-Box")
     for (net.java.games.input.Controller controller : controllers) {
-      if (controller.getType() == net.java.games.input.Controller.Type.GAMEPAD
-          && controller.getName().contains("X-Box")) {
+      if (controller.getType() == net.java.games.input.Controller.Type.GAMEPAD) {
         this.controller = controller;
         logger.info("found " + controller.getName());
       }
@@ -86,7 +86,9 @@ public final class J2SeGamePadController implements Controller, Runnable {
       queue = controller.getEventQueue();
 
       while (queue.getNextEvent(event)) {
-        stateMachine.handle(event.getComponent().getName());
+        if (stateMachine != null) {
+          stateMachine.handle(event.getComponent().getName());
+        }
       }
 
       /*

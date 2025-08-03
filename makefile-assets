@@ -13,8 +13,6 @@ unzip_%:
 	mkdir -p org.jfge.games.$*/assets
 	unzip -q $*.zip -d org.jfge.games.$*/assets
 
-
-
 clean:
 	find org.jfge.games.* -type f ! -name '.gitkeep' -path '*/assets/*' -delete
 	find org.jfge.games.* -type d -empty -path '*/assets/*' -delete

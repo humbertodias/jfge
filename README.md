@@ -89,6 +89,13 @@ gradle :sf:run
 gradle :sfvsmk2:run
 ```
 
+### Joystick support
+
+```shell
+gradle :j2se:copyJinputNatives
+gradle :mk2:run
+```
+
 ### 🤝 Contributing
 
 Contributions or forks are welcome to revive or modernize the engine.

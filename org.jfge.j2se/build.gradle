@@ -14,3 +14,14 @@ dependencies {
     implementation("net.java.jinput:jinput:${jinputVersion}")
     implementation("net.java.jinput:jinput:${jinputVersion}:natives-all")
 }
+
+task copyJinputNatives(type: Copy) {
+    from {
+        configurations.runtimeClasspath.findAll {
+            it.name.contains("jinput") && it.name.contains("natives")
+        }.collect {
+            zipTree(it)
+        }
+    }
+    into "${rootProject.buildDir}/natives"
+}
