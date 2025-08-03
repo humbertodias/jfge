@@ -24,7 +24,7 @@ allprojects {
     group = 'org.jfge'
     version = jfgeVersion
 
-    if (!project.name.equals("android")) {
+    if (project.name != "android") {
         apply plugin: 'java'
     }
 
