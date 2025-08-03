@@ -38,10 +38,15 @@ public final class J2SeGamePadController implements Controller, Runnable {
     this.logger = logger;
 
     /*
-     * initalize xbox 360 controller
+     * initialize xbox 360 controller
      */
     net.java.games.input.Controller[] controllers =
         ControllerEnvironment.getDefaultEnvironment().getControllers();
+
+    if (controllers.length == 0) {
+      logger.warning("no controllers found");
+      return;
+    }
 
     for (net.java.games.input.Controller controller : controllers) {
       if (controller.getType() == net.java.games.input.Controller.Type.GAMEPAD
