@@ -78,13 +78,15 @@ or
 
 Download assets
 ```shell
-make -f makefile-assets unzip_sf2 unzip_mk2 unzip_sfvsmk2
+make -f makefile-assets get_assets
 ```
-Then open the module [mk2,sf2,sfvsmk2] on your IDE 
+Then open the module [mk2,sf2,sfvsmk2] in your IDE 
 
 or using terminal
 ```
 gradle :mk2:run
+gradle :sf:run
+gradle :sfvsmk2:run
 ```
 
 ### 🤝 Contributing
