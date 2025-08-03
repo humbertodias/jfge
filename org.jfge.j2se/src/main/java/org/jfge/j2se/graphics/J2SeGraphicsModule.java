@@ -30,7 +30,7 @@ public final class J2SeGraphicsModule extends AbstractModule {
     bind(GraphicsFactory.class).to(J2SeGraphicsFactory.class);
 
     /*
-     * making keyboard controller available via multibind
+     * making keyboard controller available via multi bind
      */
     bind(Controller.class)
         .annotatedWith(Names.named("keyboard.controller1"))
