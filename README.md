@@ -115,3 +115,4 @@ Feel free to open an [issue](https://github.com/humbertodias/jfge/issues) or for
 
 - [Create Personalized Sprites](doc/create-personalized-sprites.md)
 - [Development](./doc/dev.md)
+- [jinput](https://jinput.github.io/jinput/)
