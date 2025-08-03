@@ -61,7 +61,10 @@ or
 ./run-macos.command
 ```
 
-<img width="1091" height="403" alt="image" src="https://github.com/user-attachments/assets/3f9d4cf4-b275-48e6-92dc-414284fd0f05" />
+
+
+https://github.com/user-attachments/assets/42821ca2-e2fe-44c7-9d77-eb5aef6c2a48
+
 
 
 ### 📂 Project Structure
