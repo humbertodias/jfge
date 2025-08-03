@@ -2,8 +2,8 @@ package org.jfge.api.engine;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 import org.jfge.spi.graphics.Graphics;
 import org.jfge.spi.graphics.GraphicsProvider;
@@ -54,8 +54,8 @@ public final class EngineImpl implements org.jfge.api.engine.Engine {
     this.logger = logger;
     this.thread = new Thread(this);
 
-    this.renderables = new ArrayList<Renderable>();
-    this.updatables = new ArrayList<Updatable>();
+    this.renderables = new CopyOnWriteArrayList<Renderable>();
+    this.updatables = new CopyOnWriteArrayList<Updatable>();
     this.paused = false;
   }
 
