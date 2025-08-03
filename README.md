@@ -74,6 +74,19 @@ or
 └── sf2.zip|mk2.zip|etc       # External sprite/image assets
 ```
 
+### For local development
+
+Download assets
+```shell
+make -f makefile-assets unzip_sf2 unzip_mk2 unzip_sfvsmk2
+```
+Then open the module [mk2,sf2,sfvsmk2] on your IDE 
+
+or using terminal
+```
+gradle :mk2:run
+```
+
 ### 🤝 Contributing
 
 Contributions or forks are welcome to revive or modernize the engine.
