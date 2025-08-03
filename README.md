@@ -62,7 +62,6 @@ or
 ```
 
 
-
 https://github.com/user-attachments/assets/42821ca2-e2fe-44c7-9d77-eb5aef6c2a48
 
 
@@ -107,6 +106,7 @@ If you're interested in:
 
 * [x] Porting to newer Java versions - https://github.com/humbertodias/jfge/pull/1
 * [ ] Adding sound support - https://github.com/humbertodias/jfge/issues/4
+* [ ] Improve player movement - https://github.com/humbertodias/jfge/issues/11
 * [ ] Adding controller/gamepad support - https://github.com/humbertodias/jfge/issues/5
 * [ ] Android support - https://github.com/humbertodias/jfge/issues/2
 * [ ] Adding networking support
