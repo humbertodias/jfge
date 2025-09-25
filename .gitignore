@@ -50,3 +50,4 @@ build/
 local.properties
 target/
 .idea
+bin/
