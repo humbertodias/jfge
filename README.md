@@ -87,7 +87,7 @@ Then open the module [mk2,sf2,sfvsmk2] in your IDE
 or using terminal
 ```
 gradle :mk2:run
-gradle :sf:run
+gradle :sf2:run
 gradle :sfvsmk2:run
 ```
 
