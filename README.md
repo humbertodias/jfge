@@ -1,5 +1,6 @@
 [![CI](https://github.com/humbertodias/jfge/actions/workflows/ci.yml/badge.svg)](https://github.com/humbertodias/jfge/actions/workflows/ci.yml)
 [![CD](https://github.com/humbertodias/jfge/actions/workflows/cd.yml/badge.svg)](https://github.com/humbertodias/jfge/actions/workflows/cd.yml)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/humbertodias/jfge)
 ![GitHub all releases](https://img.shields.io/github/downloads/humbertodias/jfge/total)
 
 ## 🕹️ Java Fighting Game Engine
