@@ -134,9 +134,12 @@ gradle :mk2:run
 
 Contributions or forks are welcome to revive or modernize the engine.
 
+**New!** The project now uses [libGDX](https://libgdx.com/) for cross-platform support. See [libGDX Migration Guide](doc/libgdx-migration.md) for details.
+
 If you're interested in:
 
 * [x] Porting to newer Java versions - https://github.com/humbertodias/jfge/pull/1
+* [x] Converting to libGDX for better cross-platform support
 * [ ] Adding sound support - https://github.com/humbertodias/jfge/issues/4
 * [ ] Improve player movement - https://github.com/humbertodias/jfge/issues/11
 * [ ] Adding controller/gamepad support - https://github.com/humbertodias/jfge/issues/5
@@ -148,6 +151,7 @@ Feel free to open an [issue](https://github.com/humbertodias/jfge/issues) or for
 
 ### Documentation
 
+- [libGDX Migration Guide](doc/libgdx-migration.md) - How the project was converted to libGDX
 - [Create Personalized Sprites](doc/create-personalized-sprites.md)
 - [Development](./doc/dev.md)
 - [jinput](https://jinput.github.io/jinput/)
