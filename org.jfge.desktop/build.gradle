@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':libgdx')
+    implementation project(':ext')
+    implementation project(':sf2')
+    implementation project(':mk2')
+    implementation project(':sfvsmk2')
+    
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:${gdxVersion}"
+    implementation "com.badlogicgames.gdx:gdx-platform:${gdxVersion}:natives-desktop"
+}
+
+application {
+    mainClass = 'org.jfge.desktop.DesktopLauncherSF2'
+}

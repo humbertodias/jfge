@@ -5,6 +5,7 @@ ext {
     jinputVersion = '2.0.10'
     jinputLibraryPath = "${rootProject.buildDir}/natives"
     javaVersion = JavaVersion.VERSION_1_8
+    gdxVersion = '1.12.1'
 }
 
 

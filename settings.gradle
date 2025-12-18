@@ -3,6 +3,8 @@ rootProject.name = 'jfge'
 include 'core'
 include 'ext'
 include 'j2se'
+include 'libgdx'
+include 'desktop'
 include 'mk2'
 include 'sf2'
 include 'sfvsmk2'
@@ -12,6 +14,8 @@ include 'sfvsmk2'
 project(':core').projectDir = file('org.jfge.core')
 project(':ext').projectDir = file('org.jfge.ext')
 project(':j2se').projectDir = file('org.jfge.j2se')
+project(':libgdx').projectDir = file('org.jfge.libgdx')
+project(':desktop').projectDir = file('org.jfge.desktop')
 project(':mk2').projectDir = file('org.jfge.games.mk2')
 project(':sf2').projectDir = file('org.jfge.games.sf2')
 project(':sfvsmk2').projectDir = file('org.jfge.games.sfvsmk2')
