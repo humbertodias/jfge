@@ -17,10 +17,7 @@ import org.jfge.ext.physics.PhysicsModule;
 import org.jfge.ext.scene.SceneModule;
 import org.jfge.games.sfvsmk2.arena.SfVsMk2ArenaModule;
 import org.jfge.games.sfvsmk2.collision.SfVsMk2CollisionModule;
-import org.jfge.games.sfvsmk2.fighter.SfVsMk2FighterModule;
 import org.jfge.games.sfvsmk2.game.SfVsMk2GameModule;
-import org.jfge.games.sfvsmk2.projectile.SfVsMk2ProjectileModule;
-import org.jfge.games.sfvsmk2.renderer.SfVsMk2RenderModule;
 import org.jfge.libgdx.graphics.LibGdxGraphicsModule;
 
 public class DesktopLauncherSfVsMk2 {
@@ -41,10 +38,7 @@ public class DesktopLauncherSfVsMk2 {
             new RenderModule(),
             new GameModule(),
             // SF vs MK2 modules
-            new SfVsMk2FighterModule(),
             new SfVsMk2ArenaModule(),
-            new SfVsMk2RenderModule(),
-            new SfVsMk2ProjectileModule(),
             new SfVsMk2CollisionModule(),
             new SfVsMk2GameModule());
 

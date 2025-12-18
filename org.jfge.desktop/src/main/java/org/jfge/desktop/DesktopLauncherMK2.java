@@ -20,7 +20,7 @@ import org.jfge.games.mk2.collision.MortalKombat2CollisionModule;
 import org.jfge.games.mk2.fighter.MortalKombat2FighterModule;
 import org.jfge.games.mk2.game.MortalKombat2GameModule;
 import org.jfge.games.mk2.projectile.MortalKombat2ProjectileModule;
-import org.jfge.games.mk2.renderer.MortalKombat2RenderModule;
+import org.jfge.games.mk2.render.MortalKombat2RenderModule;
 import org.jfge.libgdx.graphics.LibGdxGraphicsModule;
 
 public class DesktopLauncherMK2 {
