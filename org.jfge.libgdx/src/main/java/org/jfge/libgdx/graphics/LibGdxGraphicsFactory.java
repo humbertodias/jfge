@@ -50,7 +50,12 @@ public final class LibGdxGraphicsFactory implements GraphicsFactory {
 
   @Override
   public Color createColor(String color) {
-    return new LibGdxColor(Integer.parseInt(color));
+    try {
+      return new LibGdxColor(Integer.parseInt(color));
+    } catch (NumberFormatException e) {
+      logger.warning("Invalid color string: " + color + ", defaulting to black");
+      return new LibGdxColor(org.jfge.spi.graphics.Color.BLACK);
+    }
   }
 
   @Override

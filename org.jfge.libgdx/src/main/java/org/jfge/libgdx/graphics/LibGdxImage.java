@@ -51,9 +51,12 @@ public final class LibGdxImage implements Image {
 
   @Override
   public Image rotate(int degree) {
-    // For rotation in libGDX, we need to handle it during rendering
-    // For now, return the same image (rotation will be handled in drawing)
-    // A full implementation would create a new rotated texture
+    // TODO: Implement image rotation in libGDX
+    // For proper implementation, we would need to:
+    // 1. Create a Pixmap from the texture
+    // 2. Apply rotation transformation
+    // 3. Create a new texture from the rotated pixmap
+    // Currently returning the same image as rotation is not used in the games
     return this;
   }
 
