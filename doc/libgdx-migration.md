@@ -113,6 +113,20 @@ gradle :sfvsmk2:run
 
 ## Technical Details
 
+### Threading Model
+
+**Critical**: The libGDX integration uses a different threading model than the original JFGE design:
+
+- **Original JFGE**: Creates a separate thread for the game loop in `EngineImpl.start()`
+- **libGDX Integration**: Uses libGDX's render thread for all game updates and rendering
+
+The `JfgeApplicationAdapter` calls `game.startState()` instead of `game.start()` to initialize the game without starting the engine's thread. The game loop is then driven by libGDX's `render()` callback, which:
+1. Updates game state via `game.update()`
+2. Renders the game via `game.render()`
+3. All OpenGL calls happen on the correct thread
+
+This change is necessary because OpenGL contexts are thread-specific - all OpenGL calls must happen on the thread that created the context (libGDX's render thread).
+
 ### Graphics Coordinate System
 
 **Important**: libGDX uses a different coordinate system than Java2D:
