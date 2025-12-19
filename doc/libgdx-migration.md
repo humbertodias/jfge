@@ -129,11 +129,23 @@ This change is necessary because OpenGL contexts are thread-specific - all OpenG
 
 ### Graphics Coordinate System
 
-**Important**: libGDX uses a different coordinate system than Java2D:
+**Important**: libGDX uses a different coordinate system than Java2D by default:
 - **Java2D**: Origin (0,0) is top-left, Y increases downward
-- **libGDX**: Origin (0,0) is bottom-left, Y increases upward
+- **libGDX default**: Origin (0,0) is bottom-left, Y increases upward
 
-The LibGdxGraphics implementation handles this transparently by not transforming coordinates, as JFGE's game logic expects top-left origin. The games work correctly because libGDX's projection matrix is set up to match Java2D's coordinate system.
+The LibGDX integration uses `OrthographicCamera.setToOrtho(true, width, height)` to configure a Y-down coordinate system, matching JFGE's expectations. This ensures UI elements and game objects are positioned correctly without modifying game logic.
+
+### Resolution and Frame Rate
+
+JFGE is configured for specific resolution and frame rate (defined in `org.jfge.core/config/org/jfge/config/engine/engine.properties`):
+- **Resolution**: 480x272 pixels
+- **Frame Rate**: 20 FPS
+
+The desktop launchers are configured to match these settings:
+```java
+config.setWindowedMode(480, 272); // Match JFGE's expected resolution
+config.setForegroundFPS(20);      // Match JFGE's frame rate
+```
 
 ### Color Format
 
