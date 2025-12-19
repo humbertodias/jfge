@@ -2,6 +2,7 @@ package org.jfge.libgdx.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.google.inject.Inject;
@@ -20,6 +21,7 @@ public final class LibGdxGraphicsProvider implements GraphicsProvider {
   private SpriteBatch batch;
   private ShapeRenderer shapeRenderer;
   private LibGdxGraphics graphics;
+  private OrthographicCamera camera;
 
   @Inject
   public LibGdxGraphicsProvider(
@@ -32,10 +34,18 @@ public final class LibGdxGraphicsProvider implements GraphicsProvider {
   }
 
   public void create() {
+    // Set up camera with Y-down coordinate system (0,0 at top-left)
+    camera = new OrthographicCamera();
+    camera.setToOrtho(true, width, height); // true = Y-down
+    
     batch = new SpriteBatch();
+    batch.setProjectionMatrix(camera.combined);
+    
     shapeRenderer = new ShapeRenderer();
+    shapeRenderer.setProjectionMatrix(camera.combined);
+    
     graphics = new LibGdxGraphics(batch, shapeRenderer, width, height);
-    logger.info("LibGDX graphics provider initialized");
+    logger.info("LibGDX graphics provider initialized with Y-down coordinate system");
   }
 
   @Override
@@ -48,6 +58,11 @@ public final class LibGdxGraphicsProvider implements GraphicsProvider {
     // Clear the screen
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    
+    // Update camera and projection matrices
+    camera.update();
+    batch.setProjectionMatrix(camera.combined);
+    shapeRenderer.setProjectionMatrix(camera.combined);
   }
 
   public void dispose() {

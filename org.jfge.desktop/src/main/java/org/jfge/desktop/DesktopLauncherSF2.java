@@ -51,8 +51,8 @@ public class DesktopLauncherSF2 {
     // Configure libGDX
     Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
     config.setTitle("Street Fighter 2 - JFGE");
-    config.setWindowedMode(640, 480);
-    config.setForegroundFPS(60);
+    config.setWindowedMode(480, 272); // Match JFGE's expected resolution
+    config.setForegroundFPS(20); // Match JFGE's frame rate
 
     // Create and launch the application
     new Lwjgl3Application(new JfgeApplicationAdapter(injector, "streetFighter2"), config);
