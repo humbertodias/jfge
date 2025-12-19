@@ -164,6 +164,15 @@ public final class EngineImpl implements org.jfge.api.engine.Engine {
    */
   @Override
   public void start() {
+    // Check if we're using libGDX backend
+    // LibGDX has its own render loop, so we don't start a separate thread
+    String providerClass = graphicsProvider.getClass().getName();
+    if (providerClass.contains("LibGdx")) {
+      logger.info("Using libGDX backend - engine thread not started (using libGDX render loop)");
+      this.running = true; // Mark as running but don't start thread
+      return;
+    }
+
     if (thread.isAlive()) return;
 
     // starting main loop
