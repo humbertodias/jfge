@@ -48,12 +48,6 @@ public final class LibGdxGraphicsProvider implements GraphicsProvider {
     // Clear the screen
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-    // The actual drawing is done through getGraphics()
-    // This method is called after rendering to present the frame
-    if (graphics != null) {
-      graphics.endBatch();
-    }
   }
 
   public void dispose() {

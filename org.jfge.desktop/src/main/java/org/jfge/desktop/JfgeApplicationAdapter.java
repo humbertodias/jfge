@@ -60,14 +60,18 @@ public class JfgeApplicationAdapter extends ApplicationAdapter {
 
   @Override
   public void render() {
+    // Clear the screen
+    if (graphicsProvider != null) {
+      graphicsProvider.draw(); // Clears screen and ensures no batch is open
+    }
+
     // Update game state
     if (game != null) {
       game.update();
     }
 
-    // Clear screen and render game
+    // Render game
     if (graphicsProvider != null && game != null) {
-      graphicsProvider.draw(); // Clears screen
       game.render(graphicsProvider.getGraphics());
       // End any open batch after rendering
       if (graphicsProvider.getGraphics() instanceof LibGdxGraphics) {
