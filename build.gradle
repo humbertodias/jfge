@@ -5,6 +5,7 @@ ext {
     jinputVersion = '2.0.10'
     jinputLibraryPath = "${rootProject.buildDir}/natives"
     javaVersion = JavaVersion.VERSION_1_8
+    gdxVersion = '1.12.1'
 }
 
 
@@ -29,6 +30,13 @@ allprojects {
 
     if (project.name != "android") {
         apply plugin: 'java'
+
+
+        tasks.withType(JavaExec).configureEach {
+            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                jvmArgs "-XstartOnFirstThread"
+            }
+        }
     }
 
     java {
@@ -37,17 +45,8 @@ allprojects {
     }
 
     repositories {
-        google()
         mavenCentral()
     }
+
 }
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.2'
-    }
-}
