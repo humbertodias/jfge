@@ -30,6 +30,13 @@ allprojects {
 
     if (project.name != "android") {
         apply plugin: 'java'
+
+
+        tasks.withType(JavaExec).configureEach {
+            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                jvmArgs "-XstartOnFirstThread"
+            }
+        }
     }
 
     java {
@@ -40,5 +47,6 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
 }
 
