@@ -10,6 +10,7 @@ import java.util.Map;
 import org.jfge.api.game.Game;
 import org.jfge.libgdx.controller.LibGdxKeyboardController1;
 import org.jfge.libgdx.controller.LibGdxKeyboardController2;
+import org.jfge.libgdx.graphics.LibGdxGraphics;
 import org.jfge.libgdx.graphics.LibGdxGraphicsProvider;
 
 public class JfgeApplicationAdapter extends ApplicationAdapter {
@@ -46,12 +47,14 @@ public class JfgeApplicationAdapter extends ApplicationAdapter {
     multiplexer.addProcessor(controller2);
     Gdx.input.setInputProcessor(multiplexer);
 
-    // Get and start the game
+    // Get the game and initialize it (but don't start the engine thread)
     Map<String, Game> games =
         injector.getInstance(Key.get(new TypeLiteral<Map<String, Game>>() {}));
     game = games.get(gameName);
     if (game != null) {
-      game.start();
+      // Initialize game state without starting the engine's thread
+      // The engine's thread-based loop is incompatible with libGDX's render loop
+      game.startState();
     }
   }
 
@@ -62,10 +65,14 @@ public class JfgeApplicationAdapter extends ApplicationAdapter {
       game.update();
     }
 
-    // Render game
+    // Clear screen and render game
     if (graphicsProvider != null && game != null) {
+      graphicsProvider.draw(); // Clears screen
       game.render(graphicsProvider.getGraphics());
-      graphicsProvider.draw();
+      // End any open batch after rendering
+      if (graphicsProvider.getGraphics() instanceof LibGdxGraphics) {
+        ((LibGdxGraphics) graphicsProvider.getGraphics()).endBatch();
+      }
     }
   }
 
