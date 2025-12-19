@@ -37,6 +37,7 @@ public final class LibGdxGraphicsProvider implements GraphicsProvider {
     // Set up camera with Y-down coordinate system (0,0 at top-left)
     camera = new OrthographicCamera();
     camera.setToOrtho(true, width, height); // true = Y-down
+    camera.update(); // Calculate matrices once
     
     batch = new SpriteBatch();
     batch.setProjectionMatrix(camera.combined);
@@ -58,11 +59,7 @@ public final class LibGdxGraphicsProvider implements GraphicsProvider {
     // Clear the screen
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    
-    // Update camera and projection matrices
-    camera.update();
-    batch.setProjectionMatrix(camera.combined);
-    shapeRenderer.setProjectionMatrix(camera.combined);
+    // Projection matrices are set once in create() since camera is static
   }
 
   public void dispose() {
