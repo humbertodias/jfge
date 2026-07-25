@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'org.jfge.android'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId 'org.jfge.android'
