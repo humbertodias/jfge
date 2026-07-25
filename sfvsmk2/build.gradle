@@ -22,37 +22,10 @@ sourceSets {
     }
 }
 
-tasks.register('fatJar', Jar) {
-    archiveClassifier.set('all')
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes(
-                'Main-Class': 'org.jfge.games.sfvsmk2.game.SfVsMk2'
-        )
-    }
-    from(sourceSets.main.output)
-
-    dependsOn configurations.runtimeClasspath
-    from({
-        configurations.runtimeClasspath.filter { it.name.endsWith('jar') }.collect { zipTree(it) }
-    })
-}
-
 tasks.register('copyJar') {
     group = 'build'
     description = 'Copies the fatJar to root as sfvsmk2.jar'
-    dependsOn 'fatJar'
-
-    doLast {
-        def jarTask = tasks.named('fatJar').get()
-        def jarFile = jarTask.archiveFile.get().asFile
-        copy {
-            from jarFile
-            into project.rootDir
-            rename { 'sfvsmk2.jar' }
-        }
-        println "Copied ${jarFile.name} to ${project.rootDir}/sfvsmk2.jar"
-    }
+    dependsOn ':j2se:sfvsmk2CopyJar'
 }
 
 tasks.build {

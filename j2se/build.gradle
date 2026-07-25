@@ -75,3 +75,66 @@ tasks.withType(JavaExec).configureEach {
     dependsOn copyJinputNatives
     systemProperty 'java.library.path', "${rootProject.buildDir}/natives"
 }
+
+def registerGameFatJar(String taskBase, String outputJarName, String mainClass, String gameProject) {
+    def fatJarTask =
+        tasks.register("${taskBase}FatJar", Jar) {
+            group = 'build'
+            description = "Build fat jar ${outputJarName}"
+            archiveClassifier.set('all')
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            manifest {
+                attributes('Main-Class': mainClass)
+            }
+
+            from sourceSets.main.output
+            from project(":${gameProject}").sourceSets.main.output
+
+            dependsOn classes
+            dependsOn project(":${gameProject}").tasks.named('classes')
+            dependsOn project(":${gameProject}").tasks.named('jar')
+            dependsOn project(':engine').tasks.named('jar')
+            dependsOn project(':ext').tasks.named('jar')
+            if (gameProject == 'sfvsmk2') {
+                dependsOn project(':mk2').tasks.named('jar')
+                dependsOn project(':sf2').tasks.named('jar')
+            }
+
+            from {
+                def runtimeJars =
+                    (configurations.runtimeClasspath.files +
+                        project(":${gameProject}").configurations.runtimeClasspath.files)
+                        .findAll { it.name.endsWith('.jar') && !it.name.contains('natives') }
+                        .unique()
+
+                runtimeJars.collect { zipTree(it) }
+            }
+        }
+
+    tasks.register("${taskBase}CopyJar") {
+        group = 'build'
+        description = "Copy ${outputJarName} to project root"
+        dependsOn fatJarTask
+
+        doLast {
+            copy {
+                from fatJarTask.get().archiveFile
+                into rootProject.projectDir
+                rename { outputJarName }
+            }
+            println "Copied to ${rootProject.projectDir}/${outputJarName}"
+        }
+    }
+}
+
+registerGameFatJar('mk2', 'mk2.jar', 'org.jfge.games.mk2.game.MortalKombat2', 'mk2')
+registerGameFatJar('sf2', 'sf2.jar', 'org.jfge.games.sf2.game.StreetFighter2', 'sf2')
+registerGameFatJar(
+    'sfvsmk2',
+    'sfvsmk2.jar',
+    'org.jfge.games.sfvsmk2.game.SfVsMk2',
+    'sfvsmk2')
+
+tasks.named('build').configure {
+    dependsOn 'mk2CopyJar', 'sf2CopyJar', 'sfvsmk2CopyJar'
+}

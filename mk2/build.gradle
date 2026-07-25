@@ -20,38 +20,10 @@ sourceSets {
     }
 }
 
-tasks.register('fatJar', Jar) {
-    archiveClassifier.set('all')
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes(
-                'Main-Class': 'org.jfge.games.mk2.game.MortalKombat2',
-                'Class-Path': 'mk2.zip'
-        )
-    }
-    from(sourceSets.main.output)
-
-    dependsOn configurations.runtimeClasspath
-    from({
-        configurations.runtimeClasspath.filter { it.name.endsWith('jar') }.collect { zipTree(it) }
-    })
-}
-
 tasks.register('copyJar') {
     group = 'build'
     description = 'Copies the fatJar to root as mk2.jar'
-    dependsOn 'fatJar'
-
-    doLast {
-        def jarTask = tasks.named('fatJar').get()
-        def jarFile = jarTask.archiveFile.get().asFile
-        copy {
-            from jarFile
-            into project.rootDir
-            rename { 'mk2.jar' }
-        }
-        println "Copied ${jarFile.name} to ${project.rootDir}/mk2.jar"
-    }
+    dependsOn ':j2se:mk2CopyJar'
 }
 
 tasks.build {
