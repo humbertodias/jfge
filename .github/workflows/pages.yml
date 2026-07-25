@@ -3,7 +3,6 @@ name: Deploy Web to GitHub Pages
 on:
   push:
     branches:
-      - libgdx
       - main
   workflow_dispatch:
 
