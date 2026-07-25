@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.jfge.games'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation project(':engine')
+    implementation project(':j2se')
+    implementation project(':ext')
+    implementation 'net.java.jinput:jinput:2.0.10'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'config'
+            srcDir 'assets'
+            exclude '**/*.java'
+        }
+    }
+}
+
+application {
+    mainClass = 'org.jfge.games.sf2.game.StreetFighter2'
+}
+
+tasks.register('fatJar', Jar) {
+    archiveClassifier.set('all')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass
+        )
+    }
+    from(sourceSets.main.output)
+
+    dependsOn configurations.runtimeClasspath
+    from({
+        configurations.runtimeClasspath.filter { it.name.endsWith('jar') }.collect { zipTree(it) }
+    })
+}
+
+tasks.register('copyJar') {
+    group = 'build'
+    description = 'Copies the fatJar to root as sf2.jar'
+    dependsOn 'fatJar'
+
+    doLast {
+        def jarTask = tasks.named('fatJar').get()
+        def jarFile = jarTask.archiveFile.get().asFile
+        copy {
+            from jarFile
+            into project.rootDir
+            rename { 'sf2.jar' }
+        }
+        println "Copied ${jarFile.name} to ${project.rootDir}/sf2.jar"
+    }
+}
+
+tasks.build {
+    dependsOn 'copyJar'
+}

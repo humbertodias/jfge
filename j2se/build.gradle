@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.jfge'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':engine')
+    implementation("net.java.jinput:jinput:${jinputVersion}")
+    implementation("net.java.jinput:jinput:${jinputVersion}:natives-all")
+}
+
+task copyJinputNatives(type: Copy) {
+    from {
+        configurations.runtimeClasspath.findAll {
+            it.name.contains("jinput") && it.name.contains("natives")
+        }.collect {
+            zipTree(it)
+        }
+    }
+    into "${rootProject.buildDir}/natives"
+
+    doLast {
+        def osName = System.getProperty("os.name").toLowerCase()
+        def isMac = osName.contains("mac")
+
+        if (isMac) {
+            def nativesDir = file("${rootProject.buildDir}/natives")
+            def jnilib = new File(nativesDir, "libjinput-osx.jnilib")
+            def dylib = new File(nativesDir, "libjinput-osx.dylib")
+
+            if (jnilib.exists() && !dylib.exists()) {
+                println "macOS detected — duplicating libjinput-osx.jnilib as libjinput-osx.dylib"
+                dylib.bytes = jnilib.bytes
+            } else {
+                println "libjinput-osx.jnilib not found or libjinput-osx.dylib already exists"
+            }
+        } else {
+            println "Not macOS — skipping jnilib → dylib copy"
+        }
+    }
+}

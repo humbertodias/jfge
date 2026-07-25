@@ -48,6 +48,8 @@ build/
 .gradle
 
 local.properties
+android/local.properties
+android/libs/
 target/
 .idea
 bin/

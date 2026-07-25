@@ -1,0 +1,109 @@
+package org.jfge.libgdx.graphics;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Logger;
+import org.jfge.spi.graphics.Color;
+import org.jfge.spi.graphics.Font;
+import org.jfge.spi.graphics.GraphicsFactory;
+import org.jfge.spi.graphics.Image;
+import org.jfge.spi.graphics.Rectangle;
+
+@Singleton
+public final class LibGdxGraphicsFactory implements GraphicsFactory {
+
+  private final Logger logger;
+
+  @Inject
+  public LibGdxGraphicsFactory(Logger logger) {
+    this.logger = logger;
+  }
+
+  @Override
+  public Image createImage(String file) throws IOException {
+    String classpathPath = file.startsWith("/") ? file.substring(1) : file;
+
+    try {
+      InputStream stream = openResourceStream(classpathPath, file);
+      if (stream == null) {
+        logger.info("can't load: " + file);
+        return null;
+      }
+
+      byte[] bytes = stream.readAllBytes();
+      stream.close();
+
+      Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
+      Texture texture = new Texture(pixmap);
+      pixmap.dispose();
+      texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+      return new LibGdxImage(texture, file);
+    } catch (Exception e) {
+      logger.info("can't load: " + file + " (" + e.getMessage() + ")");
+      return null;
+    }
+  }
+
+  private InputStream openResourceStream(String classpathPath, String originalPath) {
+    ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
+    InputStream stream = openFromLoader(contextLoader, classpathPath, originalPath);
+    if (stream != null) {
+      return stream;
+    }
+
+    stream = openFromLoader(LibGdxGraphicsFactory.class.getClassLoader(), classpathPath, originalPath);
+    if (stream != null) {
+      return stream;
+    }
+
+    if (Gdx.files != null) {
+      FileHandle handle = Gdx.files.classpath(classpathPath);
+      if (handle.exists()) {
+        return handle.read();
+      }
+    }
+
+    return null;
+  }
+
+  private InputStream openFromLoader(
+      ClassLoader loader, String classpathPath, String originalPath) {
+    if (loader == null) {
+      return null;
+    }
+
+    InputStream stream = loader.getResourceAsStream(classpathPath);
+    if (stream != null) {
+      return stream;
+    }
+
+    return loader.getResourceAsStream(originalPath);
+  }
+
+  @Override
+  public Color createColor(int color) {
+    return new LibGdxColor(color);
+  }
+
+  @Override
+  public Color createColor(String color) {
+    return new LibGdxColor(Integer.parseInt(color));
+  }
+
+  @Override
+  public Font createFont(String family, int style, int pointsize) {
+    return new LibGdxFont(family, style, pointsize);
+  }
+
+  @Override
+  public Rectangle createRectangle(int x, int y, int width, int height) {
+    return new LibGdxRectangle(x, y, width, height);
+  }
+}
