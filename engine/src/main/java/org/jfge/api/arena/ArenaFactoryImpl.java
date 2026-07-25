@@ -1,0 +1,46 @@
+package org.jfge.api.arena;
+
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.jfge.api.effect.ArenaEffect;
+import org.jfge.spi.graphics.GraphicsFactory;
+import org.jfge.spi.graphics.Image;
+import org.jfge.spi.render.ArenaRenderer;
+
+public final class ArenaFactoryImpl implements ArenaFactory {
+
+  private GraphicsFactory graphicsFactory;
+
+  private Map<String, ArenaEffect> arenaEffectMap;
+
+  @Inject
+  public ArenaFactoryImpl(
+      GraphicsFactory graphicsFactory, Map<String, ArenaEffect> arenaEffectMap) {
+    this.graphicsFactory = graphicsFactory;
+    this.arenaEffectMap = arenaEffectMap;
+  }
+
+  @Override
+  public Arena createArena(String file, ArenaRenderer arenaRenderer) throws IOException {
+    Image backGround = this.graphicsFactory.createImage(file);
+
+    List<ArenaState> arenaStates = new ArrayList<ArenaState>();
+
+    arenaStates.add(new Intro(arenaRenderer, "Intro", 99, 20, "Running", null, false));
+    //		arenaStates.add(new Running("Running", 20,
+    // "Finished",arenaEffectMap.get("FightAnimation").get(), false));
+    arenaStates.add(
+        new Running(
+            "Running",
+            20,
+            "Finished",
+            arenaEffectMap.get("FightAnimation"),
+            false));
+    arenaStates.add(new Finished(arenaRenderer, "Finished", 20, "Intro", null, false));
+
+    return new ArenaImpl("Arena", arenaStates, "Intro", backGround, arenaRenderer);
+  }
+}

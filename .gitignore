@@ -1,5 +1,6 @@
 # Gradle build directory
 build/
+/site/
 /.gradle/
 /out/
 
@@ -48,6 +49,8 @@ build/
 .gradle
 
 local.properties
+android/local.properties
+android/libs/
 target/
 .idea
 bin/

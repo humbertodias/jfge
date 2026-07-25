@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation project(':engine')
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'config'
+            srcDir 'assets'
+            exclude '**/*.java'
+        }
+    }
+}

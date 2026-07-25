@@ -1,0 +1,77 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.jfge'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation project(':engine')
+    implementation project(':ext')
+    implementation project(':mk2')
+    implementation project(':sf2')
+    implementation project(':sfvsmk2')
+    implementation("net.java.jinput:jinput:${jinputVersion}")
+    implementation("net.java.jinput:jinput:${jinputVersion}:natives-all")
+}
+
+application {
+    mainClass = 'org.jfge.games.mk2.game.MortalKombat2'
+}
+
+tasks.register('runMk2', JavaExec) {
+    group = 'application'
+    description = 'Run Mortal Kombat 2 (Swing)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.jfge.games.mk2.game.MortalKombat2'
+    dependsOn copyJinputNatives
+}
+
+tasks.register('runSf2', JavaExec) {
+    group = 'application'
+    description = 'Run Street Fighter 2 (Swing)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.jfge.games.sf2.game.StreetFighter2'
+    dependsOn copyJinputNatives
+}
+
+tasks.register('runSfVsMk2', JavaExec) {
+    group = 'application'
+    description = 'Run Street Fighter vs Mortal Kombat 2 (Swing)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.jfge.games.sfvsmk2.game.SfVsMk2'
+    dependsOn copyJinputNatives
+}
+
+task copyJinputNatives(type: Copy) {
+    from {
+        configurations.runtimeClasspath.findAll {
+            it.name.contains("jinput") && it.name.contains("natives")
+        }.collect {
+            zipTree(it)
+        }
+    }
+    into "${rootProject.buildDir}/natives"
+
+    doLast {
+        def osName = System.getProperty("os.name").toLowerCase()
+        def isMac = osName.contains("mac")
+
+        if (isMac) {
+            def nativesDir = file("${rootProject.buildDir}/natives")
+            def jnilib = new File(nativesDir, "libjinput-osx.jnilib")
+            def dylib = new File(nativesDir, "libjinput-osx.dylib")
+
+            if (jnilib.exists() && !dylib.exists()) {
+                println "macOS detected — duplicating libjinput-osx.jnilib as libjinput-osx.dylib"
+                dylib.bytes = jnilib.bytes
+            }
+        }
+    }
+}
+
+tasks.withType(JavaExec).configureEach {
+    dependsOn copyJinputNatives
+    systemProperty 'java.library.path', "${rootProject.buildDir}/natives"
+}

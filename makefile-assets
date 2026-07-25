@@ -10,12 +10,12 @@ download_%:
 	curl -s -o $*.zip $(BASE_URL)/$*_images_0.1.zip
 
 unzip_%:
-	mkdir -p org.jfge.games.$*/assets
-	unzip -o -q $*.zip -d org.jfge.games.$*/assets
+	mkdir -p $*/assets
+	unzip -o -q $*.zip -d $*/assets
 
 clean:
-	find org.jfge.games.* -type f ! -name '.gitkeep' -path '*/assets/*' -delete
-	find org.jfge.games.* -type d -empty -path '*/assets/*' -delete
+	find mk2 sf2 sfvsmk2 -type f ! -name '.gitkeep' -path '*/assets/*' -delete 2>/dev/null || true
+	find mk2 sf2 sfvsmk2 -type d -empty -path '*/assets/*' -delete 2>/dev/null || true
 	rm -f $(GAMES:%=%.zip)
 	rm -f $(GAMES:%=%.jar)
 

@@ -1,0 +1,29 @@
+package org.jfge.api.render;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import org.jfge.api.sprite.Sprite;
+import org.jfge.spi.graphics.Graphics;
+import org.jfge.spi.graphics.Image;
+
+/** The Class SpriteRendererImpl. */
+@Singleton
+public class SpriteRendererImpl implements SpriteRenderer {
+
+  @Inject
+  public SpriteRendererImpl() {}
+  /* (non-Javadoc)
+   * @see org.jfge.render.SpriteRenderer#drawSprite(java.awt.Graphics, java.awt.Image, int, int)
+   */
+  @Override
+  public void drawSprite(Graphics g, Image image, int x, int y, int direction) {
+
+    if (direction == Sprite.RIGHT) {
+      g.drawImage(x, y - image.getHeight(), image);
+    } else if (direction == Sprite.LEFT) {
+      g.drawImage(x - image.getWidth(), y - image.getHeight(), image);
+    } else if (direction == CENTER) {
+      g.drawImage(x - image.getWidth() / 2, y - image.getHeight(), image);
+    }
+  }
+}

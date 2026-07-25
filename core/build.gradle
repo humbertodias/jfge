@@ -1,0 +1,12 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api project(':engine')
+    api project(':ext')
+    api project(':mk2')
+    api project(':sf2')
+    api project(':sfvsmk2')
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+}

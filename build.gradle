@@ -1,12 +1,21 @@
 ext {
     jfgeVersion = '0.0.1-SNAPSHOT'
-    guiceVersion = '7.0.0'
-    guiceAssistedinjectVersion = '7.0.0'
-    jinputVersion = '2.0.10'
     jinputLibraryPath = "${rootProject.buildDir}/natives"
-    javaVersion = JavaVersion.VERSION_1_8
+    daggerVersion = daggerVersion
 }
 
+subprojects {
+    plugins.withId('java') {
+        dependencies {
+            annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+        }
+    }
+    plugins.withId('java-library') {
+        dependencies {
+            annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+        }
+    }
+}
 
 def javaVersion = JavaVersion.current()
 
