@@ -85,7 +85,7 @@ Output directory: `html/build/dist/js/webapp/` (`index.html`, `app.js`, and bund
 
 Serve that folder with any static HTTP server. Do not open `index.html` directly via `file://`.
 
-**GitHub Pages:** pushes to `libgdx` or `main` deploy the browser builds via [`.github/workflows/pages.yml`](.github/workflows/pages.yml). Enable **Settings → Pages → Build and deployment → GitHub Actions**, then open https://humbertodias.github.io/jfge/
+**GitHub Pages:** pushes to `libgdx` or `main` build the browser targets and publish them to the `gh-pages` branch via [`.github/workflows/pages.yml`](.github/workflows/pages.yml). Enable **Settings → Pages → Build and deployment → Deploy from a branch → `gh-pages` / `/ (root)`**, then open https://humbertodias.github.io/jfge/
 
 **Controls (keyboard):** same bindings as desktop — player 1 uses WASD and adjacent keys; player 2 uses arrow keys and the numpad. See `engine/config/org/jfge/config/controller/keyboard.properties`.
 
