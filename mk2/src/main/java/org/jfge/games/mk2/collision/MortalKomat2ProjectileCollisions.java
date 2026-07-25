@@ -4,10 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.collision.CollisionHandler;
 import org.jfge.api.collision.CollisionHandlerParser;
-import org.xml.sax.SAXException;
 
 /** The Class SfVsMk2ProjectileCollisions. */
 @Singleton
@@ -39,10 +37,6 @@ public class MortalKomat2ProjectileCollisions implements Provider<CollisionHandl
         this.collisionHandler =
             collisionHandlerParser.parseFromXmlFile(
                 "/org/jfge/games/mk2/collision/MortalKombat2ProjectileCollisions.xml");
-      } catch (ParserConfigurationException e) {
-        e.printStackTrace();
-      } catch (SAXException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
       }

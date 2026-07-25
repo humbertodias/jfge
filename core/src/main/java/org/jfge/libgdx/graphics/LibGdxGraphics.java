@@ -22,6 +22,7 @@ public final class LibGdxGraphics implements Graphics {
   private com.badlogic.gdx.graphics.Color drawColor =
       com.badlogic.gdx.graphics.Color.WHITE.cpy();
   private BitmapFont currentFont;
+  private ShapeRenderer.ShapeType pendingShapeType;
 
   public LibGdxGraphics(
       SpriteBatch batch,
@@ -68,30 +69,19 @@ public final class LibGdxGraphics implements Graphics {
 
   @Override
   public void drawRectangle(int x, int y, int width, int height) {
-    endBatchIfNeeded();
-    shapeRenderer.setProjectionMatrix(projectionMatrix);
-    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-    shapeRenderer.setColor(drawColor);
-    shapeRenderer.rect(x, toBottomLeftY(y, height), width, height);
-    shapeRenderer.end();
-    beginBatchIfNeeded();
+    drawShape(ShapeRenderer.ShapeType.Line, x, y, width, height);
   }
 
   @Override
   public void drawFillRectangle(int x, int y, int width, int height) {
-    endBatchIfNeeded();
-    shapeRenderer.setProjectionMatrix(projectionMatrix);
-    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-    shapeRenderer.setColor(drawColor);
-    shapeRenderer.rect(x, toBottomLeftY(y, height), width, height);
-    shapeRenderer.end();
-    beginBatchIfNeeded();
+    drawShape(ShapeRenderer.ShapeType.Filled, x, y, width, height);
   }
 
   @Override
   public void drawString(int x, int y, String text) {
     if (text == null) return;
 
+    flushShapes();
     currentFont.setColor(drawColor);
     currentFont.draw(batch, text, x, toBaselineY(y));
   }
@@ -100,6 +90,7 @@ public final class LibGdxGraphics implements Graphics {
   public void drawImage(int x, int y, Image image) {
     if (!(image instanceof LibGdxImage)) return;
 
+    flushShapes();
     LibGdxImage libGdxImage = (LibGdxImage) image;
     TextureRegion region = libGdxImage.getRegion();
     int imageWidth = region.getRegionWidth();
@@ -114,9 +105,33 @@ public final class LibGdxGraphics implements Graphics {
     }
   }
 
+  void flushShapes() {
+    if (pendingShapeType == null) return;
+
+    shapeRenderer.end();
+    pendingShapeType = null;
+    beginBatchIfNeeded();
+  }
+
+  private void drawShape(ShapeRenderer.ShapeType type, int x, int y, int width, int height) {
+    if (pendingShapeType != null && pendingShapeType != type) {
+      flushShapes();
+    }
+
+    endBatchIfNeeded();
+
+    if (pendingShapeType == null) {
+      shapeRenderer.setProjectionMatrix(projectionMatrix);
+      shapeRenderer.begin(type);
+      pendingShapeType = type;
+    }
+
+    shapeRenderer.setColor(drawColor);
+    shapeRenderer.rect(x, toBottomLeftY(y, height), width, height);
+  }
+
   private float toBaselineY(int y) {
     float scale = currentFont.getData().scaleY;
-    // BitmapFont baseline sits a few pixels below the AWT equivalent at the same y.
     return height - y + (10f * scale);
   }
 

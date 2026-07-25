@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'application'
 }
 
 group = 'org.jfge.games'
@@ -9,7 +8,6 @@ version = '0.0.1-SNAPSHOT'
 dependencies {
     implementation project(':engine')
     implementation project(':ext')
-    implementation project(':j2se')
 }
 
 sourceSets {
@@ -22,16 +20,12 @@ sourceSets {
     }
 }
 
-application {
-    mainClass = 'org.jfge.games.mk2.game.MortalKombat2'
-}
-
 tasks.register('fatJar', Jar) {
     archiveClassifier.set('all')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(
-                'Main-Class': application.mainClass,
+                'Main-Class': 'org.jfge.games.mk2.game.MortalKombat2',
                 'Class-Path': 'mk2.zip'
         )
     }
@@ -41,7 +35,6 @@ tasks.register('fatJar', Jar) {
     from({
         configurations.runtimeClasspath.filter { it.name.endsWith('jar') }.collect { zipTree(it) }
     })
-
 }
 
 tasks.register('copyJar') {

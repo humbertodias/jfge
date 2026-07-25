@@ -1,5 +1,6 @@
 package org.jfge.api.fighter;
 
+import com.badlogic.gdx.utils.XmlReader.Element;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
@@ -9,56 +10,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.effect.CollisionEffect;
 import org.jfge.api.projectile.Projectile;
 import org.jfge.api.render.SpriteRenderer;
 import org.jfge.api.sprite.Sprite;
+import org.jfge.api.xml.XmlResources;
 import org.jfge.spi.graphics.GraphicsFactory;
 import org.jfge.spi.graphics.Image;
 import org.jfge.spi.physics.SpritePhysics;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-/** The Class FighterParserImpl. */
 @Singleton
 public final class FighterParserImpl implements FighterParser {
 
-  /** The logger. */
   public final Logger logger;
 
-  /** The image factory. */
-  private GraphicsFactory imageFactory;
+  private final GraphicsFactory imageFactory;
+  private final Map<String, Provider<SpritePhysics>> spritePhysics;
+  private final Map<String, CollisionEffect> collisionEffects;
+  private final Map<String, Projectile> projectiles;
+  private final FighterFactory fighterFactory;
 
-  /** The sprite physics. */
-  private Map<String, Provider<SpritePhysics>> spritePhysics;
-
-  /** The collision effects. */
-  private Map<String, CollisionEffect> collisionEffects;
-
-  /** The projectiles. */
-  private Map<String, Projectile> projectiles;
-
-  /** The fighter factory. */
-  private FighterFactory fighterFactory;
-
-  /**
-   * Instantiates a new fighter parser impl.
-   *
-   * @param logger the logger
-   * @param imageFactory the image factory
-   * @param spritePhysics the sprite physics
-   * @param collisionEffects the collision effects
-   * @param inputBufferQueueProvider the input buffer queue provider
-   * @param spriteRendererProvider the sprite renderer provider
-   * @param fighterFactory the fighter factory
-   * @param projectiles the projectiles
-   */
   @Inject
   public FighterParserImpl(
       Logger logger,
@@ -77,188 +48,88 @@ public final class FighterParserImpl implements FighterParser {
     this.projectiles = projectiles;
   }
 
-  /**
-   * Parses the fighter state images.
-   *
-   * @param n the n
-   * @return the list
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  private List<Image> parseFighterStateImages(Node n) throws IOException {
-    List<Image> images = new ArrayList<Image>();
+  private List<Image> parseFighterStateImages(Element state) throws IOException {
+    List<Image> images = new ArrayList<>();
 
-    NodeList nodes = n.getChildNodes();
-
-    for (int i = 0; i < nodes.getLength(); i++) {
-      Node node = nodes.item(i);
-      String nodeType = node.getNodeName();
-
-      if (nodeType.equals("image")) {
-        // reading image src
-        String src = node.getAttributes().getNamedItem("src").getNodeValue();
-        images.add(imageFactory.createImage(src));
-      }
+    for (Element image : state.getChildrenByName("image")) {
+      images.add(imageFactory.createImage(image.getAttribute("src")));
     }
 
     return images;
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.api.fighter.FighterParser#parseFromXmlFile(java.lang.String)
-   */
   @Override
-  public Fighter parseFromXmlFile(String file)
-      throws DOMException, IOException, ParserConfigurationException, SAXException {
-
-    /*
-     * parsing fighter into dom and return new fighter instance
-     */
-    Document doc = parseToDom(file);
-    Node root = doc.getFirstChild();
-
+  public Fighter parseFromXmlFile(String file) throws IOException {
+    Element root = XmlResources.parse(getClass(), file);
     return parseFighter(root);
   }
 
-  /**
-   * Parses the to dom.
-   *
-   * @param fileName the file name
-   * @return the document
-   * @throws ParserConfigurationException the parser configuration exception
-   * @throws SAXException the sAX exception
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  private Document parseToDom(String fileName)
-      throws ParserConfigurationException, SAXException, IOException {
-    /*
-     * setting up xml environment
-     */
-    DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-    domFactory.setIgnoringElementContentWhitespace(true);
+  private Fighter parseFighter(Element root) throws IOException {
+    List<FighterState> fighterStates = new ArrayList<>();
 
-    DocumentBuilder builder = domFactory.newDocumentBuilder();
-    Document doc = builder.parse(getClass().getResourceAsStream(fileName));
+    String fighterName = root.getAttribute("name");
+    String startState = root.getAttribute("startState");
+    String endState = root.getAttribute("endState");
+    String victoryState = root.getAttribute("victoryState");
+    Image portrait = imageFactory.createImage(root.getAttribute("portrait"));
 
-    return doc;
-  }
-
-  /**
-   * Parses the fighter.
-   *
-   * @param root the root
-   * @return the fighter
-   * @throws DOMException the dOM exception
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  private Fighter parseFighter(Node root) throws DOMException, IOException {
-    List<FighterState> fighterStates = new ArrayList<FighterState>();
-
-    // getting the fighters name
-    String fighterName = root.getAttributes().getNamedItem("name").getNodeValue();
-
-    String startState = root.getAttributes().getNamedItem("startState").getNodeValue();
-
-    String endState = root.getAttributes().getNamedItem("endState").getNodeValue();
-
-    String victoryState = root.getAttributes().getNamedItem("victoryState").getNodeValue();
-
-    Image portrait =
-        imageFactory.createImage(root.getAttributes().getNamedItem("portrait").getNodeValue());
-
-    NodeList nodes = root.getChildNodes();
-
-    /*
-     * iterating over all fighter document nodes and parsing the found
-     * elements
-     */
-    for (int i = 0; i < nodes.getLength(); i++) {
-      Node node = nodes.item(i);
-      String nodeType = node.getNodeName();
-
-      if (nodeType.equals("state")) {
-        FighterState fighterState = parseFighterState(node, root);
-        fighterStates.add(fighterState);
-      }
+    for (Element state : root.getChildrenByName("state")) {
+      fighterStates.add(parseFighterState(state, root));
     }
 
-    // create and return fighter instance
     return fighterFactory.createFighter(
         fighterName, portrait, fighterStates, startState, endState, victoryState);
   }
 
-  /**
-   * Parses the fighter state.
-   *
-   * @param state the state
-   * @param root the root
-   * @return the fighter state
-   * @throws DOMException the dOM exception
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  private FighterState parseFighterState(Node state, Node root) throws DOMException, IOException {
+  private FighterState parseFighterState(Element state, Element root) throws IOException {
+    String name = state.getAttribute("name");
 
-    // reading state name
-    String name = state.getAttributes().getNamedItem("name").getNodeValue();
-
-    // reading damage
-    Node damageNode = state.getAttributes().getNamedItem("damage");
     int damage = 0;
-    if (damageNode != null) {
-      damage = Integer.parseInt(damageNode.getNodeValue());
+    String damageValue = state.getAttribute("damage", null);
+    if (damageValue != null) {
+      damage = Integer.parseInt(damageValue);
     }
 
-    // loading state images
     List<Image> images = parseFighterStateImages(state);
 
-    // reading ticks
-    Node ticksNode = state.getAttributes().getNamedItem("ticks");
     int ticks = 1;
-    if (ticksNode != null) {
-      if ((Integer.parseInt(ticksNode.getNodeValue())) > 0) {
-        ticks = Integer.parseInt(ticksNode.getNodeValue());
+    String ticksValue = state.getAttribute("ticks", null);
+    if (ticksValue != null && Integer.parseInt(ticksValue) > 0) {
+      ticks = Integer.parseInt(ticksValue);
+    }
+
+    boolean loop = Boolean.parseBoolean(state.getAttribute("loop"));
+    String nextState = state.getAttribute("nextState");
+
+    boolean finalState = false;
+    String finalStateValue = state.getAttribute("finalState", null);
+    if (finalStateValue != null) {
+      finalState = Boolean.parseBoolean(finalStateValue);
+    }
+
+    SpritePhysics physics = null;
+    String move = state.getAttribute("move", null);
+    if (move != null) {
+      Provider<SpritePhysics> provider = spritePhysics.get(move);
+      if (provider != null) {
+        physics = provider.get();
       }
     }
 
-    // reading state loop
-    boolean loop = Boolean.parseBoolean(state.getAttributes().getNamedItem("loop").getNodeValue());
-
-    // reading next state
-    String nextState = state.getAttributes().getNamedItem("nextState").getNodeValue();
-
-    // reading final state
-    Node finalStateNode = state.getAttributes().getNamedItem("finalState");
-    boolean finalState = false;
-    if (finalStateNode != null) {
-      finalState = Boolean.parseBoolean(finalStateNode.getNodeValue());
-    }
-
-    // reading sprite physics
-    SpritePhysics physics = null;
-    Node physicsNode = state.getAttributes().getNamedItem("move");
-    if (physicsNode != null) {
-      Provider<SpritePhysics> provider = spritePhysics.get(physicsNode.getNodeValue());
-
-      if (provider != null) physics = provider.get();
-    }
-
-    // reading collision effect
     CollisionEffect effect = null;
-    Node collisionEffectNode = state.getAttributes().getNamedItem("effect");
-    if (collisionEffectNode != null) {
-      effect = collisionEffects.get(collisionEffectNode.getNodeValue());
+    String effectName = state.getAttribute("effect", null);
+    if (effectName != null) {
+      effect = collisionEffects.get(effectName);
     }
 
-    // reading projectile
     Projectile projectile = null;
-    Node projectileNode = state.getAttributes().getNamedItem("projectile");
-    if (projectileNode != null) {
-      projectile = projectiles.get(projectileNode.getNodeValue());
+    String projectileName = state.getAttribute("projectile", null);
+    if (projectileName != null) {
+      projectile = projectiles.get(projectileName);
     }
 
-    // reading state transitions
     HashMap<List<String>, String> stateTransitions = parseFighterStateTransitions(name, root);
 
-    // create and return fighter state
     return fighterFactory.createFighterState(
         name,
         damage,
@@ -273,53 +144,32 @@ public final class FighterParserImpl implements FighterParser {
         projectile);
   }
 
-  /**
-   * Parses the fighter state transitions.
-   *
-   * @param state the state
-   * @param root the root
-   * @return the hash map
-   */
-  private HashMap<List<String>, String> parseFighterStateTransitions(String state, Node root) {
-    HashMap<List<String>, String> transitions = new HashMap<List<String>, String>();
-    NodeList nodes = root.getChildNodes();
+  private HashMap<List<String>, String> parseFighterStateTransitions(String state, Element root) {
+    HashMap<List<String>, String> transitions = new HashMap<>();
 
-    // look if we can find transitions according to the specified state.
-    for (int i = 0; i < nodes.getLength(); i++) {
-      Node node = nodes.item(i);
-      String nodeType = node.getNodeName();
-
-      if (nodeType.equals("transition")
-          && node.getAttributes().getNamedItem("state").getNodeValue().equals(state)) {
-
-        List<String> list = new ArrayList<String>();
-
-        /*
-         * found transition to the specified state. Now we're parsing
-         * the attributes and add the transitions to our transitions
-         * maps.
-         */
-        String[] events = node.getAttributes().getNamedItem("event").getNodeValue().split(",");
-        String nextState = node.getAttributes().getNamedItem("nextState").getNodeValue();
-        Integer direction;
-
-        Node directionNode = node.getAttributes().getNamedItem("direction");
-        if (directionNode != null) {
-          String dir = directionNode.getNodeValue();
-          if (dir.equals("left")) {
-            direction = Sprite.LEFT;
-          } else {
-            direction = Sprite.RIGHT;
-          }
-          list.add(direction.toString());
-        }
-
-        for (String event : events) {
-          list.add(event.trim());
-        }
-
-        transitions.put(list, nextState);
+    for (Element transition : root.getChildrenByName("transition")) {
+      if (!state.equals(transition.getAttribute("state"))) {
+        continue;
       }
+
+      List<String> list = new ArrayList<>();
+      String[] events = transition.getAttribute("event").split(",");
+      String nextState = transition.getAttribute("nextState");
+
+      String direction = transition.getAttribute("direction", null);
+      if (direction != null) {
+        if (direction.equals("left")) {
+          list.add(Integer.toString(Sprite.LEFT));
+        } else {
+          list.add(Integer.toString(Sprite.RIGHT));
+        }
+      }
+
+      for (String event : events) {
+        list.add(event.trim());
+      }
+
+      transitions.put(list, nextState);
     }
 
     return transitions;

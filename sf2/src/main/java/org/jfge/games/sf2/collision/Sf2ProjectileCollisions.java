@@ -4,10 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.collision.CollisionHandler;
 import org.jfge.api.collision.CollisionHandlerParser;
-import org.xml.sax.SAXException;
 
 /** The Class sf2FighterCollisions. */
 @Singleton
@@ -38,10 +36,6 @@ public final class Sf2ProjectileCollisions implements Provider<CollisionHandler>
         this.collisionHandler =
             collisionHandlerParser.parseFromXmlFile(
                 "/org/jfge/games/sf2/collision/sf2ProjectileCollisions.xml");
-      } catch (ParserConfigurationException e) {
-        e.printStackTrace();
-      } catch (SAXException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
       }

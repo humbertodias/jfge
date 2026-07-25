@@ -3,10 +3,8 @@ package org.jfge.games.mk2.projectile;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.projectile.Projectile;
 import org.jfge.api.projectile.ProjectileParser;
-import org.xml.sax.SAXException;
 
 public class JohnnyCageFireball implements Provider<Projectile> {
 
@@ -39,10 +37,6 @@ public class JohnnyCageFireball implements Provider<Projectile> {
         this.projectile =
             projectileParser.parseFromXmlFile(
                 "/org/jfge/games/mk2/projectile/johnnycagefireball/johnnycagefireball.xml");
-      } catch (ParserConfigurationException e) {
-        e.printStackTrace();
-      } catch (SAXException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
       }

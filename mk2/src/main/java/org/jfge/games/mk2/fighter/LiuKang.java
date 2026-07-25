@@ -4,11 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.fighter.Fighter;
 import org.jfge.api.fighter.FighterParser;
-import org.w3c.dom.DOMException;
-import org.xml.sax.SAXException;
 
 /** The Class LiuKang. */
 @Singleton
@@ -39,13 +36,7 @@ public class LiuKang implements Provider<Fighter> {
       try {
         liuKang =
             fighterFactory.parseFromXmlFile("/org/jfge/games/mk2/fighter/liukang/liukang.xml");
-      } catch (DOMException e) {
-        e.printStackTrace();
       } catch (IOException e) {
-        e.printStackTrace();
-      } catch (ParserConfigurationException e) {
-        e.printStackTrace();
-      } catch (SAXException e) {
         e.printStackTrace();
       }
     }

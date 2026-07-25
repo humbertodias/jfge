@@ -4,7 +4,7 @@ public final class JfgeGameStarter {
 
   private JfgeGameStarter() {}
 
-  public static JfgeApplication forGameKey(JfgeLibGdxComponent component, String gameKey) {
-    return new JfgeApplication(component, gameKey);
+  public static JfgeApplication forGameKey(String gameKey) {
+    return new JfgeApplication(gameKey);
   }
 }

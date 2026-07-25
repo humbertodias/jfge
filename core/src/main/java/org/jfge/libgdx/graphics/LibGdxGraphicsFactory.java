@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.logging.Logger;
 import org.jfge.spi.graphics.Color;
 import org.jfge.spi.graphics.Font;
+import org.jfge.api.config.ResourceLoader;
 import org.jfge.spi.graphics.GraphicsFactory;
 import org.jfge.spi.graphics.Image;
 import org.jfge.spi.graphics.Rectangle;
@@ -31,29 +32,59 @@ public final class LibGdxGraphicsFactory implements GraphicsFactory {
     String classpathPath = file.startsWith("/") ? file.substring(1) : file;
 
     try {
+      if (Gdx.files != null) {
+        FileHandle internal = Gdx.files.internal(classpathPath);
+        if (internal.exists()) {
+          return createImageFromBytes(internal.readBytes(), file);
+        }
+      }
+
       InputStream stream = openResourceStream(classpathPath, file);
       if (stream == null) {
         logger.info("can't load: " + file);
         return null;
       }
 
-      byte[] bytes = stream.readAllBytes();
+      byte[] bytes = readStreamBytes(stream);
       stream.close();
-
-      Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
-      Texture texture = new Texture(pixmap);
-      pixmap.dispose();
-      texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-      return new LibGdxImage(texture, file);
+      return createImageFromBytes(bytes, file);
     } catch (Exception e) {
       logger.info("can't load: " + file + " (" + e.getMessage() + ")");
       return null;
     }
   }
 
+  private Image createImageFromBytes(byte[] bytes, String file) {
+    Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
+    Texture texture = new Texture(pixmap);
+    pixmap.dispose();
+    texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+    return new LibGdxImage(texture, file);
+  }
+
+  private byte[] readStreamBytes(InputStream stream) throws IOException {
+    byte[] buffer = new byte[8192];
+    int read;
+    java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+    while ((read = stream.read(buffer)) != -1) {
+      out.write(buffer, 0, read);
+    }
+    return out.toByteArray();
+  }
+
   private InputStream openResourceStream(String classpathPath, String originalPath) {
+    InputStream stream = ResourceLoader.openStream(originalPath);
+    if (stream != null) {
+      return stream;
+    }
+
+    stream = ResourceLoader.openStream(classpathPath);
+    if (stream != null) {
+      return stream;
+    }
+
     ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
-    InputStream stream = openFromLoader(contextLoader, classpathPath, originalPath);
+    stream = openFromLoader(contextLoader, classpathPath, originalPath);
     if (stream != null) {
       return stream;
     }
@@ -64,6 +95,11 @@ public final class LibGdxGraphicsFactory implements GraphicsFactory {
     }
 
     if (Gdx.files != null) {
+      FileHandle internal = Gdx.files.internal(classpathPath);
+      if (internal.exists()) {
+        return internal.read();
+      }
+
       FileHandle handle = Gdx.files.classpath(classpathPath);
       if (handle.exists()) {
         return handle.read();

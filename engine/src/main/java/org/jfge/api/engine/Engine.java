@@ -5,45 +5,29 @@ package org.jfge.api.engine;
 public interface Engine extends Runnable, Updatable {
 
   /** Pause. */
-  public void pause();
+  void pause();
 
   /** Resume. */
-  public void resume();
+  void resume();
 
   /** Start. */
-  public void start();
+  void start();
 
-  /** Advance one frame when driven by an external loop (e.g. libGDX). */
-  public void tick();
+  /**
+   * Advance the engine when driven by an external loop (e.g. libGDX).
+   *
+   * @param deltaSeconds elapsed time since the previous frame
+   */
+  void tick(float deltaSeconds);
 
   /** Stop. */
-  public void stop();
+  void stop();
 
-  /**
-   * Adds the renderable.
-   *
-   * @param renderable the renderable
-   */
-  public void addRenderable(Renderable renderable);
+  void addRenderable(Renderable renderable);
 
-  /**
-   * Adds the updatables.
-   *
-   * @param updatable the updatable
-   */
-  public void addUpdatable(Updatable updatable);
+  void addUpdatable(Updatable updatable);
 
-  /**
-   * Removes the renderable.
-   *
-   * @param renderable the renderable
-   */
-  public void removeRenderable(Renderable renderable);
+  void removeRenderable(Renderable renderable);
 
-  /**
-   * Removes the updatable.
-   *
-   * @param updatable the updatable
-   */
-  public void removeUpdatable(Updatable updatable);
+  void removeUpdatable(Updatable updatable);
 }

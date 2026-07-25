@@ -10,63 +10,36 @@ import java.util.logging.Logger;
 @Singleton
 public final class TimerImpl implements org.jfge.api.engine.Timer {
 
-  /** The logger. */
   private final Logger logger;
-
-  /** The no delays per yield. */
   private final int noDelaysPerYield;
-
-  /** The max frame skip. */
   private final int maxFrameSkips;
-
-  /** The Constant FPS. */
   private final int fps;
+  private final Provider<Engine> engineProvider;
+  private final boolean externalLoop;
 
-  /** The before time. */
   private long beforeTime;
-
-  /** The after time. */
   private long afterTime;
-
-  /** The over sleep time. */
   private long overSleepTime;
-
-  /** The no delays. */
   private int noDelays;
-
-  /** The excess. */
   private long excess;
-
-  /** The time diff. */
   private long timeDiff;
-
-  /** The sleep time. */
   private long sleepTime;
-
-  /** The period. */
   private long period;
 
-  /** The engine. */
-  private final Provider<Engine> engineProvider;
-
-  /**
-   * Instantiates a new timer impl.
-   *
-   * @param fps the fps
-   * @param logger the logger
-   */
   @Inject
   public TimerImpl(
       Provider<Engine> engineProvider,
       Logger logger,
       @Named("engine.fps") int fps,
       @Named("engine.nodelays") int noDelaysPerYield,
-      @Named("engine.frameskip") int maxFrameSkips) {
+      @Named("engine.frameskip") int maxFrameSkips,
+      @Named("engine.externalLoop") boolean externalLoop) {
     this.fps = fps;
     this.noDelaysPerYield = noDelaysPerYield;
     this.maxFrameSkips = maxFrameSkips;
     this.logger = logger;
     this.engineProvider = engineProvider;
+    this.externalLoop = externalLoop;
 
     this.beforeTime = System.nanoTime();
     this.afterTime = this.beforeTime;
@@ -75,41 +48,42 @@ public final class TimerImpl implements org.jfge.api.engine.Timer {
     logger.info("timer initialized with " + fps + " fps");
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Timer#measure()
-   */
+  @Override
   public void measure() {
     beforeTime = System.nanoTime();
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Timer#sleep()
-   */
+  @Override
   public void sleep() {
+    if (externalLoop) {
+      return;
+    }
+
     afterTime = System.nanoTime();
-    timeDiff = (afterTime - beforeTime);
+    timeDiff = afterTime - beforeTime;
     sleepTime = (period - timeDiff) - overSleepTime;
 
-    if (sleepTime > 0) { // some time left in this cycle
+    if (sleepTime > 0) {
       try {
-        Thread.sleep(sleepTime / 1000000L); // nano -> ms
+        Thread.sleep(sleepTime / 1000000L);
       } catch (InterruptedException ex) {
+        // continue pacing
       }
       overSleepTime = (System.nanoTime() - afterTime) - sleepTime;
-    } else { // sleepTime <= 0; the frame took longer than the period
-      excess -= sleepTime; // store excess time value
+    } else {
+      excess -= sleepTime;
       overSleepTime = 0L;
 
       if (++noDelays >= noDelaysPerYield) {
-        Thread.yield(); // give another thread a chance to run
+        Thread.yield();
         noDelays = 0;
       }
     }
 
     int skips = 0;
-    while ((excess > period) && (skips < maxFrameSkips)) {
+    while (excess > period && skips < maxFrameSkips) {
       excess -= period;
-      this.engineProvider.get().update(); // update state but don't render
+      engineProvider.get().update();
       skips++;
     }
   }

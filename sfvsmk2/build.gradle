@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'application'
 }
 
 group = 'org.jfge.games'
@@ -9,7 +8,6 @@ version = '0.0.1-SNAPSHOT'
 dependencies {
     implementation project(':engine')
     implementation project(':ext')
-    implementation project(':j2se')
     implementation project(':mk2')
     implementation project(':sf2')
 }
@@ -24,16 +22,12 @@ sourceSets {
     }
 }
 
-application {
-    mainClass = 'org.jfge.games.sfvsmk2.game.SfVsMk2'
-}
-
 tasks.register('fatJar', Jar) {
     archiveClassifier.set('all')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(
-                'Main-Class': application.mainClass
+                'Main-Class': 'org.jfge.games.sfvsmk2.game.SfVsMk2'
         )
     }
     from(sourceSets.main.output)
@@ -43,6 +37,7 @@ tasks.register('fatJar', Jar) {
         configurations.runtimeClasspath.filter { it.name.endsWith('jar') }.collect { zipTree(it) }
     })
 }
+
 tasks.register('copyJar') {
     group = 'build'
     description = 'Copies the fatJar to root as sfvsmk2.jar'

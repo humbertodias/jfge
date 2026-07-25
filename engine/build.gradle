@@ -5,6 +5,7 @@ plugins {
 dependencies {
     api "com.google.dagger:dagger:$daggerVersion"
     api 'javax.inject:javax.inject:1'
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
 }
 
 sourceSets {

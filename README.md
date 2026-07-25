@@ -17,7 +17,7 @@ Fork of [JFGE](https://code.google.com/archive/p/java-fighting-game-engine/) fro
 * **Multiple Arenas**: Swap between arenas and customize visuals
 * **Lightweight Scripting Language**: Describe collision detection and AI behavior in a simple DSL
 * **Modular Architecture**: Clean separation of game components for reusability and testing
-* **Cross-Platform Support**: libGDX desktop and Android (primary), legacy Java SE (Swing)
+* **Cross-Platform Support**: libGDX desktop, web (TeaVM), and Android (primary), plus legacy Java SE (Swing)
 * **Graphics Abstraction**: Unified API for rendering and input across platforms
 * **Extensibility**: Add new fighters, moves, or mechanics via pluggable modules
 
@@ -56,7 +56,45 @@ This compiles the modules and produces runnable `.jar` files for each demo game.
 ./gradlew :desktop:runSfVsMk2
 ```
 
-Legacy Swing builds (fat JAR):
+### ▶️ Running a Game (libGDX web)
+
+The web target uses [gdx-teavm](https://github.com/xpenatan/gdx-teavm) (TeaVM) to compile the game to JavaScript and run it in the browser.
+
+**1. Download assets** (required for sprites and images):
+
+```bash
+make -f makefile-assets get_assets
+```
+
+**2. Start the dev server** and open http://localhost:8080 in your browser:
+
+```bash
+./gradlew :html:runMk2
+./gradlew :html:runSf2
+./gradlew :html:runSfVsMk2
+```
+
+**3. Production build** (static files for hosting):
+
+```bash
+./gradlew :html:gdx_teavm_web_js_build
+```
+
+Output directory: `html/build/dist/js/webapp/` (`index.html`, `app.js`, and bundled assets).
+
+Serve that folder with any static HTTP server. Do not open `index.html` directly via `file://`.
+
+**Controls (keyboard):** same bindings as desktop — player 1 uses WASD and adjacent keys; player 2 uses arrow keys and the numpad. See `engine/config/org/jfge/config/controller/keyboard.properties`.
+
+### ▶️ Running a Game (Swing legacy)
+
+```bash
+./gradlew :j2se:runMk2
+./gradlew :j2se:runSf2
+./gradlew :j2se:runSfVsMk2
+```
+
+Fat JAR scripts (legacy):
 
 ```bash
 ./run-linux.sh
@@ -83,6 +121,7 @@ https://github.com/user-attachments/assets/42821ca2-e2fe-44c7-9d77-eb5aef6c2a48
 ├── ext/               # Engine extensions (physics, scenes)
 ├── core/              # libGDX platform layer (graphics, input)
 ├── desktop/           # LWJGL3 desktop launchers
+├── html/              # TeaVM web launchers (browser)
 ├── android/           # libGDX Android launchers
 ├── j2se/              # Legacy Swing backend
 ├── mk2/               # Mortal Kombat II demo
@@ -93,24 +132,36 @@ https://github.com/user-attachments/assets/42821ca2-e2fe-44c7-9d77-eb5aef6c2a48
 
 ### For local development
 
-Download assets
+Download assets:
+
 ```shell
 make -f makefile-assets get_assets
 ```
-Then open the `desktop` or game module in your IDE.
 
-Terminal:
+Then open the `desktop`, `html`, or `core` module in your IDE.
+
+**Desktop (LWJGL3):**
+
 ```
 ./gradlew :desktop:runMk2
 ./gradlew :desktop:runSf2
 ./gradlew :desktop:runSfVsMk2
 ```
 
-Legacy Swing:
+**Web (browser):**
+
 ```
-./gradlew :mk2:run
-./gradlew :sf2:run
-./gradlew :sfvsmk2:run
+./gradlew :html:runMk2
+./gradlew :html:runSf2
+./gradlew :html:runSfVsMk2
+```
+
+**Swing (legacy):**
+
+```
+./gradlew :j2se:runMk2
+./gradlew :j2se:runSf2
+./gradlew :j2se:runSfVsMk2
 ```
 
 ### Android (libGDX)
@@ -151,7 +202,7 @@ adb shell am start -n org.jfge.android/.Mk2AndroidLauncher
 
 ```shell
 ./gradlew :j2se:copyJinputNatives
-./gradlew :mk2:run
+./gradlew :j2se:runMk2
 ```
 
 ### 🤝 Contributing
@@ -162,7 +213,7 @@ If you're interested in:
 
 * [x] Porting to newer Java versions - https://github.com/humbertodias/jfge/pull/1
 * [x] libGDX desktop support
-* [x] libGDX desktop support
+* [x] libGDX web support (TeaVM)
 * [x] libGDX Android support
 * [ ] Adding sound support - https://github.com/humbertodias/jfge/issues/4
 * [ ] Improve player movement - https://github.com/humbertodias/jfge/issues/11

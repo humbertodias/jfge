@@ -1,21 +1,9 @@
 package org.jfge.api.collision;
 
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
-/** A factory for creating CollsionHandler objects. */
+/** The Class CollisionHandlerParser. */
 public interface CollisionHandlerParser {
 
-  /**
-   * Creates a new CollsionHandler object.
-   *
-   * @param file the file
-   * @return the collision handler
-   * @throws IOException
-   * @throws SAXException
-   * @throws ParserConfigurationException
-   */
-  CollisionHandler parseFromXmlFile(String file)
-      throws ParserConfigurationException, SAXException, IOException;
+  CollisionHandler parseFromXmlFile(String file) throws IOException;
 }

@@ -4,8 +4,8 @@ package org.jfge.api.engine;
 public interface Timer {
 
   /** Measure. */
-  public void measure();
+  void measure();
 
-  /** Sleep. */
-  public void sleep();
+  /** Sleep until the next frame when driven by the internal engine thread. */
+  void sleep();
 }

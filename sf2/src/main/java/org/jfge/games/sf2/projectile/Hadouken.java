@@ -4,10 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.projectile.Projectile;
 import org.jfge.api.projectile.ProjectileParser;
-import org.xml.sax.SAXException;
 
 @Singleton
 public final class Hadouken implements Provider<Projectile> {
@@ -28,10 +26,6 @@ public final class Hadouken implements Provider<Projectile> {
         this.projectile =
             projectileParser.parseFromXmlFile(
                 "/org/jfge/games/sf2/projectile/shoryuken/hadouken.xml");
-      } catch (ParserConfigurationException e) {
-        e.printStackTrace();
-      } catch (SAXException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
       }

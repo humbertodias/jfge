@@ -3,11 +3,8 @@ package org.jfge.games.sf2.fighter;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.fighter.Fighter;
 import org.jfge.api.fighter.FighterParser;
-import org.w3c.dom.DOMException;
-import org.xml.sax.SAXException;
 
 /** The Class Blanka. */
 public class Blanka implements Provider<Fighter> {
@@ -36,13 +33,7 @@ public class Blanka implements Provider<Fighter> {
     if (blanka == null) {
       try {
         blanka = fighterFactory.parseFromXmlFile("/org/jfge/games/sf2/fighter/blanka/blanka.xml");
-      } catch (DOMException e) {
-        e.printStackTrace();
       } catch (IOException e) {
-        e.printStackTrace();
-      } catch (ParserConfigurationException e) {
-        e.printStackTrace();
-      } catch (SAXException e) {
         e.printStackTrace();
       }
     }

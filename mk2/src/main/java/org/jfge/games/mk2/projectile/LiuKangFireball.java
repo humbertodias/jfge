@@ -4,10 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.projectile.Projectile;
 import org.jfge.api.projectile.ProjectileParser;
-import org.xml.sax.SAXException;
 
 /** The Class LiuKangFireball. */
 @Singleton
@@ -42,10 +40,6 @@ public class LiuKangFireball implements Provider<Projectile> {
         this.projectile =
             projectileParser.parseFromXmlFile(
                 "/org/jfge/games/mk2/projectile/liukangfireball/liukangfireball.xml");
-      } catch (ParserConfigurationException e) {
-        e.printStackTrace();
-      } catch (SAXException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
       }

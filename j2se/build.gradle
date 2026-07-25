@@ -1,18 +1,47 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group = 'org.jfge'
 version = '0.0.1-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation project(':engine')
+    implementation project(':ext')
+    implementation project(':mk2')
+    implementation project(':sf2')
+    implementation project(':sfvsmk2')
     implementation("net.java.jinput:jinput:${jinputVersion}")
     implementation("net.java.jinput:jinput:${jinputVersion}:natives-all")
+}
+
+application {
+    mainClass = 'org.jfge.games.mk2.game.MortalKombat2'
+}
+
+tasks.register('runMk2', JavaExec) {
+    group = 'application'
+    description = 'Run Mortal Kombat 2 (Swing)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.jfge.games.mk2.game.MortalKombat2'
+    dependsOn copyJinputNatives
+}
+
+tasks.register('runSf2', JavaExec) {
+    group = 'application'
+    description = 'Run Street Fighter 2 (Swing)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.jfge.games.sf2.game.StreetFighter2'
+    dependsOn copyJinputNatives
+}
+
+tasks.register('runSfVsMk2', JavaExec) {
+    group = 'application'
+    description = 'Run Street Fighter vs Mortal Kombat 2 (Swing)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.jfge.games.sfvsmk2.game.SfVsMk2'
+    dependsOn copyJinputNatives
 }
 
 task copyJinputNatives(type: Copy) {
@@ -37,11 +66,12 @@ task copyJinputNatives(type: Copy) {
             if (jnilib.exists() && !dylib.exists()) {
                 println "macOS detected — duplicating libjinput-osx.jnilib as libjinput-osx.dylib"
                 dylib.bytes = jnilib.bytes
-            } else {
-                println "libjinput-osx.jnilib not found or libjinput-osx.dylib already exists"
             }
-        } else {
-            println "Not macOS — skipping jnilib → dylib copy"
         }
     }
+}
+
+tasks.withType(JavaExec).configureEach {
+    dependsOn copyJinputNatives
+    systemProperty 'java.library.path', "${rootProject.buildDir}/natives"
 }

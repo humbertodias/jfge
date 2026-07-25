@@ -4,7 +4,6 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import org.jfge.libgdx.JfgeApplication;
-import org.jfge.libgdx.JfgeBootstrap;
 
 /** Default Android launcher: Street Fighter vs Mortal Kombat 2. */
 public class AndroidLauncher extends AndroidApplication {
@@ -18,6 +17,6 @@ public class AndroidLauncher extends AndroidApplication {
     config.useAccelerometer = false;
     config.useCompass = false;
 
-    initialize(new JfgeApplication(JfgeBootstrap.createComponent(), "sfVsMk2"), config);
+    initialize(new JfgeApplication("sfVsMk2"), config);
   }
 }

@@ -5,16 +5,14 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import org.jfge.api.engine.EngineModule;
+import org.jfge.api.config.ResourceLoader;
 import org.jfge.libgdx.JfgeApplication;
-import org.jfge.libgdx.JfgeBootstrap;
-import org.jfge.libgdx.JfgeLibGdxComponent;
 
 public final class DesktopLauncher {
 
   private DesktopLauncher() {}
 
-  public static void launch(JfgeLibGdxComponent component, String gameKey) {
+  public static void launch(String gameKey) {
     Properties engineProperties = loadEngineProperties();
     int width = Integer.parseInt(engineProperties.getProperty("engine.width", "480"));
     int height = Integer.parseInt(engineProperties.getProperty("engine.height", "272"));
@@ -24,17 +22,13 @@ public final class DesktopLauncher {
     config.setTitle("Java Fighting Game Engine");
     config.useVsync(true);
 
-    new Lwjgl3Application(new JfgeApplication(component, gameKey), config);
-  }
-
-  public static void launch(String gameKey) {
-    launch(JfgeBootstrap.createComponent(), gameKey);
+    new Lwjgl3Application(new JfgeApplication(gameKey), config);
   }
 
   private static Properties loadEngineProperties() {
     Properties properties = new Properties();
     try (InputStream stream =
-        EngineModule.class.getResourceAsStream("/org/jfge/config/engine/engine.properties")) {
+        ResourceLoader.openStream("/org/jfge/config/engine/engine.properties")) {
       if (stream != null) {
         properties.load(stream);
       }

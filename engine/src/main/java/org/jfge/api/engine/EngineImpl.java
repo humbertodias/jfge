@@ -13,51 +13,36 @@ import org.jfge.spi.graphics.GraphicsProvider;
 @Singleton
 public final class EngineImpl implements org.jfge.api.engine.Engine {
 
-  /** The logger. */
+  private static final float MAX_DELTA_SECONDS = 0.25f;
+
   private final Logger logger;
-
-  /** The paused. */
-  private boolean paused;
-
-  /** The running. */
-  private boolean running;
-
-  /** The thread. */
-  private Thread thread;
-
-  /** The timer. */
-  private org.jfge.api.engine.Timer timer;
-
-  /** The graphics provider. */
-  private GraphicsProvider graphicsProvider;
-
-  /** The renderable. */
-  private List<Renderable> renderables;
-
-  /** The updateables. */
-  private List<Updatable> updatables;
-
-  /** When true, {@link #tick()} drives the loop instead of the engine thread. */
   private final boolean externalLoop;
+  private final float frameTimeSeconds;
+  private final int maxFrameSkips;
 
-  /**
-   * Instantiates a new engine impl.
-   *
-   * @param graphicsProvider the graphics provider
-   * @param timer the timer
-   * @param logger the logger
-   * @param externalLoop whether an external platform loop drives rendering
-   */
+  private boolean paused;
+  private boolean running;
+  private Thread thread;
+  private org.jfge.api.engine.Timer timer;
+  private GraphicsProvider graphicsProvider;
+  private List<Renderable> renderables;
+  private List<Updatable> updatables;
+  private float accumulator;
+
   @Inject
   public EngineImpl(
       GraphicsProvider graphicsProvider,
       Timer timer,
       Logger logger,
-      @Named("engine.externalLoop") boolean externalLoop) {
+      @Named("engine.externalLoop") boolean externalLoop,
+      @Named("engine.fps") int fps,
+      @Named("engine.frameskip") int maxFrameSkips) {
     this.graphicsProvider = graphicsProvider;
     this.timer = timer;
     this.logger = logger;
     this.externalLoop = externalLoop;
+    this.frameTimeSeconds = 1f / fps;
+    this.maxFrameSkips = maxFrameSkips;
     this.thread = new Thread(this);
 
     this.renderables = new CopyOnWriteArrayList<Renderable>();
@@ -65,10 +50,6 @@ public final class EngineImpl implements org.jfge.api.engine.Engine {
     this.paused = false;
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Engine#update()
-   */
-  /** Update. */
   @Override
   public void update() {
     for (Updatable r : updatables) {
@@ -76,115 +57,94 @@ public final class EngineImpl implements org.jfge.api.engine.Engine {
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Engine#render()
-   */
-  /** Render. */
   private void render() {
     Graphics graphics = graphicsProvider.getGraphics();
-    /*
-     * render game elements
-     */
     for (Renderable r : renderables) {
       r.render(graphics);
     }
   }
 
-  /**
-   * Adds the renderable.
-   *
-   * @param renderable the renderable
-   */
   @Override
   public void addRenderable(Renderable renderable) {
     renderables.add(renderable);
   }
 
-  /**
-   * Adds the updatables.
-   *
-   * @param updatable the updatable
-   */
   @Override
   public void addUpdatable(Updatable updatable) {
     this.updatables.add(updatable);
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Engine#removeRenderable(org.jfge.engine.Renderable)
-   */
   @Override
   public void removeRenderable(Renderable renderable) {
     this.renderables.remove(renderable);
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Engine#removeUpdatable(org.jfge.engine.Updatable)
-   */
   @Override
   public void removeUpdatable(Updatable updatable) {
     this.updatables.remove(updatable);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Runnable#run()
-   */
   @Override
   public void run() {
-
-    while (running) { // core main loop
+    while (running) {
       tickFrame();
     }
   }
 
   @Override
-  public void tick() {
-    if (!running || !externalLoop) return;
+  public void tick(float deltaSeconds) {
+    if (!running || !externalLoop) {
+      return;
+    }
 
-    tickFrame();
+    accumulator += Math.min(deltaSeconds, MAX_DELTA_SECONDS);
+
+    int updates = 0;
+    int maxUpdates = maxFrameSkips + 1;
+    while (accumulator >= frameTimeSeconds && updates < maxUpdates) {
+      accumulator -= frameTimeSeconds;
+      if (!paused) {
+        update();
+      }
+      updates++;
+    }
+
+    if (accumulator > frameTimeSeconds * 2f) {
+      accumulator = frameTimeSeconds;
+    }
+
+    graphicsProvider.beginFrame();
+    render();
+    graphicsProvider.draw();
   }
 
   private void tickFrame() {
     timer.measure();
 
-    // engine update
-    if (!paused) update();
+    if (!paused) {
+      update();
+    }
 
-    // engine render
     render();
-
-    // draw buffered graphics
     graphicsProvider.draw();
-
-    // sleep intelligent
     timer.sleep();
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Engine#pause()
-   */
   @Override
   public void pause() {
     paused = true;
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Engine#resume()
-   */
   @Override
   public void resume() {
     paused = false;
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Engine#start()
-   */
   @Override
   public void start() {
     if (running) return;
     if (!externalLoop && thread.isAlive()) return;
 
-    // starting main loop
     logger.info(
         externalLoop ? "core main loop started (external)" : "core main loop started");
 
@@ -194,13 +154,13 @@ public final class EngineImpl implements org.jfge.api.engine.Engine {
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.jfge.engine.Engine#stop()
-   */
   @Override
   public void stop() {
     this.running = false;
-    while (thread.isAlive())
-      ;
+    if (!externalLoop) {
+      while (thread.isAlive()) {
+        // wait for internal engine thread
+      }
+    }
   }
 }

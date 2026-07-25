@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'application'
 }
 
 group = 'org.jfge.games'
@@ -8,9 +7,7 @@ version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation project(':engine')
-    implementation project(':j2se')
     implementation project(':ext')
-    implementation 'net.java.jinput:jinput:2.0.10'
 }
 
 sourceSets {
@@ -23,16 +20,12 @@ sourceSets {
     }
 }
 
-application {
-    mainClass = 'org.jfge.games.sf2.game.StreetFighter2'
-}
-
 tasks.register('fatJar', Jar) {
     archiveClassifier.set('all')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(
-                'Main-Class': application.mainClass
+                'Main-Class': 'org.jfge.games.sf2.game.StreetFighter2'
         )
     }
     from(sourceSets.main.output)
