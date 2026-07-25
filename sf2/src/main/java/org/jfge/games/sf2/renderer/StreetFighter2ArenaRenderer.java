@@ -1,6 +1,6 @@
 package org.jfge.games.sf2.renderer;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import java.io.IOException;
 import org.jfge.spi.graphics.Graphics;
 import org.jfge.spi.graphics.GraphicsFactory;
@@ -28,11 +28,15 @@ public class StreetFighter2ArenaRenderer implements ArenaRenderer {
   private org.jfge.spi.graphics.Font clockFont;
 
   @Inject
-  public StreetFighter2ArenaRenderer(GraphicsFactory graphicsFactory) throws IOException {
-    this.lifebar = graphicsFactory.createImage("/org/jfge/games/sf2/arena/images/lifebar.png");
-    this.roundSymbol =
-        graphicsFactory.createImage("/org/jfge/games/sf2/arena/images/roundsymbol.png");
-    this.koSymbol = graphicsFactory.createImage("/org/jfge/games/sf2/arena/images/ko.png");
+  public StreetFighter2ArenaRenderer(GraphicsFactory graphicsFactory) {
+    try {
+      this.lifebar = graphicsFactory.createImage("/org/jfge/games/sf2/arena/images/lifebar.png");
+      this.roundSymbol =
+          graphicsFactory.createImage("/org/jfge/games/sf2/arena/images/roundsymbol.png");
+      this.koSymbol = graphicsFactory.createImage("/org/jfge/games/sf2/arena/images/ko.png");
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to load Street Fighter 2 arena renderer assets", e);
+    }
 
     clockColor = graphicsFactory.createColor(org.jfge.spi.graphics.Color.RED);
     lifeBarColor = graphicsFactory.createColor(org.jfge.spi.graphics.Color.RED);

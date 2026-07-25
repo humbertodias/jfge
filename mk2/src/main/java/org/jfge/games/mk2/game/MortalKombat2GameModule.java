@@ -1,15 +1,18 @@
 package org.jfge.games.mk2.game;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.game.Game;
 
-public class MortalKombat2GameModule extends AbstractModule {
+@Module
+public abstract class MortalKombat2GameModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Game> gameBinder = MapBinder.newMapBinder(binder(), String.class, Game.class);
-
-    gameBinder.addBinding("mortalKombat2").toProvider(MortalKombat2Game.class);
+  @Provides
+  @IntoMap
+  @StringKey("mortalKombat2")
+  static Game game(MortalKombat2Game provider) {
+    return provider.get();
   }
 }

@@ -1,25 +1,20 @@
 package org.jfge.api.collision;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryProvider;
-import com.google.inject.multibindings.Multibinder;
+import dagger.Binds;
+import dagger.Module;
+import dagger.multibindings.IntoSet;
 import org.jfge.spi.collision.CollisionDetectionStrategy;
 
-public final class CollisionModule extends AbstractModule {
+@Module
+public abstract class CollisionModule {
 
-  @Override
-  protected void configure() {
-    bind(CollisionHandlerParser.class).to(CollisionHandlerParserImpl.class);
-    bind(CollisionDetector.class).to(CollisionDetectorImpl.class);
-    bind(CollisionHandlerFactory.class)
-        .toProvider(
-            FactoryProvider.newFactory(CollisionHandlerFactory.class, CollisionHandlerImpl.class));
+  @Binds
+  abstract CollisionHandlerParser bindCollisionHandlerParser(CollisionHandlerParserImpl parser);
 
-    Multibinder<CollisionHandler> collisionHandlerBinder =
-        Multibinder.newSetBinder(binder(), CollisionHandler.class);
-    Multibinder<CollisionDetectionStrategy> collisionStrategyBinder =
-        Multibinder.newSetBinder(binder(), CollisionDetectionStrategy.class);
+  @Binds
+  abstract CollisionDetector bindCollisionDetector(CollisionDetectorImpl detector);
 
-    collisionStrategyBinder.addBinding().to(RectangleCollisionStrategy.class);
-  }
+  @Binds
+  @IntoSet
+  abstract CollisionDetectionStrategy bindRectangleStrategy(RectangleCollisionStrategy strategy);
 }

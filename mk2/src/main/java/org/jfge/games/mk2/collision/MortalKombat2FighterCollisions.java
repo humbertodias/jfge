@@ -1,8 +1,8 @@
 package org.jfge.games.mk2.collision;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.collision.CollisionHandler;
@@ -30,7 +30,7 @@ public final class MortalKombat2FighterCollisions implements Provider<CollisionH
   }
 
   /* (non-Javadoc)
-   * @see com.google.inject.Provider#get()
+   * @see javax.inject.Provider#get()
    */
   @Override
   public CollisionHandler get() {

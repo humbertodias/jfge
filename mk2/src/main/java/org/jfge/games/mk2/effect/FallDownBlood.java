@@ -1,7 +1,7 @@
 package org.jfge.games.mk2.effect;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import javax.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,7 @@ public final class FallDownBlood implements Provider<CollisionEffect> {
    */
   @Inject
   public FallDownBlood(
-      GraphicsFactory graphicsFactory, CollisionEffectFactory collisionEffectFactory)
-      throws IOException {
+      GraphicsFactory graphicsFactory, CollisionEffectFactory collisionEffectFactory) {
     this.collisionEffectFactory = collisionEffectFactory;
     this.graphicsFactory = graphicsFactory;
   }
@@ -79,6 +78,6 @@ public final class FallDownBlood implements Provider<CollisionEffect> {
       }
     }
 
-    return this.collisionEffectFactory.createCollisionEffect(images, 0.5, 0.6);
+    return this.collisionEffectFactory.create(images, 0.5, 0.6);
   }
 }

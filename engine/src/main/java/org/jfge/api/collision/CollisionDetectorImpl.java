@@ -1,8 +1,8 @@
 package org.jfge.api.collision;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -23,9 +23,7 @@ public final class CollisionDetectorImpl implements CollisionDetector {
   private List<Fighter> fighters;
 
   /** The width. */
-  @Inject
-  @Named("engine.width")
-  private int width;
+  private final int width;
 
   /** The collision handlers. */
   private Set<CollisionHandler> collisionHandlers;
@@ -39,16 +37,19 @@ public final class CollisionDetectorImpl implements CollisionDetector {
    * @param logger the logger
    * @param collisionStrategies the collision strategies
    * @param collisionHandlers the collision handlers
+   * @param width the arena width
    */
   @Inject
   public CollisionDetectorImpl(
       Logger logger,
       Set<CollisionDetectionStrategy> collisionStrategies,
-      Set<CollisionHandler> collisionHandlers) {
+      Set<CollisionHandler> collisionHandlers,
+      @Named("engine.width") int width) {
     this.logger = logger;
     this.fighters = new ArrayList<Fighter>();
     this.collisionStrategies = collisionStrategies;
     this.collisionHandlers = collisionHandlers;
+    this.width = width;
   }
 
   /* (non-Javadoc)

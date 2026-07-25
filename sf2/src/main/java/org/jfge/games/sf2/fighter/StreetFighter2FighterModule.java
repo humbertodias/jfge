@@ -1,16 +1,25 @@
 package org.jfge.games.sf2.fighter;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.fighter.Fighter;
 
-public class StreetFighter2FighterModule extends AbstractModule {
+@Module
+public abstract class StreetFighter2FighterModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Fighter> fighterBinder =
-        MapBinder.newMapBinder(binder(), String.class, Fighter.class);
-    fighterBinder.addBinding("ryu").toProvider(Ryu.class);
-    fighterBinder.addBinding("blanka").toProvider(Blanka.class);
+  @Provides
+  @IntoMap
+  @StringKey("ryu")
+  static Fighter ryu(Ryu ryu) {
+    return ryu.get();
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("blanka")
+  static Fighter blanka(Blanka blanka) {
+    return blanka.get();
   }
 }

@@ -1,7 +1,6 @@
 package org.jfge.api.arena;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +14,11 @@ public final class ArenaFactoryImpl implements ArenaFactory {
 
   private GraphicsFactory graphicsFactory;
 
-  private Map<String, Provider<ArenaEffect>> arenaEffectMap;
+  private Map<String, ArenaEffect> arenaEffectMap;
 
   @Inject
-  private ArenaFactoryImpl(
-      GraphicsFactory graphicsFactory, Map<String, Provider<ArenaEffect>> arenaEffectMap) {
+  public ArenaFactoryImpl(
+      GraphicsFactory graphicsFactory, Map<String, ArenaEffect> arenaEffectMap) {
     this.graphicsFactory = graphicsFactory;
     this.arenaEffectMap = arenaEffectMap;
   }
@@ -38,9 +37,7 @@ public final class ArenaFactoryImpl implements ArenaFactory {
             "Running",
             20,
             "Finished",
-            arenaEffectMap.get("FightAnimation") != null
-                ? arenaEffectMap.get("FightAnimation").get()
-                : null,
+            arenaEffectMap.get("FightAnimation"),
             false));
     arenaStates.add(new Finished(arenaRenderer, "Finished", 20, "Intro", null, false));
 

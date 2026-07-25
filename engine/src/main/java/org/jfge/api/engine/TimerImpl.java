@@ -1,8 +1,9 @@
 package org.jfge.api.engine;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
+import javax.inject.Named;
 import java.util.logging.Logger;
 
 /** The Class TimerImpl. */
@@ -46,7 +47,7 @@ public final class TimerImpl implements org.jfge.api.engine.Timer {
   private long period;
 
   /** The engine. */
-  private Engine engine;
+  private final Provider<Engine> engineProvider;
 
   /**
    * Instantiates a new timer impl.
@@ -56,7 +57,7 @@ public final class TimerImpl implements org.jfge.api.engine.Timer {
    */
   @Inject
   public TimerImpl(
-      Engine engine,
+      Provider<Engine> engineProvider,
       Logger logger,
       @Named("engine.fps") int fps,
       @Named("engine.nodelays") int noDelaysPerYield,
@@ -65,7 +66,7 @@ public final class TimerImpl implements org.jfge.api.engine.Timer {
     this.noDelaysPerYield = noDelaysPerYield;
     this.maxFrameSkips = maxFrameSkips;
     this.logger = logger;
-    this.engine = engine;
+    this.engineProvider = engineProvider;
 
     this.beforeTime = System.nanoTime();
     this.afterTime = this.beforeTime;
@@ -108,7 +109,7 @@ public final class TimerImpl implements org.jfge.api.engine.Timer {
     int skips = 0;
     while ((excess > period) && (skips < maxFrameSkips)) {
       excess -= period;
-      this.engine.update(); // update state but don't render
+      this.engineProvider.get().update(); // update state but don't render
       skips++;
     }
   }

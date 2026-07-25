@@ -1,8 +1,8 @@
 package org.jfge.games.sf2.game;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,7 @@ public final class StreetFighter2Game implements Provider<Game> {
   private Map<String, Provider<Arena>> arenaProviders;
 
   @Inject
-  private StreetFighter2Game(
+  public StreetFighter2Game(
       GameFactory gameFactory,
       Map<String, Provider<Fighter>> fighterProviders,
       Map<String, Provider<Arena>> arenaProviders) {

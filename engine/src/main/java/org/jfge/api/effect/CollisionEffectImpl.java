@@ -1,7 +1,7 @@
 package org.jfge.api.effect;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 import java.io.IOException;
 import java.util.List;
 import org.jfge.api.fighter.Fighter;
@@ -25,13 +25,12 @@ public final class CollisionEffectImpl extends AbstractSprite implements Collisi
 
   private double relY;
 
-  @Inject
+  @AssistedInject
   public CollisionEffectImpl(
       SpriteRenderer spriteRenderer,
       @Assisted List<Image> images,
       @Assisted("relX") double relX,
-      @Assisted("relY") double relY)
-      throws IOException {
+      @Assisted("relY") double relY) {
     this.spriteRenderer = spriteRenderer;
     this.images = images;
     this.relX = relX;

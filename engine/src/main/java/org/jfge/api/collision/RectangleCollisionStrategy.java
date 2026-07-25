@@ -1,6 +1,6 @@
 package org.jfge.api.collision;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.jfge.api.sprite.Sprite;
 import org.jfge.spi.collision.CollisionDetectionStrategy;
 import org.jfge.spi.graphics.GraphicsFactory;

@@ -1,9 +1,6 @@
 package org.jfge.libgdx;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
 import org.jfge.api.engine.Engine;
 import org.jfge.api.game.Game;
 import org.jfge.libgdx.controller.LibGdxKeyboardController1;
@@ -12,32 +9,30 @@ import org.jfge.libgdx.graphics.LibGdxGraphicsProvider;
 
 public final class JfgeApplication extends ApplicationAdapter {
 
-  private final Module[] modules;
-  private final GameStarter gameStarter;
+  private final JfgeLibGdxComponent component;
+  private final String gameKey;
 
-  private Injector injector;
   private LibGdxGraphicsProvider graphicsProvider;
   private LibGdxKeyboardController1 controller1;
   private LibGdxKeyboardController2 controller2;
   private Engine engine;
   private Game game;
 
-  public JfgeApplication(Module[] modules, GameStarter gameStarter) {
-    this.modules = modules;
-    this.gameStarter = gameStarter;
+  public JfgeApplication(JfgeLibGdxComponent component, String gameKey) {
+    this.component = component;
+    this.gameKey = gameKey;
   }
 
   @Override
   public void create() {
-    injector = Guice.createInjector(modules);
-
-    graphicsProvider = injector.getInstance(LibGdxGraphicsProvider.class);
+    graphicsProvider = component.libGdxGraphicsProvider();
     graphicsProvider.initialize();
 
-    controller1 = injector.getInstance(LibGdxKeyboardController1.class);
-    controller2 = injector.getInstance(LibGdxKeyboardController2.class);
-    engine = injector.getInstance(Engine.class);
-    game = gameStarter.start(injector);
+    controller1 = component.libGdxKeyboardController1();
+    controller2 = component.libGdxKeyboardController2();
+    engine = component.engine();
+    game = component.games().get(gameKey);
+    game.start();
   }
 
   @Override
@@ -58,10 +53,5 @@ public final class JfgeApplication extends ApplicationAdapter {
     if (graphicsProvider != null) {
       graphicsProvider.dispose();
     }
-  }
-
-  @FunctionalInterface
-  public interface GameStarter {
-    Game start(Injector injector);
   }
 }

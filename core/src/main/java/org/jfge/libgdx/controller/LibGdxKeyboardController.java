@@ -2,7 +2,7 @@ package org.jfge.libgdx.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.IntSet;
-import com.google.inject.name.Named;
+import javax.inject.Named;
 import java.util.HashMap;
 import org.jfge.api.fsm.StateMachine;
 import org.jfge.spi.controller.Controller;

@@ -1,7 +1,7 @@
 package org.jfge.games.mk2.effect;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import javax.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +31,13 @@ public final class HighHitBlood implements Provider<CollisionEffect> {
    */
   @Inject
   public HighHitBlood(
-      GraphicsFactory graphicsFactory, CollisionEffectFactory collisionEffectFactory)
-      throws IOException {
+      GraphicsFactory graphicsFactory, CollisionEffectFactory collisionEffectFactory) {
     this.graphicsFactory = graphicsFactory;
     this.collisionEffectFactory = collisionEffectFactory;
   }
 
   /* (non-Javadoc)
-   * @see com.google.inject.Provider#get()
+   * @see javax.inject.Provider#get()
    */
   @Override
   public CollisionEffect get() {
@@ -63,6 +62,6 @@ public final class HighHitBlood implements Provider<CollisionEffect> {
         e.printStackTrace();
       }
     }
-    return this.collisionEffectFactory.createCollisionEffect(images, 0.1, 0.8);
+    return this.collisionEffectFactory.create(images, 0.1, 0.8);
   }
 }

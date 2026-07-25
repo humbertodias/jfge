@@ -1,8 +1,8 @@
 package org.jfge.libgdx.controller;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.inject.Named;
 
 @Singleton
 public final class LibGdxKeyboardController2 extends LibGdxKeyboardController {

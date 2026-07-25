@@ -1,6 +1,6 @@
 package org.jfge.games.mk2.render;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import java.io.IOException;
 import org.jfge.spi.graphics.Graphics;
 import org.jfge.spi.graphics.GraphicsFactory;
@@ -26,10 +26,14 @@ public class MortalKombat2ArenaRenderer implements ArenaRenderer {
   private org.jfge.spi.graphics.Font clockFont;
 
   @Inject
-  public MortalKombat2ArenaRenderer(GraphicsFactory graphicsFactory) throws IOException {
-    this.lifebar = graphicsFactory.createImage("/org/jfge/games/mk2/arena/images/lifebar.png");
-    this.roundSymbol =
-        graphicsFactory.createImage("/org/jfge/games/mk2/arena/images/roundsymbol.png");
+  public MortalKombat2ArenaRenderer(GraphicsFactory graphicsFactory) {
+    try {
+      this.lifebar = graphicsFactory.createImage("/org/jfge/games/mk2/arena/images/lifebar.png");
+      this.roundSymbol =
+          graphicsFactory.createImage("/org/jfge/games/mk2/arena/images/roundsymbol.png");
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to load Mortal Kombat 2 arena renderer assets", e);
+    }
 
     clockColor = graphicsFactory.createColor(org.jfge.spi.graphics.Color.ORANGE);
     lifeBarColor = graphicsFactory.createColor(org.jfge.spi.graphics.Color.RED);

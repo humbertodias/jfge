@@ -1,7 +1,7 @@
 package org.jfge.ext.scene;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.logging.Logger;
 import org.jfge.api.sprite.Sprite;
@@ -28,24 +28,27 @@ public class LoadingSceneImpl implements Scene {
 
   @Inject
   public LoadingSceneImpl(
-      LoadingSceneRenderer loadingSceneRenderer, GraphicsFactory imageFactory, Logger logger)
-      throws IOException {
+      LoadingSceneRenderer loadingSceneRenderer, GraphicsFactory imageFactory, Logger logger) {
     this.loadingSceneRenderer = loadingSceneRenderer;
     this.imageFactory = imageFactory;
     this.logger = logger;
 
-    // loading big gears images
-    this.bigGears = new Image[4];
-    this.bigGears[0] = imageFactory.createImage("/org/jfge/ext/scene/images/bigGear_1.png");
-    this.bigGears[1] = imageFactory.createImage("/org/jfge/ext/scene/images/bigGear_2.png");
-    this.bigGears[2] = imageFactory.createImage("/org/jfge/ext/scene/images/bigGear_3.png");
-    this.bigGears[3] = imageFactory.createImage("/org/jfge/ext/scene/images/bigGear_4.png");
+    try {
+      // loading big gears images
+      this.bigGears = new Image[4];
+      this.bigGears[0] = imageFactory.createImage("/org/jfge/ext/scene/images/bigGear_1.png");
+      this.bigGears[1] = imageFactory.createImage("/org/jfge/ext/scene/images/bigGear_2.png");
+      this.bigGears[2] = imageFactory.createImage("/org/jfge/ext/scene/images/bigGear_3.png");
+      this.bigGears[3] = imageFactory.createImage("/org/jfge/ext/scene/images/bigGear_4.png");
 
-    this.smallGears = new Image[4];
-    this.smallGears[0] = imageFactory.createImage("/org/jfge/ext/scene/images/smallGear_1.png");
-    this.smallGears[1] = imageFactory.createImage("/org/jfge/ext/scene/images/smallGear_2.png");
-    this.smallGears[2] = imageFactory.createImage("/org/jfge/ext/scene/images/smallGear_3.png");
-    this.smallGears[3] = imageFactory.createImage("/org/jfge/ext/scene/images/smallGear_4.png");
+      this.smallGears = new Image[4];
+      this.smallGears[0] = imageFactory.createImage("/org/jfge/ext/scene/images/smallGear_1.png");
+      this.smallGears[1] = imageFactory.createImage("/org/jfge/ext/scene/images/smallGear_2.png");
+      this.smallGears[2] = imageFactory.createImage("/org/jfge/ext/scene/images/smallGear_3.png");
+      this.smallGears[3] = imageFactory.createImage("/org/jfge/ext/scene/images/smallGear_4.png");
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to load loading scene images", e);
+    }
   }
 
   @Override

@@ -1,21 +1,32 @@
 package org.jfge.games.mk2.projectile;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.projectile.Projectile;
 
-/** The Class MortalKombat2ProjectileModule. */
-public final class MortalKombat2ProjectileModule extends AbstractModule {
+@Module
+public abstract class MortalKombat2ProjectileModule {
 
-  /* (non-Javadoc)
-   * @see com.google.inject.AbstractModule#configure()
-   */
-  @Override
-  protected void configure() {
-    MapBinder<String, Projectile> projectileBinder =
-        MapBinder.newMapBinder(binder(), String.class, Projectile.class);
-    projectileBinder.addBinding("liukangFireball").toProvider(LiuKangFireball.class);
-    projectileBinder.addBinding("kanoFireball").toProvider(KanoFireball.class);
-    projectileBinder.addBinding("johnnyCageFireball").toProvider(JohnnyCageFireball.class);
+  @Provides
+  @IntoMap
+  @StringKey("liukangFireball")
+  static Projectile liukangFireball(LiuKangFireball provider) {
+    return provider.get();
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("kanoFireball")
+  static Projectile kanoFireball(KanoFireball provider) {
+    return provider.get();
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("johnnyCageFireball")
+  static Projectile johnnyCageFireball(JohnnyCageFireball provider) {
+    return provider.get();
   }
 }

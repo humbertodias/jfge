@@ -1,40 +1,17 @@
 package org.jfge.api.engine;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.name.Names;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import dagger.Binds;
+import dagger.Module;
+import org.jfge.api.config.EnginePropertiesModule;
+import org.jfge.api.config.LoggingModule;
+import org.jfge.api.config.MultibindingsModule;
 
-/** The Class EngineModule. */
-public final class EngineModule extends AbstractModule {
+@Module(includes = {EnginePropertiesModule.class, LoggingModule.class, MultibindingsModule.class})
+public abstract class EngineModule {
 
-  /* (non-Javadoc)
-   * @see com.google.inject.AbstractModule#configure()
-   */
-  @Override
-  public void configure() {
-    loadProperties(this.binder());
-    bindConstant().annotatedWith(Names.named("engine.externalLoop")).to(false);
-    bind(Engine.class).to(EngineImpl.class);
-    bind(Timer.class).to(TimerImpl.class);
-  }
+  @Binds
+  abstract Engine bindEngine(EngineImpl engine);
 
-  /**
-   * Load properties.
-   *
-   * @param binder the binder
-   */
-  private void loadProperties(Binder binder) {
-    InputStream stream =
-        EngineModule.class.getResourceAsStream("/org/jfge/config/engine/engine.properties");
-    Properties engineProperties = new Properties();
-    try {
-      engineProperties.load(stream);
-      Names.bindProperties(binder, engineProperties);
-    } catch (IOException e) {
-      binder.addError(e);
-    }
-  }
+  @Binds
+  abstract Timer bindTimer(TimerImpl timer);
 }

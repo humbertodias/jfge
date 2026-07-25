@@ -1,6 +1,6 @@
 package org.jfge.api.game;
 
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import java.util.Map;
 import org.jfge.api.ai.AiControllerParser;
 import org.jfge.api.arena.Arena;

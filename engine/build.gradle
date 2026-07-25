@@ -3,10 +3,8 @@ plugins {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/com.google.inject/guice
-    api("com.google.inject:guice:${rootProject.ext.guiceVersion}")
-    // https://mvnrepository.com/artifact/com.google.inject.extensions/guice-assistedinject
-    api("com.google.inject.extensions:guice-assistedinject:${rootProject.ext.guiceAssistedinjectVersion}")
+    api "com.google.dagger:dagger:$daggerVersion"
+    api 'javax.inject:javax.inject:1'
 }
 
 sourceSets {

@@ -1,16 +1,18 @@
 package org.jfge.games.sfvsmk2.arena;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.arena.Arena;
 
-public class SfVsMk2ArenaModule extends AbstractModule {
+@Module
+public abstract class SfVsMk2ArenaModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Arena> arenaBinder =
-        MapBinder.newMapBinder(binder(), String.class, Arena.class);
-
-    arenaBinder.addBinding("sfVsMk2").toProvider(SfVsMk2Arena.class);
+  @Provides
+  @IntoMap
+  @StringKey("sfVsMk2")
+  static Arena sfVsMk2Arena(SfVsMk2Arena arena) {
+    return arena.get();
   }
 }

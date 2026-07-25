@@ -1,44 +1,53 @@
 package org.jfge.ext.physics;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.multibindings.MapBinder;
-import com.google.inject.name.Names;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.spi.physics.SpritePhysics;
 
-public final class PhysicsModule extends AbstractModule {
+@Module(includes = PhysicsPropertiesModule.class)
+public abstract class PhysicsModule {
 
-  @Override
-  protected void configure() {
-    loadProperties(binder());
-
-    MapBinder<String, SpritePhysics> spritePhysicsBinder =
-        MapBinder.newMapBinder(binder(), String.class, SpritePhysics.class);
-    spritePhysicsBinder.addBinding("moveForward").to(MoveForward.class);
-    spritePhysicsBinder.addBinding("moveBackward").to(MoveBackward.class);
-    spritePhysicsBinder.addBinding("jump").to(Jump.class);
-    spritePhysicsBinder.addBinding("jumpForward").to(JumpForward.class);
-    spritePhysicsBinder.addBinding("jumpBackward").to(JumpBackward.class);
-    spritePhysicsBinder.addBinding("flying").to(Flying.class);
+  @Provides
+  @IntoMap
+  @StringKey("moveForward")
+  static SpritePhysics moveForward(MoveForward moveForward) {
+    return moveForward;
   }
 
-  /**
-   * Load properties.
-   *
-   * @param binder the binder
-   */
-  private void loadProperties(Binder binder) {
-    InputStream stream =
-        PhysicsModule.class.getResourceAsStream("/org/jfge/config/physics/physics.properties");
-    Properties engineProperties = new Properties();
-    try {
-      engineProperties.load(stream);
-      Names.bindProperties(binder, engineProperties);
-    } catch (IOException e) {
-      binder.addError(e);
-    }
+  @Provides
+  @IntoMap
+  @StringKey("moveBackward")
+  static SpritePhysics moveBackward(MoveBackward moveBackward) {
+    return moveBackward;
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("jump")
+  static SpritePhysics jump(Jump jump) {
+    return jump;
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("jumpForward")
+  static SpritePhysics jumpForward(JumpForward jumpForward) {
+    return jumpForward;
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("jumpBackward")
+  static SpritePhysics jumpBackward(JumpBackward jumpBackward) {
+    return jumpBackward;
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("flying")
+  static SpritePhysics flying(Flying flying) {
+    return flying;
   }
 }

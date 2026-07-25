@@ -1,8 +1,8 @@
 package org.jfge.games.mk2.projectile;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.projectile.Projectile;
@@ -28,13 +28,12 @@ public class LiuKangFireball implements Provider<Projectile> {
    * @throws IOException Signals that an I/O exception has occurred.
    */
   @Inject
-  public LiuKangFireball(ProjectileParser projectileParser)
-      throws ParserConfigurationException, SAXException, IOException {
+  public LiuKangFireball(ProjectileParser projectileParser) {
     this.projectileParser = projectileParser;
   }
 
   /* (non-Javadoc)
-   * @see com.google.inject.Provider#get()
+   * @see javax.inject.Provider#get()
    */
   @Override
   public Projectile get() {

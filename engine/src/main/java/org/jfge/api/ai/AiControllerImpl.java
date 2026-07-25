@@ -1,7 +1,7 @@
 package org.jfge.api.ai;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,7 @@ public final class AiControllerImpl implements AiController {
    * @param logger the logger
    * @param transitions the transitions
    */
-  @Inject
+  @AssistedInject
   public AiControllerImpl(Logger logger, @Assisted Map<List<String>, String> transitions) {
     this.logger = logger;
     this.transitions = transitions;

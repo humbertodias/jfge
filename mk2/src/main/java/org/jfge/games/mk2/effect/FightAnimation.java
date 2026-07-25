@@ -1,8 +1,8 @@
 package org.jfge.games.mk2.effect;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +94,7 @@ public final class FightAnimation implements Provider<ArenaEffect> {
         e.printStackTrace();
       }
 
-      fightAnimation = arenaEffectFactory.createArenaEffect(images, 240, 120);
+      fightAnimation = arenaEffectFactory.create(images, 240, 120);
     }
 
     return this.fightAnimation;

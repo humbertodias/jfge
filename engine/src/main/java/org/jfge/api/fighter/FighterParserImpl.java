@@ -1,8 +1,8 @@
 package org.jfge.api.fighter;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public final class FighterParserImpl implements FighterParser {
   private Map<String, Provider<SpritePhysics>> spritePhysics;
 
   /** The collision effects. */
-  private Map<String, Provider<CollisionEffect>> collisionEffects;
+  private Map<String, CollisionEffect> collisionEffects;
 
   /** The projectiles. */
   private Map<String, Projectile> projectiles;
@@ -64,7 +64,7 @@ public final class FighterParserImpl implements FighterParser {
       Logger logger,
       GraphicsFactory imageFactory,
       Map<String, Provider<SpritePhysics>> spritePhysics,
-      Map<String, Provider<CollisionEffect>> collisionEffects,
+      Map<String, CollisionEffect> collisionEffects,
       Provider<InputQueue> inputBufferQueueProvider,
       Provider<SpriteRenderer> spriteRendererProvider,
       FighterFactory fighterFactory,
@@ -245,9 +245,7 @@ public final class FighterParserImpl implements FighterParser {
     CollisionEffect effect = null;
     Node collisionEffectNode = state.getAttributes().getNamedItem("effect");
     if (collisionEffectNode != null) {
-      Provider<CollisionEffect> provider = collisionEffects.get(collisionEffectNode.getNodeValue());
-
-      if (provider != null) effect = provider.get();
+      effect = collisionEffects.get(collisionEffectNode.getNodeValue());
     }
 
     // reading projectile

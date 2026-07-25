@@ -1,6 +1,7 @@
 package org.jfge.api.render;
 
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.jfge.api.sprite.Sprite;
 import org.jfge.spi.graphics.Graphics;
 import org.jfge.spi.graphics.Image;
@@ -8,6 +9,9 @@ import org.jfge.spi.graphics.Image;
 /** The Class SpriteRendererImpl. */
 @Singleton
 public class SpriteRendererImpl implements SpriteRenderer {
+
+  @Inject
+  public SpriteRendererImpl() {}
   /* (non-Javadoc)
    * @see org.jfge.render.SpriteRenderer#drawSprite(java.awt.Graphics, java.awt.Image, int, int)
    */

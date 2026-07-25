@@ -1,16 +1,18 @@
 package org.jfge.games.mk2.arena;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.arena.Arena;
 
-public class MortalKombat2ArenaModule extends AbstractModule {
+@Module
+public abstract class MortalKombat2ArenaModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Arena> arenaBinder =
-        MapBinder.newMapBinder(binder(), String.class, Arena.class);
-
-    arenaBinder.addBinding("deadPool").toProvider(DeadPool.class);
+  @Provides
+  @IntoMap
+  @StringKey("deadPool")
+  static Arena deadPool(DeadPool deadPool) {
+    return deadPool.get();
   }
 }

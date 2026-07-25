@@ -1,50 +1,41 @@
 package org.jfge.libgdx.graphics;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.multibindings.MapBinder;
-import com.google.inject.name.Names;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import org.jfge.api.engine.EngineModule;
+import dagger.Binds;
+import dagger.Module;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
+import javax.inject.Named;
+import org.jfge.api.config.KeyboardPropertiesModule;
 import org.jfge.libgdx.controller.LibGdxKeyboardController1;
 import org.jfge.libgdx.controller.LibGdxKeyboardController2;
 import org.jfge.spi.controller.Controller;
 import org.jfge.spi.graphics.GraphicsFactory;
 import org.jfge.spi.graphics.GraphicsProvider;
 
-public final class LibGdxGraphicsModule extends AbstractModule {
+@Module(includes = KeyboardPropertiesModule.class)
+public abstract class LibGdxGraphicsModule {
 
-  @Override
-  protected void configure() {
-    loadProperties(binder());
+  @Binds
+  abstract GraphicsProvider bindGraphicsProvider(LibGdxGraphicsProvider provider);
 
-    bind(GraphicsProvider.class).to(LibGdxGraphicsProvider.class);
-    bind(GraphicsFactory.class).to(LibGdxGraphicsFactory.class);
+  @Binds
+  abstract GraphicsFactory bindGraphicsFactory(LibGdxGraphicsFactory factory);
 
-    bind(Controller.class)
-        .annotatedWith(Names.named("keyboard.controller1"))
-        .to(LibGdxKeyboardController1.class);
-    bind(Controller.class)
-        .annotatedWith(Names.named("keyboard.controller2"))
-        .to(LibGdxKeyboardController2.class);
+  @Binds
+  @Named("keyboard.controller1")
+  abstract Controller bindKeyboardController1(LibGdxKeyboardController1 controller);
 
-    MapBinder<String, Controller> controllerBinder =
-        MapBinder.newMapBinder(binder(), String.class, Controller.class);
-    controllerBinder.addBinding("keyboard.controller1").to(LibGdxKeyboardController1.class);
-    controllerBinder.addBinding("keyboard.controller2").to(LibGdxKeyboardController2.class);
-  }
+  @Binds
+  @Named("keyboard.controller2")
+  abstract Controller bindKeyboardController2(LibGdxKeyboardController2 controller);
 
-  private void loadProperties(Binder binder) {
-    InputStream stream =
-        EngineModule.class.getResourceAsStream("/org/jfge/config/controller/keyboard.properties");
-    Properties engineProperties = new Properties();
-    try {
-      engineProperties.load(stream);
-      Names.bindProperties(binder, engineProperties);
-    } catch (IOException e) {
-      binder.addError(e);
-    }
-  }
+  @Binds
+  @IntoMap
+  @StringKey("keyboard.controller1")
+  abstract Controller bindKeyboardController1Map(LibGdxKeyboardController1 controller);
+
+  @Binds
+  @IntoMap
+  @StringKey("keyboard.controller2")
+  abstract Controller bindKeyboardController2Map(LibGdxKeyboardController2 controller);
 }

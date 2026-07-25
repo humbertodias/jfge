@@ -1,17 +1,25 @@
 package org.jfge.games.sf2.arena;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.arena.Arena;
 
-public class StreetFighter2ArenaModule extends AbstractModule {
+@Module
+public abstract class StreetFighter2ArenaModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Arena> arenaBinder =
-        MapBinder.newMapBinder(binder(), String.class, Arena.class);
+  @Provides
+  @IntoMap
+  @StringKey("ryuNight")
+  static Arena ryuNight(RyuNight ryuNight) {
+    return ryuNight.get();
+  }
 
-    arenaBinder.addBinding("ryuNight").toProvider(RyuNight.class);
-    arenaBinder.addBinding("blanka").toProvider(Blanka.class);
+  @Provides
+  @IntoMap
+  @StringKey("blanka")
+  static Arena blanka(Blanka blanka) {
+    return blanka.get();
   }
 }

@@ -1,8 +1,8 @@
 package org.jfge.games.mk2.arena;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Named;
 import java.io.IOException;
 import org.jfge.api.arena.Arena;
 import org.jfge.api.arena.ArenaFactory;

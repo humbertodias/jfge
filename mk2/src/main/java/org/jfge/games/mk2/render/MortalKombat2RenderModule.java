@@ -1,18 +1,14 @@
 package org.jfge.games.mk2.render;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
+import dagger.Binds;
+import dagger.Module;
+import javax.inject.Named;
 import org.jfge.spi.render.ArenaRenderer;
 
-public class MortalKombat2RenderModule extends AbstractModule {
+@Module
+public abstract class MortalKombat2RenderModule {
 
-  @Override
-  protected void configure() {
-    /*
-     * binding render implementations
-     */
-    bind(ArenaRenderer.class)
-        .annotatedWith(Names.named("arenaRenderer.mortalKombat2"))
-        .to(MortalKombat2ArenaRenderer.class);
-  }
+  @Binds
+  @Named("arenaRenderer.mortalKombat2")
+  abstract ArenaRenderer bindArenaRenderer(MortalKombat2ArenaRenderer renderer);
 }

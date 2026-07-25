@@ -2,19 +2,19 @@ package org.jfge.desktop;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.google.inject.Module;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import org.jfge.api.engine.EngineModule;
 import org.jfge.libgdx.JfgeApplication;
-import org.jfge.libgdx.JfgeGameStarter;
+import org.jfge.libgdx.JfgeBootstrap;
+import org.jfge.libgdx.JfgeLibGdxComponent;
 
 public final class DesktopLauncher {
 
   private DesktopLauncher() {}
 
-  public static void launch(Module[] modules, String gameKey) {
+  public static void launch(JfgeLibGdxComponent component, String gameKey) {
     Properties engineProperties = loadEngineProperties();
     int width = Integer.parseInt(engineProperties.getProperty("engine.width", "480"));
     int height = Integer.parseInt(engineProperties.getProperty("engine.height", "272"));
@@ -24,8 +24,11 @@ public final class DesktopLauncher {
     config.setTitle("Java Fighting Game Engine");
     config.useVsync(true);
 
-    new Lwjgl3Application(
-        new JfgeApplication(modules, JfgeGameStarter.forGameKey(gameKey)), config);
+    new Lwjgl3Application(new JfgeApplication(component, gameKey), config);
+  }
+
+  public static void launch(String gameKey) {
+    launch(JfgeBootstrap.createComponent(), gameKey);
   }
 
   private static Properties loadEngineProperties() {

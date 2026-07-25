@@ -1,17 +1,14 @@
 package org.jfge.api.projectile;
 
+import dagger.Binds;
+import dagger.Module;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+@Module
+public abstract class ProjectileModule {
 
-public final class ProjectileModule extends AbstractModule {
+  @Binds
+  abstract ProjectileParser bindProjectileParser(ProjectileParserImpl parser);
 
-  @Override
-  protected void configure() {
-    bind(ProjectileParser.class).to(ProjectileParserImpl.class);
-    bind(ProjectileFactory.class).to(ProjectileFactoryImpl.class);
-
-    MapBinder<String, Projectile> projectileBinder =
-        MapBinder.newMapBinder(binder(), String.class, Projectile.class);
-  }
+  @Binds
+  abstract ProjectileFactory bindProjectileFactory(ProjectileFactoryImpl factory);
 }

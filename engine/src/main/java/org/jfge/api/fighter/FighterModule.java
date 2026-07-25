@@ -1,51 +1,18 @@
 package org.jfge.api.fighter;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.multibindings.MapBinder;
-import com.google.inject.name.Names;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import org.jfge.api.effect.CollisionEffect;
-import org.jfge.api.projectile.Projectile;
-import org.jfge.spi.physics.SpritePhysics;
+import dagger.Binds;
+import dagger.Module;
+import org.jfge.api.config.FighterPropertiesModule;
 
-/** The Class FighterModule. */
-public final class FighterModule extends AbstractModule {
+@Module(includes = FighterPropertiesModule.class)
+public abstract class FighterModule {
 
-  /* (non-Javadoc)
-   * @see com.google.inject.AbstractModule#configure()
-   */
-  @Override
-  protected void configure() {
-    loadProperties(binder());
-    bind(FighterFactory.class).to(FighterFactoryImpl.class);
-    bind(FighterParser.class).to(FighterParserImpl.class);
-    bind(InputQueue.class).to(BufferedInputQueue.class);
+  @Binds
+  abstract FighterFactory bindFighterFactory(FighterFactoryImpl factory);
 
-    MapBinder<String, SpritePhysics> physicsBinder =
-        MapBinder.newMapBinder(binder(), String.class, SpritePhysics.class);
-    MapBinder<String, CollisionEffect> collisionEffectBinder =
-        MapBinder.newMapBinder(binder(), String.class, CollisionEffect.class);
-    MapBinder<String, Projectile> projectileBinder =
-        MapBinder.newMapBinder(binder(), String.class, Projectile.class);
-  }
+  @Binds
+  abstract FighterParser bindFighterParser(FighterParserImpl parser);
 
-  /**
-   * Load properties.
-   *
-   * @param binder the binder
-   */
-  private void loadProperties(Binder binder) {
-    InputStream stream =
-        FighterModule.class.getResourceAsStream("/org/jfge/config/fighter/fighter.properties");
-    Properties fighterProperties = new Properties();
-    try {
-      fighterProperties.load(stream);
-      Names.bindProperties(binder, fighterProperties);
-    } catch (IOException e) {
-      binder.addError(e);
-    }
-  }
+  @Binds
+  abstract InputQueue bindInputQueue(BufferedInputQueue inputQueue);
 }

@@ -1,7 +1,7 @@
 package org.jfge.api.collision;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +12,7 @@ public final class CollisionHandlerImpl implements CollisionHandler {
 
   private Map<List<String>, String> collisionMap;
 
-  @Inject
+  @AssistedInject
   public CollisionHandlerImpl(@Assisted Map<List<String>, String> collisionMap) {
     this.collisionMap = collisionMap;
   }

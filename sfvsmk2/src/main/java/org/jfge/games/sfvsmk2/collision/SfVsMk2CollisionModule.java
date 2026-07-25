@@ -1,20 +1,39 @@
 package org.jfge.games.sfvsmk2.collision;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.IntoSet;
+import dagger.multibindings.StringKey;
 import org.jfge.api.collision.CollisionHandler;
 
-public class SfVsMk2CollisionModule extends AbstractModule {
+@Module
+public abstract class SfVsMk2CollisionModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, CollisionHandler> collisionHandlerBinder =
-        MapBinder.newMapBinder(binder(), String.class, CollisionHandler.class);
-    collisionHandlerBinder
-        .addBinding("sfvsmk2FighterCollisions")
-        .toProvider(SfVsMk2FighterCollisions.class);
-    collisionHandlerBinder
-        .addBinding("sfvsmk2ProjectileCollisions")
-        .toProvider(SfVsMk2ProjectileCollisions.class);
+  @Provides
+  @IntoMap
+  @StringKey("sfvsmk2FighterCollisions")
+  static CollisionHandler sfvsmk2FighterCollisions(SfVsMk2FighterCollisions collisions) {
+    return collisions.get();
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("sfvsmk2ProjectileCollisions")
+  static CollisionHandler sfvsmk2ProjectileCollisions(SfVsMk2ProjectileCollisions collisions) {
+    return collisions.get();
+  }
+
+  @Provides
+  @IntoSet
+  static CollisionHandler sfvsmk2FighterCollisionHandler(SfVsMk2FighterCollisions collisions) {
+    return collisions.get();
+  }
+
+  @Provides
+  @IntoSet
+  static CollisionHandler sfvsmk2ProjectileCollisionHandler(
+      SfVsMk2ProjectileCollisions collisions) {
+    return collisions.get();
   }
 }

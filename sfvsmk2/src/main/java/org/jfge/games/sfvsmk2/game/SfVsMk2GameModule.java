@@ -1,21 +1,18 @@
 package org.jfge.games.sfvsmk2.game;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
-import org.jfge.api.ai.AiController;
-import org.jfge.api.fighter.Fighter;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.game.Game;
 
-public final class SfVsMk2GameModule extends AbstractModule {
+@Module
+public abstract class SfVsMk2GameModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Fighter> fighterBinder =
-        MapBinder.newMapBinder(binder(), String.class, Fighter.class);
-    MapBinder<String, AiController> aiControllerBinder =
-        MapBinder.newMapBinder(binder(), String.class, AiController.class);
-
-    MapBinder<String, Game> gameBinder = MapBinder.newMapBinder(binder(), String.class, Game.class);
-    gameBinder.addBinding("sfVsMk2").toProvider(SfVsMk2Game.class);
+  @Provides
+  @IntoMap
+  @StringKey("sfVsMk2")
+  static Game game(SfVsMk2Game provider) {
+    return provider.get();
   }
 }

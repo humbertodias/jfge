@@ -1,24 +1,40 @@
 package org.jfge.games.mk2.effect;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.effect.ArenaEffect;
 import org.jfge.api.effect.CollisionEffect;
 
-public class MortalKombat2EffectModule extends AbstractModule {
+@Module
+public abstract class MortalKombat2EffectModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, ArenaEffect> arenaEffectBinder =
-        MapBinder.newMapBinder(binder(), String.class, ArenaEffect.class);
+  @Provides
+  @IntoMap
+  @StringKey("FightAnimation")
+  static ArenaEffect fightAnimation(FightAnimation fightAnimation) {
+    return fightAnimation.get();
+  }
 
-    arenaEffectBinder.addBinding("FightAnimation").toProvider(FightAnimation.class);
+  @Provides
+  @IntoMap
+  @StringKey("HighHitBlood")
+  static CollisionEffect highHitBlood(HighHitBlood highHitBlood) {
+    return highHitBlood.get();
+  }
 
-    MapBinder<String, CollisionEffect> collisionEffectBinder =
-        MapBinder.newMapBinder(binder(), String.class, CollisionEffect.class);
+  @Provides
+  @IntoMap
+  @StringKey("LowHitBlood")
+  static CollisionEffect lowHitBlood(LowHitBlood lowHitBlood) {
+    return lowHitBlood.get();
+  }
 
-    collisionEffectBinder.addBinding("HighHitBlood").toProvider(HighHitBlood.class);
-    collisionEffectBinder.addBinding("LowHitBlood").toProvider(LowHitBlood.class);
-    collisionEffectBinder.addBinding("FallDownBlood").toProvider(FallDownBlood.class);
+  @Provides
+  @IntoMap
+  @StringKey("FallDownBlood")
+  static CollisionEffect fallDownBlood(FallDownBlood fallDownBlood) {
+    return fallDownBlood.get();
   }
 }

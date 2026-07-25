@@ -1,8 +1,8 @@
 package org.jfge.games.sf2.collision;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.collision.CollisionHandler;
@@ -25,12 +25,12 @@ public final class Sf2FighterCollisions implements Provider<CollisionHandler> {
    * @param collisionHandlerParser the collision handler parser
    */
   @Inject
-  private Sf2FighterCollisions(CollisionHandlerParser collisionHandlerParser) {
+  public Sf2FighterCollisions(CollisionHandlerParser collisionHandlerParser) {
     this.collisionHandlerParser = collisionHandlerParser;
   }
 
   /* (non-Javadoc)
-   * @see com.google.inject.Provider#get()
+   * @see javax.inject.Provider#get()
    */
   public CollisionHandler get() {
     if (collisionHandler == null) {

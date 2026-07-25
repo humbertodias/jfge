@@ -1,12 +1,15 @@
 package org.jfge.libgdx;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
+import dagger.Module;
+import dagger.Provides;
+import javax.inject.Named;
 
-public final class LibGdxEngineModule extends AbstractModule {
+@Module
+public abstract class LibGdxEngineModule {
 
-  @Override
-  protected void configure() {
-    bindConstant().annotatedWith(Names.named("engine.externalLoop")).to(true);
+  @Provides
+  @Named("engine.externalLoop")
+  static boolean externalLoop() {
+    return true;
   }
 }

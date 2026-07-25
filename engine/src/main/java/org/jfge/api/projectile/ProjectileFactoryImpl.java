@@ -1,6 +1,6 @@
 package org.jfge.api.projectile;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import java.util.List;
 import java.util.logging.Logger;
 import org.jfge.api.render.SpriteRenderer;

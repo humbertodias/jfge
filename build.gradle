@@ -1,6 +1,20 @@
 ext {
     jfgeVersion = '0.0.1-SNAPSHOT'
     jinputLibraryPath = "${rootProject.buildDir}/natives"
+    daggerVersion = daggerVersion
+}
+
+subprojects {
+    plugins.withId('java') {
+        dependencies {
+            annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+        }
+    }
+    plugins.withId('java-library') {
+        dependencies {
+            annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+        }
+    }
 }
 
 def javaVersion = JavaVersion.current()

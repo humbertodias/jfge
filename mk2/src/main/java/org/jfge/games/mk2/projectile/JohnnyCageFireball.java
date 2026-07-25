@@ -1,7 +1,7 @@
 package org.jfge.games.mk2.projectile;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import javax.inject.Provider;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jfge.api.projectile.Projectile;
@@ -25,13 +25,12 @@ public class JohnnyCageFireball implements Provider<Projectile> {
    * @throws IOException Signals that an I/O exception has occurred.
    */
   @Inject
-  public JohnnyCageFireball(ProjectileParser projectileParser)
-      throws ParserConfigurationException, SAXException, IOException {
+  public JohnnyCageFireball(ProjectileParser projectileParser) {
     this.projectileParser = projectileParser;
   }
 
   /* (non-Javadoc)
-   * @see com.google.inject.Provider#get()
+   * @see javax.inject.Provider#get()
    */
   @Override
   public Projectile get() {

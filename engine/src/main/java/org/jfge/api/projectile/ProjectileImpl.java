@@ -1,6 +1,6 @@
 package org.jfge.api.projectile;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -1,22 +1,39 @@
 package org.jfge.games.mk2.fighter;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.fighter.Fighter;
 
-/** The Class MortalKombat2FighterModule. */
-public final class MortalKombat2FighterModule extends AbstractModule {
+@Module
+public abstract class MortalKombat2FighterModule {
 
-  /* (non-Javadoc)
-   * @see com.google.inject.AbstractModule#configure()
-   */
-  @Override
-  protected void configure() {
-    MapBinder<String, Fighter> fighterBinder =
-        MapBinder.newMapBinder(binder(), String.class, Fighter.class);
-    fighterBinder.addBinding("kano").toProvider(Kano.class);
-    fighterBinder.addBinding("liuKang").toProvider(LiuKang.class);
-    fighterBinder.addBinding("cyrax").toProvider(Cyrax.class);
-    fighterBinder.addBinding("johnnyCage").toProvider(JohnnyCage.class);
+  @Provides
+  @IntoMap
+  @StringKey("kano")
+  static Fighter kano(Kano kano) {
+    return kano.get();
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("liuKang")
+  static Fighter liuKang(LiuKang liuKang) {
+    return liuKang.get();
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("cyrax")
+  static Fighter cyrax(Cyrax cyrax) {
+    return cyrax.get();
+  }
+
+  @Provides
+  @IntoMap
+  @StringKey("johnnyCage")
+  static Fighter johnnyCage(JohnnyCage johnnyCage) {
+    return johnnyCage.get();
   }
 }

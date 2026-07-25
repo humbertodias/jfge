@@ -1,16 +1,18 @@
 package org.jfge.games.sf2.projectile;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.MapBinder;
+import dagger.Module;
+import dagger.Provides;
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
 import org.jfge.api.projectile.Projectile;
 
-public class StreetFighter2ProjectileModule extends AbstractModule {
+@Module
+public abstract class StreetFighter2ProjectileModule {
 
-  @Override
-  protected void configure() {
-    MapBinder<String, Projectile> projectileBinder =
-        MapBinder.newMapBinder(binder(), String.class, Projectile.class);
-
-    projectileBinder.addBinding("hadouken").toProvider(Hadouken.class);
+  @Provides
+  @IntoMap
+  @StringKey("hadouken")
+  static Projectile hadouken(Hadouken provider) {
+    return provider.get();
   }
 }
