@@ -1,5 +1,6 @@
 [![CI](https://github.com/humbertodias/jfge/actions/workflows/ci.yml/badge.svg)](https://github.com/humbertodias/jfge/actions/workflows/ci.yml)
 [![CD](https://github.com/humbertodias/jfge/actions/workflows/cd.yml/badge.svg)](https://github.com/humbertodias/jfge/actions/workflows/cd.yml)
+[![Deploy Web](https://github.com/humbertodias/jfge/actions/workflows/pages.yml/badge.svg)](https://github.com/humbertodias/jfge/actions/workflows/pages.yml)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/humbertodias/jfge)
 ![GitHub all releases](https://img.shields.io/github/downloads/humbertodias/jfge/total)
 
@@ -83,6 +84,8 @@ make -f makefile-assets get_assets
 Output directory: `html/build/dist/js/webapp/` (`index.html`, `app.js`, and bundled assets).
 
 Serve that folder with any static HTTP server. Do not open `index.html` directly via `file://`.
+
+**GitHub Pages:** pushes to `libgdx` or `main` deploy the browser builds via [`.github/workflows/pages.yml`](.github/workflows/pages.yml). Enable **Settings → Pages → Build and deployment → GitHub Actions**, then open https://humbertodias.github.io/jfge/
 
 **Controls (keyboard):** same bindings as desktop — player 1 uses WASD and adjacent keys; player 2 uses arrow keys and the numpad. See `engine/config/org/jfge/config/controller/keyboard.properties`.
 

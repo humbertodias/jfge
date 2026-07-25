@@ -1,5 +1,6 @@
 # Gradle build directory
 build/
+/site/
 /.gradle/
 /out/
 
